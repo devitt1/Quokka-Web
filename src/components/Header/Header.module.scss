@@ -1,0 +1,32 @@
+@import '../../common/global.scss';
+
+.header {
+  height: 89px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $gray;
+  padding-left: 20px;
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    width: 60px;
+    height: 60px;
+
+    h1 {
+      margin-left: 5px;
+      margin-top: 15px;
+      font-family: 'Lato-Regular';
+      line-height: 36px;
+      color: $black;
+
+
+    }
+
+  }
+
+
+
+}
