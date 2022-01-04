@@ -7,19 +7,23 @@ import CircuitBuilder from './components/CircuitBuilder/CircuitBuilder';
 import About from './components/About/About';
 import Setup from './components/Setup/Setup';
 import CircuitOutput from './components/CircuitOutput/CircuitOutput';
+import PageNotFound from './components/PageNotFound/PageNotFound';
 
 function App() {
   return (
     <div className="App">
-        <Header  />
 
         <BrowserRouter>
+            <nav>
+                <Header  />
+
+            </nav>
             <Routes>
-                <Route path="/" element={<div></div>}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/setup" element={<Setup/>}/>
                 <Route path="/circuit-builder" element={<CircuitBuilder/>}/>
                 <Route path="/circuit-output" element={<CircuitOutput/>}/>
+                <Route path="*" element={<PageNotFound/>}/>
             </Routes>
 
         </BrowserRouter>
