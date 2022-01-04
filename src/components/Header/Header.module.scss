@@ -1,32 +1,71 @@
 @import '../../common/global.scss';
 
 .header {
-  height: 89px;
+  height: 83px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: $gray;
+  background-color: $light-gray;
   padding-left: 20px;
 
   .logo {
     display: flex;
-    flex-direction: row;
     width: 60px;
     height: 60px;
 
     h1 {
+      @include text-h1;
       margin-left: 5px;
       margin-top: 15px;
-      font-family: 'Lato-Regular';
       line-height: 36px;
       color: $black;
-
-
     }
-
   }
 
 
+  .menu {
+    display: grid;
+    padding: 10px;
+    .loginMenu {
+      @include text-menu-button-small;
+      display: flex;
+
+      p {
+        color:red;
+      }
+    }
+
+    .status {
+      @include text-menu-button-small;
+      display: flex;
+      p {
+        color: red;
+      }
+    }
+
+    .navButtons {
+      @include text-nav-button;
+      grid-column: 1 / span 2;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0 40px 0 0;
+      gap: 20px;
+      flex-grow: 0;
+      max-width: 100%;
+      > a {
+        color: $dark-gray;
+        text-decoration: none;
+
+        &.selected {
+          @include text-nav-button-bold;
+          color: $black;
+        }
+      }
+
+    }
+  }
 
 }
