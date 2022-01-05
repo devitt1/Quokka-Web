@@ -1,0 +1,62 @@
+@import '../../common/global.scss';
+
+.circuitBuilder {
+  margin-top: 6px;
+  height: 92vh;
+  display: grid;
+  position: relative;
+  background: white;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: 1fr;
+
+  .toolbar {
+    height: 63px;
+    display: flex;
+    position: relative;
+    grid-row: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $gray;
+    padding-left: 20px;
+    h3 {
+      color: black;
+    }
+  }
+
+  .circuitArrangement {
+    grid-row: 2;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 16px 17px 0 46px;
+    align-items: center;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, rgba(248, 248, 249, 1) 0%, rgba(242, 244, 248, 1) 100%);
+    border-radius: 1px;
+    height: 100%;
+
+    
+
+
+  }
+
+  .utilities {
+    display: flex;
+    position: relative;
+    grid-row: 3;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 2% 6px 1% 12px;
+    height: 100%;
+
+    button {
+      border: 1px solid #000000;
+      box-sizing: border-box;
+      height: 21px;
+      border-radius: 20px;
+    }
+  }
+
+}
