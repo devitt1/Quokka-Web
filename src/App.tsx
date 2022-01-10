@@ -12,10 +12,9 @@ import PageNotFound from './components/PageNotFound/PageNotFound';
 function App() {
   return (
     <div className="App">
-
         <BrowserRouter>
             <nav>
-                <Header  />
+                <Header/>
             </nav>
             <Routes>
                 <Route path="/about" element={<About/>}/>
@@ -25,7 +24,6 @@ function App() {
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>
         </BrowserRouter>
-
     </div>
   );
 }
