@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 import logo from '../../assets/logo.svg'
+import account_icon from '../../assets/account_icon.svg';
 
 const Header : React.VFC  = () => {
+    const [deviceConnectionStatus, setDeviceConnectionStatus] = useState(false);
+
+    var connDotStyle = styles.connectionDot;
     // const location = useLocation();
 
+    if (deviceConnectionStatus){
+        connDotStyle = styles.connectionDot + ' ' + styles.connected
+    }
+
+    const handleStatusClicked = () => {
+        console.log("handleStatusClicked");
+    }
+
+    useEffect(()=> {
+        setDeviceConnectionStatus(false);
+    }, [])
     return (<div className={styles.header}>
         <div className={styles.logo}>
             <img alt="Quokka" src={logo}/>
@@ -15,12 +30,16 @@ const Header : React.VFC  = () => {
 
         <div className={styles.menu}>
             <div className={styles.status} >
-                <p>Quokka Status: </p>
-                <p>Not connected</p>
+                <p className={styles.statusLbl}>Quokka Status:</p>
+                <div className={connDotStyle}/>
+                <button className={styles.info}
+                    onClick={() => handleStatusClicked()}
+                >Not connected</button>
             </div>
 
             <div className={styles.loginMenu}>
-                <p>Login/Create Account</p>
+                <img alt="AccIcon" src={account_icon}/>
+                <button className={styles.loginLbl}>Login/Create Account</button>
             </div>
 
 

@@ -6,7 +6,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: $light-gray;
+  background: $smoke-gray;
   padding-left: 20px;
 
   .logo {
@@ -27,20 +27,68 @@
   .menu {
     display: grid;
     padding: 10px;
-    .loginMenu {
-      @include text-menu-button-small;
-      display: flex;
-
-      p {
-        color:red;
-      }
-    }
 
     .status {
-      @include text-menu-button-small;
       display: flex;
-      p {
-        color: red;
+      flex-direction: row;
+      align-items: center;
+
+       p {
+         @include text-menu-button-small;
+         margin-right: 5px;
+         color: $dark-gray;
+
+         &.statusLbl {
+           @include text-menu-button-small-bold;
+         }
+
+       }
+
+      button {
+        @include text-menu-button-small;
+        color: $dark-gray;
+        padding: 0;
+        border: none;
+        background: none;
+
+        &.info {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+
+      .connectionDot {
+        height: 9px;
+        width: 9px;
+        background-color: #DF5D5D;
+        border-radius: 50%;
+        margin-right: 5px;
+        &.connected {
+          background-color: #51D96F;
+        }
+      }
+
+    }
+
+    .loginMenu {
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 60%;
+        margin-right: 5px;
+      }
+
+      button {
+        &.loginLbl {
+          color: $black;
+          padding: 0;
+          border: none;
+          background: none;
+          text-decoration: underline;
+          cursor: pointer;
+          @include text-menu-button-small;
+        }
       }
     }
 
