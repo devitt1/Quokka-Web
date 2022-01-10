@@ -16,7 +16,6 @@ function App() {
         <BrowserRouter>
             <nav>
                 <Header  />
-
             </nav>
             <Routes>
                 <Route path="/about" element={<About/>}/>
@@ -25,7 +24,6 @@ function App() {
                 <Route path="/circuit-output" element={<CircuitOutput/>}/>
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>
-
         </BrowserRouter>
 
     </div>
