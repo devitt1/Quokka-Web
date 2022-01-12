@@ -7,38 +7,125 @@
   position: relative;
   background: white;
   grid-template-rows: min-content 1fr min-content;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 99fr;
 
   .toolbar {
     height: 63px;
     display: flex;
     position: relative;
     grid-row: 1;
+    grid-column: 1 / span 2;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: $gray;
+    background: $ebony-clay;
     padding-left: 20px;
     h3 {
-      color: black;
+      color: white;
     }
+  }
+
+  .sideButton {
+    margin-left:10px;
+    margin-top: 300px;
+    grid-row: 2;
+    grid-column: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+  }
+
+
+  .toolbox {
+    margin-right: 10px;
+    display: flex;
+    grid-column: 3;
+    flex-direction: row;
+  }
+
+  .gate {
+    padding: 10px;
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .circuitArrangement {
     grid-row: 2;
+    grid-column: 2;
     display: flex;
     position: relative;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
     margin: 16px 17px 0 46px;
     align-items: center;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-    background: linear-gradient(180deg, rgba(248, 248, 249, 1) 0%, rgba(242, 244, 248, 1) 100%);
+    background: white;
     border-radius: 1px;
     height: 100%;
+    width: 100%;
 
-    
+    .draggable {
+      margin: 5px;
+    }
 
+    .qubit {
+      display: flex;
+      width: 80%;
+      margin-left: 5px;
+      margin-top: 5px;
+      position: absolute;
+      border: 1px solid black;
+    }
+
+    ul {
+      position: absolute;
+      width: 100%;
+      li {
+        margin-top: 50px;
+      }
+    }
+
+
+    .gridContainer{
+      width: 100%;
+      height: 60vh;
+      display: block;
+      svg {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background: lightblue;
+
+      }
+    }
+
+    .svgContainer {
+      display: flex;
+
+      flex-direction: row;
+      height: 100%;
+      width: 100%;
+
+      svg {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background: gray;
+        background: linear-gradient(180deg, rgba(248, 248, 249, 1) 0%, rgba(242, 244, 248, 1) 100%);
+        z-index: 0;
+
+      }
+
+      :global(svg.drag-over) {
+        border: 3px dashed red;
+      }
+
+    }
 
   }
 
@@ -46,6 +133,8 @@
     display: flex;
     position: relative;
     grid-row: 3;
+    grid-column: 1 / span 2;
+
     justify-content: space-between;
     flex-direction: row;
     margin: 2% 6px 1% 12px;
