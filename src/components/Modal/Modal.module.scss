@@ -1,0 +1,129 @@
+@import '../../common/global.scss';
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(31,46,73,0.2); /* Black w/ opacity */
+
+  /* Modal Content/Box */
+  .content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    display: flex;
+    flex-direction: column;
+    width: 25%; /* Could be more or less, depending on screen size */
+    h1 {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 19px;
+      line-height: 23px;
+      text-align: center;
+
+      color: #222225;
+    }
+
+    p {
+      /* Website body */
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 14px;
+      text-align: center;
+
+      color: #222225;
+    }
+
+    input {
+      align-self: center;
+      width: 220px;
+      height: 37px;
+      background: #FFFFFF;
+      border: 1px solid #E6E6E6;
+      box-sizing: border-box;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 2px;
+    }
+
+    img {
+      align-self: center;
+      display: flex;
+      margin: 18px 31px;
+      width: 60px;
+      height: 60px;
+    }
+    button {
+      align-self: center;
+      margin: 18px 31px;
+      width: 150px;
+      height: 37px;
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 17px;
+      color: white;
+      /* identical to box height */
+      text-align: center;
+      text-transform: uppercase;
+      background: linear-gradient(93.58deg, #2B2B2B 0%, #1E2023 0.01%, #1F2E4D 100%);
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 2px;
+    }
+
+    .spinner {
+      top: calc(50% - #{30 / 2});
+      left: calc(50% - #{30 / 2});
+      width: 30px;
+      height: 30px;
+      margin: 18px 31px;
+      border-radius: 50%;
+      align-self: center;
+      border: 4px solid;
+      border-color: $cornflower-blue $cornflower-blue $cornflower-blue transparent;
+      animation: spinner 0.75s linear infinite;
+
+
+    }
+
+    @keyframes spinner {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+
+
+  }
+
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+}
+
+
