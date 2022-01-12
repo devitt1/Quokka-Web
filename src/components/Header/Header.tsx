@@ -2,25 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 import logo from '../../assets/logo.svg'
+import { RootState } from '../../redux/reducers/rootReducer';
+
+import {useSelector } from 'react-redux';
 import account_icon from '../../assets/account_icon.svg';
 
 const Header : React.VFC  = () => {
-    const [deviceConnectionStatus, setDeviceConnectionStatus] = useState(false);
-
+    const deviceConn = useSelector((state: RootState) => state.deviceConnection);
     var connDotStyle = styles.connectionDot;
-    // const location = useLocation();
+    var statusStyle = styles.status;
 
-    if (deviceConnectionStatus){
-        connDotStyle = styles.connectionDot + ' ' + styles.connected
+    if (deviceConn.connected){
+        connDotStyle = styles.connectionDot + ' ' + styles.connected;
+        statusStyle = styles.statusInfo + ' ' + styles.connected;
     }
 
-    const handleStatusClicked = () => {
-        console.log("handleStatusClicked");
-    }
-
-    useEffect(()=> {
-        setDeviceConnectionStatus(false);
-    }, [])
     return (<div className={styles.header}>
         <div className={styles.logo}>
             <img alt="Quokka" src={logo}/>
@@ -32,9 +28,13 @@ const Header : React.VFC  = () => {
             <div className={styles.status} >
                 <p className={styles.statusLbl}>Quokka Status:</p>
                 <div className={connDotStyle}/>
-                <button className={styles.info}
-                    onClick={() => handleStatusClicked()}
-                >Not connected</button>
+                <NavLink to="/setup" className={statusStyle}>
+                    {
+                        deviceConn.connected ?
+                            `Connected to ${deviceConn.deviceName}` :
+                            "Not connected"
+                    }
+                    </NavLink>
             </div>
 
             <div className={styles.loginMenu}>

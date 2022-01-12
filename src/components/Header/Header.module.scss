@@ -6,7 +6,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: $smoke-gray;
+  background: $lilac-white;
   padding-left: 20px;
 
   .logo {
@@ -36,7 +36,7 @@
        p {
          @include text-menu-button-small;
          margin-right: 5px;
-         color: $dark-gray;
+         color: $gunpowder-gray;
 
          &.statusLbl {
            @include text-menu-button-small-bold;
@@ -44,17 +44,16 @@
 
        }
 
-      button {
+      > a {
         @include text-menu-button-small;
-        color: $dark-gray;
-        padding: 0;
-        border: none;
-        background: none;
-
-        &.info {
-          text-decoration: underline;
-          cursor: pointer;
+        color: $gunpowder-gray;
+        text-decoration: underline;
+        cursor: pointer;
+        &.connected {
+          text-decoration: none;
+          cursor: none;
         }
+
       }
 
       .connectionDot {
@@ -104,7 +103,7 @@
       flex-grow: 0;
       max-width: 100%;
       > a {
-        color: $dark-gray;
+        color: $gunpowder-gray;
         text-decoration: none;
 
         &.selected {
