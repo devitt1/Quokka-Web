@@ -8,6 +8,7 @@ import About from './components/About/About';
 import Setup from './components/Setup/Setup';
 import CircuitOutput from './components/CircuitOutput/CircuitOutput';
 import PageNotFound from './components/PageNotFound/PageNotFound';
+import { Modal } from './components/Modal/Modal';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>
         </BrowserRouter>
+        <Modal></Modal>
     </div>
   );
 }
