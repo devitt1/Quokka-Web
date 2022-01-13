@@ -37,7 +37,7 @@ const CircuitBuilder : React.FC = () => {
         </CircuitArrangement>
 
         <div className={styles.utilities}>
-            <button>Compress circuit</button>
+            <button >Compress circuit</button>
             <button>Zoom in/Zoom out</button>
         </div>
 
