@@ -3,7 +3,11 @@
 .about {
     width: 100%;
     height: 80vh;
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
+
+    p {
+        @include text-normal-roboto;
+    }
 }
