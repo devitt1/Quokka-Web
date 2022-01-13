@@ -5,3 +5,11 @@
   src: local('Lato-Regular'), local('Lato-Regullar'),
   url('../assets/fonts/Lato-Regular.ttf') format('woff2');
 }
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto-Regular'), local('Roboto-Regular'),
+  url('../assets/fonts/Roboto-Regular.ttf') format('woff2');
+}

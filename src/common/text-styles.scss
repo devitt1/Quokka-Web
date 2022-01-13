@@ -1,4 +1,5 @@
 $lato-font : Lato, sans-serif;
+$roboto-font : Roboto, sans-serif;
 
 @mixin text-nav-button {
   font-family: $lato-font;
@@ -23,6 +24,22 @@ $lato-font : Lato, sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 14.4px;
+}
+
+@mixin text-normal-small {
+  font-family: $lato-font;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.4px;
+}
+
+@mixin text-normal-roboto {
+  font-family: $roboto-font;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.06px;
 }
 
 @mixin text-menu-button-small-bold {
