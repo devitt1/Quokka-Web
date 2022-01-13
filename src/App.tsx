@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.scss';
 import Header from './components/Header/Header';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -9,7 +8,7 @@ import Setup from './components/Setup/Setup';
 import CircuitOutput from './components/CircuitOutput/CircuitOutput';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import { Modal } from './components/Modal/Modal';
-
+import Footer from './components/Footer/Footer';
 function App() {
   return (
     <div className="App">
@@ -25,7 +24,8 @@ function App() {
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>
         </BrowserRouter>
-        <Modal></Modal>
+        <Modal/>
+        <Footer/>
     </div>
   );
 }

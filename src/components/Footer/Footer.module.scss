@@ -1,0 +1,20 @@
+@import "../../common/global.scss";
+
+.footer {
+  @include text-normal-small;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: $comet;
+  p {
+    strong {
+      color: #1F2E4D;
+      font-size: 11px;
+      line-height: 13.2px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+}
