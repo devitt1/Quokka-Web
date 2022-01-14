@@ -1,0 +1,21 @@
+@import "../../common/global.scss";
+
+.dropdown {
+  button {
+    @include text-semibold-small;
+    @include toolbar-gate-dropdown;
+
+    &.roundedRightCorner {
+      @include toolbar-gate-dropdown-rounded-right-corner;
+    }
+
+    img {
+      margin-left: 6px;
+      width: 10px;
+      height: 10px;
+      align-self: center;
+    }
+  }
+
+
+}
