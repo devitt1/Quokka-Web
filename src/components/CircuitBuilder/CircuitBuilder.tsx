@@ -32,10 +32,9 @@ const CircuitBuilder : React.FC = () => {
                 }
             ])
         }}>Add Qubit</button>
-        <Gates setDragData={(dragData : any) => setDragData(dragData)}/>
+        {/*<Gates setDragData={(dragData : any) => setDragData(dragData)}/>*/}
         <CircuitArrangement draggedData={draggedData} qubits={qubits}>
         </CircuitArrangement>
-
         <div className={styles.utilities}>
             <button >Compress circuit</button>
             <button>Zoom in/Zoom out</button>
