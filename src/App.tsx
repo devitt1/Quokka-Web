@@ -9,6 +9,7 @@ import CircuitOutput from './components/CircuitOutput/CircuitOutput';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import { Modal } from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
+import LoginOrCreateAccount from "./components/LoginOrCreateAccount/LoginOrCreateAccount";
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/circuit-builder" element={<CircuitBuilder/>}/>
                 <Route path="/circuit-output" element={<CircuitOutput/>}/>
                 <Route path="*" element={<PageNotFound/>}/>
+                <Route path="/login-or-create-account" element={<LoginOrCreateAccount/>} />
             </Routes>
         </BrowserRouter>
         <Modal/>

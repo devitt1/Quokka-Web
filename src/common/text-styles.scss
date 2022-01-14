@@ -1,24 +1,9 @@
 $lato-font : Lato, sans-serif;
 $roboto-font : Roboto, sans-serif;
 
-@mixin text-nav-button {
-  font-family: $lato-font;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16.8px;
-}
 
 
-@mixin text-nav-button-bold {
-  font-family: $lato-font;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16.8px;
-}
-
-@mixin text-menu-button-small {
+@mixin text-normal-small {
   font-family: $lato-font;
   font-style: normal;
   font-weight: 400;
@@ -26,10 +11,10 @@ $roboto-font : Roboto, sans-serif;
   line-height: 14.4px;
 }
 
-@mixin text-normal-small {
+@mixin text-semibold-small {
   font-family: $lato-font;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 12px;
   line-height: 14.4px;
 }
@@ -40,14 +25,6 @@ $roboto-font : Roboto, sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 14.06px;
-}
-
-@mixin text-menu-button-small-bold {
-  font-family: $lato-font;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14.4px;
 }
 
 @mixin text-bold-lato {

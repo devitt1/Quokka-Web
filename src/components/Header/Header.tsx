@@ -37,9 +37,9 @@ const Header : React.VFC  = () => {
                     </NavLink>
             </div>
 
-            <div className={styles.loginMenu}>
+            <div className={styles.accountMenu}>
                 <img alt="AccIcon" src={account_icon}/>
-                <button className={styles.loginLbl}>Login/Create Account</button>
+                <NavLink to="/login-or-create-account" className={(navData) =>styles.loginLbl}>Login/Create Account</NavLink>
             </div>
 
 
