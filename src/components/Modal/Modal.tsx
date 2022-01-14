@@ -24,6 +24,12 @@ export const Modal : React.FC<ModalProps> = (props) => {
     const [shouldDisplayResultIcon, setShouldDisplayResultIcon] = useState(false);
     const apiClient : APIClient = new APIClient();
 
+    const handleKeyDown = async (event : any) => {
+        if (event.key === 'Enter') {
+            await handleButtonClicked();
+        }
+    }
+
     const handleButtonClicked = async () => {
         //dispatch action
         //get information from API
@@ -55,6 +61,7 @@ export const Modal : React.FC<ModalProps> = (props) => {
                 <input
                     type="text"
                     onChange={handleInputChanged}
+                    onKeyDown={handleKeyDown}
                     placeholder="Device name"
                 ></input>
                 <button onClick={async () => handleButtonClicked()}>
