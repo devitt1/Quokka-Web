@@ -12,7 +12,7 @@ const Toolbar : React.FC = () => {
         </div>
 
         <div className={styles.gateDropdowns}>
-            <Button buttonStyle="selectGateBtn" name="Select"></Button>
+            <Button buttonStyle="selectGateBtn" name="Select"/>
             <Dropdown borderStyle="none" name="Standard Gate"/>
             <Dropdown borderStyle="roundedRightCorner"  name="Compound Gate"/>
             <Button buttonStyle="runCircuitBtn" name="run"/>
