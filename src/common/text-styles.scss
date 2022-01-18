@@ -42,3 +42,11 @@ $roboto-font : Roboto, sans-serif;
   font-size: 30px;
   line-height: 36px;
 }
+
+@mixin text-h4 {
+  font-family: $lato-font;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19.2px;
+}
