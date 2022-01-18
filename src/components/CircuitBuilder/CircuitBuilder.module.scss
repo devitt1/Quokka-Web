@@ -2,7 +2,9 @@
 
 .circuitBuilder {
   margin-top: 6px;
-  height: 92vh;
+  height: 80vh;
+  width: 100%;
+  margin-right: 20px;
   display: grid;
   position: relative;
   background: white;
@@ -63,17 +65,6 @@
     flex-direction: row;
   }
 
-  .gate {
-    padding: 10px;
-    border: 1px solid black;
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .circuitArrangement {
     grid-row: 2;
     grid-column: 2;
@@ -87,10 +78,11 @@
     background: white;
     border-radius: 1px;
     height: 100%;
-    width: 100%;
+    width: 95%;
 
-    .draggable {
-      margin: 5px;
+    .gridCell {
+      fill: #B5C2D7;
+      opacity: 0.4;
     }
 
     .qubit {
@@ -157,7 +149,8 @@
 
     justify-content: space-between;
     flex-direction: row;
-    margin: 2% 6px 1% 12px;
+    margin: 2% 5% 1% 12px;
+    padding-right: 20px;
     height: 100%;
     width: 100%;
 

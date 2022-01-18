@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import CircuitArrangement from './CircuitArrangement';
 import styles from './CircuitBuilder.module.scss';
-import { Gates } from './Gates';
 import Toolbar from './Toolbar';
 
 const initialQubits = [
@@ -12,7 +11,6 @@ const initialQubits = [
 
 const CircuitBuilder : React.FC = () => {
     const [qubits, setQubits] = useState(initialQubits);
-    const [draggedData, setDragData] = useState(null);
 
 
 
@@ -24,16 +22,7 @@ const CircuitBuilder : React.FC = () => {
     return (
         <div className={styles.circuitBuilder}>
         <Toolbar/>
-        <button className={styles.sideButton} onClick={() => {
-            setQubits([...qubits,
-                {
-                    id : "04",
-                    number : 4
-                }
-            ])
-        }}>Add Qubit</button>
-        {/*<Gates setDragData={(dragData : any) => setDragData(dragData)}/>*/}
-        <CircuitArrangement draggedData={draggedData} qubits={qubits}>
+        <CircuitArrangement qubits={qubits}>
         </CircuitArrangement>
         <div className={styles.utilities}>
             <button >Compress circuit</button>
