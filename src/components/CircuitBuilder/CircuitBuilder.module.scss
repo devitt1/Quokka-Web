@@ -80,10 +80,51 @@
     height: 100%;
     width: 95%;
 
-    .gridCell {
-      fill: #B5C2D7;
-      opacity: 0.4;
+    .grid {
+      .gridRow {
+
+        .line {
+          stroke: black;
+          stroke-width: 3;
+          z-index: 0;
+          position: absolute;
+        }
+        .gridCell {
+          fill: white;
+          z-index: 1;
+          opacity: 1;
+
+          .hover {
+            stroke: red;
+            stroke-width: 3;
+            stroke-dasharray: 3,3;
+            stroke-linejoin: round;
+          }
+
+          .line {
+            stroke: black;
+            stroke-width: 3;
+            z-index: 0;
+            position: absolute;
+          }
+
+          .hasRect {
+            opacity: 1;
+            z-index: 1;
+
+          }
+
+          .draggable {
+            cursor: pointer;
+            opacity: 1;
+            z-index: 999;
+          }
+        }
+      }
+
     }
+
+
 
     .qubit {
       display: flex;

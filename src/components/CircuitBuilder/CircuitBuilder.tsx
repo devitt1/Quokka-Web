@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import CircuitArrangement from './CircuitArrangement';
 import styles from './CircuitBuilder.module.scss';
 import Toolbar from './Toolbar';
+import CursorContextProvider from "../Providers/CursorContextProvider";
+import Cursor from "../Cursor/Cursor";
 
 const initialQubits = [
     {id : "00", number : 1},
@@ -20,16 +22,17 @@ const CircuitBuilder : React.FC = () => {
 
 
     return (
-        <div className={styles.circuitBuilder}>
-        <Toolbar/>
-        <CircuitArrangement qubits={qubits}>
-        </CircuitArrangement>
-        <div className={styles.utilities}>
-            <button >Compress circuit</button>
-            <button>Zoom in/Zoom out</button>
-        </div>
+            <div className={styles.circuitBuilder}>
+                <Toolbar/>
 
-    </div>)
+                <CircuitArrangement qubits={qubits}>
+                </CircuitArrangement>
+                <div className={styles.utilities}>
+                    <button >Compress circuit</button>
+                    <button> +  | - </button>
+                </div>
+            </div>
+       )
 }
 
 export default CircuitBuilder;
