@@ -10,24 +10,30 @@ import PageNotFound from './components/PageNotFound/PageNotFound';
 import { Modal } from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
 import LoginOrCreateAccount from "./components/LoginOrCreateAccount/LoginOrCreateAccount";
+import CursorContextProvider from "./components/Providers/CursorContextProvider";
+import Cursor from "./components/Cursor/Cursor";
 function App() {
   return (
     <div className="App">
-        <BrowserRouter>
-            <nav>
-                <Header/>
-            </nav>
-            <Routes>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/setup" element={<Setup/>}/>
-                <Route path="/circuit-builder" element={<CircuitBuilder/>}/>
-                <Route path="/circuit-output" element={<CircuitOutput/>}/>
-                <Route path="*" element={<PageNotFound/>}/>
-                <Route path="/login-or-create-account" element={<LoginOrCreateAccount/>} />
-            </Routes>
-        </BrowserRouter>
-        <Modal/>
-        <Footer/>
+        <CursorContextProvider>
+            <Cursor/>
+            <BrowserRouter>
+                <nav>
+                    <Header/>
+                </nav>
+                <Routes>
+                    <Route path="/about" element={<About/>}/>
+                    <Route path="/setup" element={<Setup/>}/>
+                    <Route path="/circuit-builder" element={<CircuitBuilder/>}/>
+                    <Route path="/circuit-output" element={<CircuitOutput/>}/>
+                    <Route path="*" element={<PageNotFound/>}/>
+                    <Route path="/login-or-create-account" element={<LoginOrCreateAccount/>} />
+                </Routes>
+            </BrowserRouter>
+            <Modal/>
+            <Footer/>
+        </CursorContextProvider>
+
     </div>
   );
 }
