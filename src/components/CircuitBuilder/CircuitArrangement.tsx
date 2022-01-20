@@ -8,11 +8,13 @@ interface CircuitArrangementProps {
 const CircuitArrangement : React.FC<CircuitArrangementProps> = (props) => {
 
 
-    return (<div className={styles.circuitArrangement}>
-        <Grid></Grid>
+    return (
+            <div className={styles.circuitArrangement}>
+                <Grid></Grid>
 
-        </div>
-    )
+            </div>
+ )
+
 }
 
 
