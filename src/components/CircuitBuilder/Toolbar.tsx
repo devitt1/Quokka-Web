@@ -4,17 +4,19 @@ import arrow_down from '../../assets/arrow_down.svg';
 import {Dropdown} from "../Dropdown/Dropdown";
 import {Button} from "../Button/Button";
 import {CursorContext} from "../Providers/CursorContextProvider";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/reducers/rootReducer";
+import {updateGateSelectMode} from "../../redux/actions/circuitConfigAction";
 const Toolbar : React.FC = () => {
-
     const {cursor, setCursor} = useContext(CursorContext);
-    const [selected, setSelected] = useState(false);
+    const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
 
+    const dispatch = useDispatch();
     const standardGates = ['X', 'Y', 'Z', 'C'];
 
     const handleSelectBtnClicked = () => {
         console.log("select btn clicked!");
-        setCursor(({active}) => ({active : !active}));
-        setSelected(true);
+        dispatch(updateGateSelectMode(!circuitConfig.gateSelectMode));
     }
 
 
@@ -30,10 +32,9 @@ const Toolbar : React.FC = () => {
         </div>
 
         <div className={styles.gateDropdowns}>
-            <Button selected={selected} buttonStyle="selectGateBtn" name="Select" onClick={handleSelectBtnClicked}/>
-            <Dropdown dropdownContent={standardGates} borderStyle="none" name="Standard Gate"/>
+            <Button selected={circuitConfig.gateSelectMode} buttonStyle="selectGateBtn" name="Select" onClick={handleSelectBtnClicked}/><Dropdown dropdownContent={standardGates} borderStyle="none" name={circuitConfig.selectedStandardGate}/>
             <Dropdown dropdownContent={["compound gate"]} borderStyle="roundedRightCorner"  name="Compound Gate"/>
-            <Button selected={selected} buttonStyle="runCircuitBtn" name="run" onClick={handleRunCircuitBtnClicked}/>
+            <Button selected={true} buttonStyle="runCircuitBtn" name="run" onClick={handleRunCircuitBtnClicked}/>
         </div>
     </div>)
 }
