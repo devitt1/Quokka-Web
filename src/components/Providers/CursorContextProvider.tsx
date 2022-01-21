@@ -4,14 +4,14 @@ interface ICursorContext {
 
 }
 
-type CursorContextState = { active : boolean}
+type CursorContextState = { attached : boolean}
 
 type CursorContextValue = {
     cursor : CursorContextState,
     setCursor : Dispatch<SetStateAction<CursorContextState>>
 }
 const defaultCursorContextValue : CursorContextValue = {
-    cursor : { active : false},
+    cursor : { attached : false},
     setCursor : (cursor: ICursorContext) => {}
 }
 
