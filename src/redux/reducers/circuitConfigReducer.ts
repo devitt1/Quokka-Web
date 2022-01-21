@@ -1,13 +1,28 @@
 import {Payload} from "../../common/types";
-import {INIT_SELECTED_STANDARD_GATE_ACTION, UPDATE_SELECTED_STANDARD_GATE_ACTION} from "../actions/circuitConfigAction";
-import exp from "constants";
+import {
+    INIT_SELECTED_STANDARD_GATE_ACTION, UPDATE_DEFAULT_STANDARD_GATE_ACTION,
+    UPDATE_GATE_SELECT_MODE_ACTION,
+    UPDATE_SELECTED_STANDARD_GATE_ACTION
+} from "../actions/circuitConfigAction";
+
+interface Gate {
+    x : number,
+    y : number,
+    width : number,
+    height : number,
+    type: 'X'|'Y'|'Z'|'C'
+}
 
 export interface CircuitConfigState {
-    selectedStandardGate: string
+    selectedStandardGate: string,
+    gateSelectMode : boolean,
+    // gates : Gate[]
 }
 
 const initialCircuitConfigState = {
-    selectedStandardGate : 'default'
+    selectedStandardGate : 'Standard Gate',
+    gateSelectMode : false,
+    // gates:
 }
 
 function circuitConfigReducer (state = initialCircuitConfigState,
@@ -21,7 +36,17 @@ action: Payload) {
         case UPDATE_SELECTED_STANDARD_GATE_ACTION:
             return {
                 ...state,
-                selectedStandardGate: action.payload
+                selectedStandardGate: action.payload,
+            }
+        case UPDATE_DEFAULT_STANDARD_GATE_ACTION:
+            return {
+                ...state,
+                selectedStandardGate: 'Standard Gate',
+            }
+        case UPDATE_GATE_SELECT_MODE_ACTION:
+            return {
+                ...state,
+                gateSelectMode: action.payload,
             }
         default:
             return state;
