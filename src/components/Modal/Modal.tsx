@@ -63,7 +63,7 @@ export const Modal : React.FC<ModalProps> = (props) => {
                     onChange={handleInputChanged}
                     onKeyDown={handleKeyDown}
                     placeholder="Device name"
-                ></input>
+                    />
                 <button onClick={async () => handleButtonClicked()}>
                     Connect
                 </button>
