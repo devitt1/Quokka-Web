@@ -2,6 +2,8 @@ import React, {useCallback, useContext} from 'react';
 import styles from './CircuitBuilder.module.scss';
 import {CursorContext} from "../Providers/CursorContextProvider";
 import GridCell from "./GridCell";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/reducers/rootReducer";
 
 interface GridRowProps {
     rowVerticalOffset : number
@@ -9,6 +11,8 @@ interface GridRowProps {
 
 const GridRow : React.FC<GridRowProps> = (props) => {
     const { cursor, setCursor } = useContext(CursorContext);
+    const {selectedStandardGate} = useSelector((state: RootState) => state.circuitConfig);
+
     const slots = Array.from(Array(34).keys());
 
     return (<svg className={styles.gridRow} y="39" width="100%" height="100%" >
@@ -17,13 +21,11 @@ const GridRow : React.FC<GridRowProps> = (props) => {
             {
                 slots.map((number) => {
                     const xPos = number * 48;
-                    return (<GridCell cellXPos={xPos} cellYPos={props.rowVerticalOffset} hasRect={false}/>)
+                    return (<GridCell cellXPos={xPos} cellYPos={props.rowVerticalOffset} hasGate={false}
+                   gate={'X'}/>)
 
                 })
             }
-
-            {/*<GridCell cellXPos={0} cellYPos={0} hasRect={false}/>*/}
-            {/*<GridCell cellXPos={96} cellYPos={0} hasRect={false}/>*/}
         </svg>
     )
 
