@@ -1,8 +1,10 @@
+import {IGate} from "../../common/interfaces";
+
 export const INIT_SELECTED_STANDARD_GATE_ACTION = "INIT_SELECTED_STANDARD_GATE";
 export const UPDATE_SELECTED_STANDARD_GATE_ACTION = "UPDATE_SELECTED_STANDARD_GATE";
 export const UPDATE_DEFAULT_STANDARD_GATE_ACTION = "UPDATE_DEFAULT_STANDARD_GATE";
 export const UPDATE_GATE_SELECT_MODE_ACTION = "UPDATE_GATE_SELECT_MODE";
-
+export const ADD_DROPPED_GATE_ACTION = "ADD_DROPPED_GATE";
 export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
     try {
@@ -34,4 +36,12 @@ export const updateGateSelectMode = (mode : boolean) => async (dispatch : any) =
     }
 }
 
-
+export const addDroppedGate = (selectedGate : IGate) => async (dispatch : any) => {
+    try {
+        dispatch({type: ADD_DROPPED_GATE_ACTION, payload: selectedGate})
+    }
+    catch (e) {
+        console.log("Error ", e);
+        throw e;
+    }
+}
