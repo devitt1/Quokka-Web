@@ -10,8 +10,7 @@ const CircuitArrangement : React.FC<CircuitArrangementProps> = (props) => {
 
     return (
             <div className={styles.circuitArrangement}>
-                <Grid></Grid>
-
+                <Grid/>
             </div>
  )
 
