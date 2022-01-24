@@ -5,13 +5,7 @@ import {
     UPDATE_SELECTED_STANDARD_GATE_ACTION
 } from "../actions/circuitConfigAction";
 
-interface Gate {
-    x : number,
-    y : number,
-    width : number,
-    height : number,
-    type: 'X'|'Y'|'Z'|'C'
-}
+
 
 export interface CircuitConfigState {
     selectedStandardGate: string,
