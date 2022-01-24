@@ -1,13 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
+import {GateType} from "../../../common/types";
 
 interface DraggingGateProps {
     x: number,
     y: number,
     width : number,
     height : number,
-    type : 'X' | 'Y' | 'Z' | 'C'
+    type : GateType
 }
 
 const DraggingGate : React.FC<DraggingGateProps> = (children) => {
