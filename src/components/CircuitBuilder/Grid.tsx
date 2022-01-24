@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import styles from './CircuitBuilder.module.scss';
 import GridRow from "./GridRow";
 import DraggingGate from "../Gate/DraggingGate/DraggingGate";
+import DroppedGates from "../Gate/DroppedGates/DroppedGates";
 
 const Grid : React.FC = () => {
     const rows = Array.from(Array(3).keys());
@@ -18,9 +19,10 @@ const Grid : React.FC = () => {
             />
         </pattern>
         <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-checkers)"/>
-        <GridRow rowVerticalOffset={0} gridCols={cols}/>
-        <GridRow rowVerticalOffset={39} gridCols={cols}/>
-        <GridRow rowVerticalOffset={78} gridCols={cols}/>
+        <GridRow rowVerticalOffset={0} gridCols={cols} rowIndex={0}/>
+        <GridRow rowVerticalOffset={39} gridCols={cols} rowIndex={1}/>
+        <GridRow rowVerticalOffset={78} gridCols={cols} rowIndex={2}/>
+        <DroppedGates/>
         <DraggingGate x={0} y={0} width={40} height={38} type={"X"}/>
 
     </svg>);
