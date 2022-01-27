@@ -1,9 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
+import {Gate as GateClass} from "../../../common/classes";
 import {GateType} from "../../../common/types";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../redux/reducers/rootReducer";
+import {
+    addDroppedGate, removeDraggingGate,
+    updateDraggingGatePosition
+} from "../../../redux/actions/circuitConfigAction";
 
 interface DraggingGateProps {
+    xOffset: number,
+    yOffset: number;
     x: number,
     y: number,
     width : number,
@@ -12,99 +21,56 @@ interface DraggingGateProps {
 }
 
 const DraggingGate : React.FC<DraggingGateProps> = (children) => {
-    const {x, y, width, height, type} = children;
+    const {xOffset, yOffset, width, height, type} = children;
+    const {draggingGate} = useSelector((state: RootState) => state.circuitConfig);
+    const dispatch = useDispatch();
     const draggingGateRef : any = useRef(null);
 
-    const [position, setPosition] = useState({
-        x: x,
-        y: y,
-        coords : { x: x, y: y}
-    });
-
-    useEffect(() => {
-
-        setTimeout(() => {
-            const draggingGateElem = draggingGateRef.current;
-            console.log(draggingGateElem.getBoundingClientRect());
-
-            setPosition(position => {
-                const bClientRect = draggingGateElem.getBoundingClientRect();
-                return {
-                    x: position.x,
-                    y: position.y,
-                    coords: {
-                        x: bClientRect.x,
-                        y: bClientRect.y,
-                    },
-                };
-            });
-
-        }, 300);
-    }, []);
-
-    const handleMouseDown = (e : any) => {
-        console.log(`Mouse down at dragging gate type ${type}`);
+    const handleDraggableMouseDown = (e : any) => {
+        console.log(`Mouse down at dragging gate type ${draggingGate.type}`);
         document.addEventListener('mousemove', handleDraggableMouseMove.current);
-        const draggingGateElem = draggingGateRef.current;
-        console.log(draggingGateElem.getBBox());
-        console.log(draggingGateElem.getBoundingClientRect());
-        const bClientRect = draggingGateElem.getBoundingClientRect();
-        const newX = e.clientX - bClientRect.x;
-        const newY = e.clientY - bClientRect.y;
 
-        console.log(`newX ${newX} newY ${newY}`);
     }
 
     const handleDraggableMouseMove = useRef((e : any) => {
-        const draggingGateElem = draggingGateRef.current;
-        console.log(draggingGateElem.getBBox());
-        setPosition(position => {
-            const newX = e.clientX - position.coords.x - width/2;
-            const newY = e.clientY -  position.coords.y - height/2;
+        const newX = e.clientX - xOffset - width/2;
+        const newY = e.clientY - yOffset - height/2;
+        dispatch(updateDraggingGatePosition(newX, newY));
 
-            console.log(`newX ${newX} newY ${newY}`);
-
-            return {
-                x: newX,
-                y: newY,
-                coords: {
-                    x: position.coords.x,
-                    y: position.coords.y,
-                },
-            };
-        });
     });
 
     const handleDraggableMouseUp = (event : any) => {
         document.removeEventListener('mousemove', handleDraggableMouseMove.current);
-
         const draggingGateElem = draggingGateRef.current;
         const bBox = draggingGateElem.getBBox();
-
         const roundX = Math.floor(bBox.x / 48 ) * 48;
         const roundY = Math.floor(bBox.y / 39) * 39;
-        console.log(`roundX ${roundX} roundY ${roundY}`);
+
+        const newColIndex = roundX / 48;
+        const newRowIndex = roundY / 39;
+
+        const newDroppedGate = new GateClass(roundX, roundY, width, height, newRowIndex, newColIndex, draggingGate.type);
+        dispatch(addDroppedGate(newDroppedGate));
+        dispatch(removeDraggingGate());
+    }
 
 
-        console.log("draggable mouse up");
-        setPosition(position => {
-            return {
-                x: roundX,
-                y: roundY,
-                coords: {
-                    x: position.coords.x,
-                    y: position.coords.y,
-                },
-            };
-        });
-
+    const handleDraggableMouseLeft = () => {
+        console.log(`Mouse left at dragging gate at cell [${draggingGate.rowIndex}, ${draggingGate.colIndex}]`);
+        const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.rowIndex, draggingGate.colIndex, draggingGate.type);
+        dispatch(addDroppedGate(gateToUpdate));
+        dispatch(removeDraggingGate());
 
     }
 
 
-    return <g ref={draggingGateRef} className={styles.draggingGate} onMouseDown={handleMouseDown}
-    onMouseUp={handleDraggableMouseUp}>
-      <Gate x={position.x} y={position.y} width={width} height={height} type={type}/>
+    return <g ref={draggingGateRef} className={styles.draggingGate}
+              onMouseDown={handleDraggableMouseDown}
+              onMouseUp={handleDraggableMouseUp}
+              onMouseLeave={handleDraggableMouseLeft}
+
+    >
+      <Gate  x={draggingGate.x} y={draggingGate.y} width={width} height={height} type={draggingGate.type}/>
     </g>
 }
 
