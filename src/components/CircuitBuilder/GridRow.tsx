@@ -19,7 +19,7 @@ const GridRow : React.FC<GridRowProps> = (children) => {
             {
                 gridCols.map((number) => {
                     const xPos = number * 48;
-                    return (<GridCell rowIndex={rowIndex} colIndex={number} cellXPos={xPos} cellYPos={rowVerticalOffset} hasGate={false}/>)
+                    return (<GridCell key={number} rowIndex={rowIndex} colIndex={number} cellXPos={xPos} cellYPos={rowVerticalOffset} hasGate={false}/>)
 
                 })
             }
