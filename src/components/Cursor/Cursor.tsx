@@ -15,13 +15,13 @@ const Cursor : React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("selected standard gate changes, mode changes");
+        // console.log("selected standard gate changes, mode changes");
             if (circuitConfig.gateSelectMode) {
-                console.log("make cursor attached because select mode is on");
+                // console.log("make cursor attached because select mode is on");
                 setCursor({attached: true});
             }
             else {
-                console.log("cursor can't be attached because select mode is off");
+                // console.log("cursor can't be attached because select mode is off");
                 setCursor({attached: false});
                 dispatch(updateDefaultStandardGate());
             }
