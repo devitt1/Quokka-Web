@@ -28,17 +28,16 @@ const GridCell : React.FC <GridCellProps> = (props) => {
     },[]);
 
     const handleMouseDown = (event : any) => {
-        console.log("mouse down...");
-        console.log(`cell[${props.rowIndex},${props.colIndex}]`);
-
         if (!cursor.attached) {
-            console.log("cursor not attached!");
+            // console.log("cursor not attached!");
             return;
         }
 
         setHasGate(true);
 
-        const gateToAdd = new Gate(props.cellXPos, props.cellYPos, 40, 38, selectedStandardGate as GateType);
+        const gateToAdd = new Gate(props.cellXPos, props.cellYPos,
+            40, 38,
+            props.rowIndex, props.colIndex, selectedStandardGate as GateType);
         dispatch(addDroppedGate(gateToAdd))
         removeAttachment();
 
@@ -48,16 +47,13 @@ const GridCell : React.FC <GridCellProps> = (props) => {
     },[])
 
     const handleMouseUp = () => {
-        console.log("mouse up");
-
         if (cursor.attached) {
-            console.log("cursor is attached!");
+            // console.log("cursor is attached!");
             return;
         }
     }
 
     const handleMouseEnter = () => {
-        console.log("Mouse entered...");
         setHovered(true);
     }
 

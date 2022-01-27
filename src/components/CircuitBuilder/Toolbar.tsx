@@ -15,7 +15,6 @@ const Toolbar : React.FC = () => {
     const standardGates = ['X', 'Y', 'Z', 'C'];
 
     const handleSelectBtnClicked = () => {
-        console.log("select btn clicked!");
         dispatch(updateGateSelectMode(!circuitConfig.gateSelectMode));
     }
 
