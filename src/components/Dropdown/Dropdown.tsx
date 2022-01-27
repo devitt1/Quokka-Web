@@ -25,14 +25,11 @@ export const Dropdown : React.FC<DropdownProps> = (props) => {
     }
 
     const handleDropdownClicked = () => {
-        console.log("dropdown clicked");
         setToggleDropdown(!toggleDropdown);
 
     }
 
     const handleDropdownItemClicked = (dropdownItem : string) => {
-        console.log(`dropdown item clicked ${dropdownItem}`);
-
         dispatch(updateSelectedStandardGate(dropdownItem));
     }
 
@@ -46,8 +43,8 @@ export const Dropdown : React.FC<DropdownProps> = (props) => {
         ?
             <div className={styles.dropdownList}>
                 {
-                    props.dropdownContent.map((dropdownItem) =>
-                        (<div className={styles.dropdownItem} onClick={() => handleDropdownItemClicked(dropdownItem)}>
+                    props.dropdownContent.map((dropdownItem, index) =>
+                        (<div key={index} className={styles.dropdownItem} onClick={() => handleDropdownItemClicked(dropdownItem)}>
                             <p>{dropdownItem}</p>
                         </div>)
                     )
