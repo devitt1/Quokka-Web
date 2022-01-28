@@ -22,7 +22,7 @@ export interface CircuitConfigState {
 const initialCircuitConfigState = {
     selectedStandardGate : 'Standard Gate',
     gateSelectMode : false,
-    droppedGates : [{} as Gate],
+    droppedGates : [] as Gate[],
     draggingGate : {} as Gate
 }
 

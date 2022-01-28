@@ -15,7 +15,6 @@ const DroppedGates : React.FC<DroppedGatesProps> = () => {
 
 
     return (<g className={styles.droppedGates}>
-
         {
             droppedGates.map((gate) => {
                 return <DroppedGate key={gate.id} id={gate.id} x={gate.x} y={gate.y} rowIndex={gate.rowIndex}
