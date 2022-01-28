@@ -23,7 +23,7 @@ const Grid : React.FC = () => {
         <GridRow rowVerticalOffset={39} gridCols={cols} rowIndex={1}/>
         <GridRow rowVerticalOffset={78} gridCols={cols} rowIndex={2}/>
         <DroppedGates/>
-        <DraggingGate xOffset={63.765625} yOffset={168} x={0} y={0} width={40} height={38} type={"X"}/>
+        <DraggingGate xOffset={63.765625} yOffset={168} x={0} y={0} width={40} height={38}/>
 
     </svg>);
 }
