@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
-import {Gate as GateClass} from "../../../common/classes";
-import {GateType} from "../../../common/types";
+import {Gate as GateClass} from "../../../../common/classes";
+import {GateType} from "../../../../common/types";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../redux/reducers/rootReducer";
+import {RootState} from "../../../../redux/reducers/rootReducer";
 import {
     addDroppedGate, removeDraggingGate,
     updateDraggingGatePosition
-} from "../../../redux/actions/circuitConfigAction";
+} from "../../../../redux/actions/circuitConfigAction";
 
 interface DraggingGateProps {
     xOffset: number,
@@ -32,7 +32,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
     }
 
     const handleDraggableMouseMove = useRef((e : any) => {
-        const newX = e.clientX - xOffset - width/2;
+        const newX = e.clientX - xOffset - width/3;
         const newY = e.clientY - yOffset - height/2;
         dispatch(updateDraggingGatePosition(newX, newY));
 
@@ -56,9 +56,15 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
     const handleDraggableMouseLeft = () => {
         console.log(`Mouse left at dragging gate at cell [${draggingGate.rowIndex}, ${draggingGate.colIndex}]`);
+        if (draggingGate.dragStartPosition.x !== draggingGate.x && draggingGate.dragStartPosition.y !== draggingGate.y) {
+            return;
+        }
+
+        console.log("Not dragging anywhere, add dropped gate at previous position");
+
         const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.rowIndex, draggingGate.colIndex, draggingGate.type);
-        dispatch(addDroppedGate(gateToUpdate));
         dispatch(removeDraggingGate());
+        dispatch(addDroppedGate(gateToUpdate));
 
     }
 

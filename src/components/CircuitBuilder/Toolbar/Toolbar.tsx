@@ -1,14 +1,12 @@
-import React, {useContext, useState} from 'react';
-import styles from './CircuitBuilder.module.scss';
-import arrow_down from '../../assets/arrow_down.svg';
-import {Dropdown} from "../Dropdown/Dropdown";
-import {Button} from "../Button/Button";
-import {CursorContext} from "../Providers/CursorContextProvider";
+import React from 'react';
+import styles from './Toolbar.module.scss';
+import arrow_down from '../../../assets/arrow_down.svg';
+import {Dropdown} from "../../Dropdown/Dropdown";
+import {Button} from "../../Button/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/reducers/rootReducer";
-import {updateGateSelectMode} from "../../redux/actions/circuitConfigAction";
+import {RootState} from "../../../redux/reducers/rootReducer";
+import {updateGateSelectMode} from "../../../redux/actions/circuitConfigAction";
 const Toolbar : React.FC = () => {
-    const {cursor, setCursor} = useContext(CursorContext);
     const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
 
     const dispatch = useDispatch();
@@ -27,7 +25,7 @@ const Toolbar : React.FC = () => {
         <div className={styles.fileManager}>
             <h3>Q</h3>
             <img src={arrow_down}/>
-            <h3>New Untitled Cicuit</h3>
+            <h3>New Untitled Circuit</h3>
         </div>
 
         <div className={styles.gateDropdowns}>

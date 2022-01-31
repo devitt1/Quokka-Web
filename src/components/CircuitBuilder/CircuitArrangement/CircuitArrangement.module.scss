@@ -1,0 +1,14 @@
+@import '../../../common/global.scss';
+
+.circuitArrangement {
+  grid-row: 2;
+  grid-column: 1 / span 2;
+  margin: 16px 17px 0 0px;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  background: white;
+  height: 100%;
+  width: 95%;
+
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Gate.module.scss';
-import {GateType} from "../../common/types";
+import {GateType} from "../../../common/types";
 
 interface GateProps {
     x: number,

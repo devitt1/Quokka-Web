@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import CircuitArrangement from './CircuitArrangement';
+import CircuitArrangement from './CircuitArrangement/CircuitArrangement';
 import styles from './CircuitBuilder.module.scss';
-import Toolbar from './Toolbar';
+import Toolbar from './Toolbar/Toolbar';
 
 const CircuitBuilder : React.FC = () => {
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './DroppedGates.module.scss';
-import {GateType} from "../../../common/types";
+import {GateType} from "../../../../common/types";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../redux/reducers/rootReducer";
+import {RootState} from "../../../../redux/reducers/rootReducer";
 import DroppedGate from "./DroppedGate/DroppedGate";
 
 interface DroppedGatesProps {

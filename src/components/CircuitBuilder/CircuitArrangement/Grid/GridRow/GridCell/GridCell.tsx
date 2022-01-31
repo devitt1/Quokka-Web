@@ -1,11 +1,11 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
-import {CursorContext} from "../Providers/CursorContextProvider";
-import styles from './CircuitBuilder.module.scss';
+import {CursorContext} from "../../../../../Providers/CursorContextProvider";
+import styles from './GridCell.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {addDroppedGate} from "../../redux/actions/circuitConfigAction";
-import {Gate} from "../../common/classes";
-import {RootState} from "../../redux/reducers/rootReducer";
-import {GateType} from "../../common/types";
+import {addDroppedGate} from "../../../../../../redux/actions/circuitConfigAction";
+import {Gate} from "../../../../../../common/classes";
+import {RootState} from "../../../../../../redux/reducers/rootReducer";
+import {GateType} from "../../../../../../common/types";
 
 interface GridCellProps {
     rowIndex : number;

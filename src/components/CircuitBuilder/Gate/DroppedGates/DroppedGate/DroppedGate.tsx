@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import styles from "./DroppedGate.module.scss";
 import Gate from "../../Gate";
-import {Gate as GateClass} from "../../../../common/classes";
-import {GateType} from "../../../../common/types";
+import {DraggableGate, Gate as GateClass} from "../../../../../common/classes";
+import {GateType} from "../../../../../common/types";
 import {useDispatch} from "react-redux";
 import {
     addDroppedGate,
     removeDraggingGate,
     removeDroppedGate,
     updateDraggingGate
-} from "../../../../redux/actions/circuitConfigAction";
+} from "../../../../../redux/actions/circuitConfigAction";
 
 
 interface DroppedGateProps {
@@ -30,14 +30,12 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
     const cellXPos = (width + 8) * colIndex;
     const cellYPos = (height + 1) * rowIndex;
 
-    const handleMouseEnter = () => {
-        // console.log("Dropped gate key: ", key);
+    const handleMouseEnter = (event : any) => {
         console.log(`Mouse entered at dropped gate at cell [${rowIndex}, ${colIndex}]`);
-        // const gateToRemove = new GateClass(cellXPos, cellYPos, width, height,
-        //     rowIndex, colIndex, type);
         dispatch(removeDroppedGate(id));
-        const gateToUpdate = new GateClass(cellXPos, cellYPos, width, height, rowIndex, colIndex, type);
+        const gateToUpdate = new DraggableGate(cellXPos, cellYPos, {x: cellXPos, y: cellYPos}, width, height, rowIndex, colIndex, type);
         dispatch(updateDraggingGate(gateToUpdate));
+        event.preventDefault();
     }
 
 

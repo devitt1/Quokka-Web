@@ -9,21 +9,21 @@ import {
     UPDATE_SELECTED_STANDARD_GATE_ACTION
 
 } from "../actions/circuitConfigAction";
-import {IGate} from "../../common/interfaces";
-import {Gate} from "../../common/classes";
+import {IDraggableGate, IGate} from "../../common/interfaces";
+import {DraggableGate, Gate} from "../../common/classes";
 
 export interface CircuitConfigState {
     selectedStandardGate: string,
     gateSelectMode : boolean,
     droppedGates : IGate[],
-    draggingGate : IGate
+    draggingGate : IDraggableGate
 }
 
 const initialCircuitConfigState = {
     selectedStandardGate : 'Standard Gate',
     gateSelectMode : false,
     droppedGates : [] as Gate[],
-    draggingGate : {} as Gate
+    draggingGate : {} as DraggableGate
 }
 
 function circuitConfigReducer (state = initialCircuitConfigState,

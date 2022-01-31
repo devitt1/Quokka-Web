@@ -1,4 +1,4 @@
-import {IGate} from "../../common/interfaces";
+import {IDraggableGate, IGate} from "../../common/interfaces";
 
 export const INIT_SELECTED_STANDARD_GATE_ACTION = "INIT_SELECTED_STANDARD_GATE";
 export const UPDATE_SELECTED_STANDARD_GATE_ACTION = "UPDATE_SELECTED_STANDARD_GATE";
@@ -76,7 +76,7 @@ export const removeDroppedGate = (id : string) => async (dispatch : any) => {
 }
 
 
-export const updateDraggingGate = (gate : IGate) => async (dispatch : any) => {
+export const updateDraggingGate = (gate : IDraggableGate) => async (dispatch : any) => {
     try {
         dispatch({type: UPDATE_DRAGGING_GATE_ACTION, payload: gate})
     }
