@@ -3,6 +3,8 @@ import styles from './GridRow.module.scss';
 import GridCell from "./GridCell/GridCell";
 import QubitSymbol from "./QubitSymbol";
 import AddQubitActionBtn from "./AddQubitActionBtn";
+import {useDispatch} from "react-redux";
+import {addQubit} from "../../../../../redux/actions/circuitConfigAction";
 
 interface GridRowProps {
     rowVerticalOffset : number;
@@ -14,6 +16,7 @@ interface GridRowProps {
 const GridRow : React.FC<GridRowProps> = (children) => {
 
     const {rowVerticalOffset, gridCols, rowIndex, totalRows} = children;
+    const dispatch = useDispatch();
 
     const handleQubitSymbolClicked = () => {
         console.log("QubitSymbol clicked");
@@ -21,6 +24,7 @@ const GridRow : React.FC<GridRowProps> = (children) => {
 
     const handleAddQubitActionBtnClicked = () => {
         console.log("Add Qubit clicked");
+        dispatch(addQubit());
     }
 
     return (<g className={styles.gridRow} y={rowVerticalOffset} width="100%" height="100%" >

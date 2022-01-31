@@ -4,9 +4,13 @@ import GridRow from "./GridRow/GridRow";
 import DraggingGate from "../../Gate/DraggingGate/DraggingGate";
 import DroppedGates from "../../Gate/DroppedGates/DroppedGates";
 import QubitSymbol from "./GridRow/QubitSymbol";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../redux/reducers/rootReducer";
 
 const Grid : React.FC = () => {
-    const rows = Array.from(Array(2).keys());
+    const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
+
+    const rows = Array.from(Array(circuitState.numQubits).keys());
     const cols = Array.from(Array(36).keys());
 
     return (
