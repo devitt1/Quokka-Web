@@ -1,6 +1,6 @@
 import {Payload} from "../../common/types";
 import {
-    ADD_DROPPED_GATE_ACTION,
+    ADD_DROPPED_GATE_ACTION, ADD_QUBIT_ACTION,
     INIT_SELECTED_STANDARD_GATE_ACTION, REMOVE_DRAGGING_GATE_ACTION,
     REMOVE_DROPPED_GATE_ACTION,
     UPDATE_DEFAULT_STANDARD_GATE_ACTION,
@@ -9,21 +9,25 @@ import {
     UPDATE_SELECTED_STANDARD_GATE_ACTION
 
 } from "../actions/circuitConfigAction";
-import {IDraggableGate, IGate} from "../../common/interfaces";
+import {ICircuitState, IDraggableGate, IGate} from "../../common/interfaces";
 import {DraggableGate, Gate} from "../../common/classes";
 
 export interface CircuitConfigState {
     selectedStandardGate: string,
     gateSelectMode : boolean,
     droppedGates : IGate[],
-    draggingGate : IDraggableGate
+    draggingGate : IDraggableGate,
+    circuitState : ICircuitState
 }
 
 const initialCircuitConfigState = {
     selectedStandardGate : 'Standard Gate',
     gateSelectMode : false,
     droppedGates : [] as Gate[],
-    draggingGate : {} as DraggableGate
+    draggingGate : {} as DraggableGate,
+    circuitState : {
+        numQubits : 3
+    } as ICircuitState
 }
 
 function circuitConfigReducer (state = initialCircuitConfigState,
@@ -90,6 +94,15 @@ action: Payload) {
 
             }
 
+        //CircuitState operations
+        case ADD_QUBIT_ACTION:
+            return {
+                ...state,
+                circuitState: {
+                    ...state.circuitState,
+                    numQubits : state.circuitState.numQubits + 1
+                }
+            }
         default:
             return state;
     }
