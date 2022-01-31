@@ -10,6 +10,7 @@ export interface IGate {
     colIndex : number,
     type: GateType
 }
+
 export interface IDraggableGate {
     id : string,
     x : number,
@@ -20,8 +21,12 @@ export interface IDraggableGate {
     rowIndex : number,
     colIndex : number,
     type: GateType
-
 }
+
+export interface ICircuitState {
+    numQubits : number
+}
+
 export interface ICoordinate {
     x : number;
     y : number;
