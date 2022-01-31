@@ -1,5 +1,5 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
-import {IGate} from "./interfaces";
+import {ICoordinate, IDraggableGate, IGate} from "./interfaces";
 import {GateType} from "./types";
 import {v4} from 'uuid';
 
@@ -37,5 +37,36 @@ export class Gate implements IGate {
        this.rowIndex = rowIndex;
        this.colIndex = colIndex;
        this.type = type;
+    }
+}
+
+export class DraggableGate implements IDraggableGate {
+    id : string;
+    x: number;
+    y: number;
+    dragStartPosition : ICoordinate;
+    width: number;
+    height: number;
+    rowIndex: number;
+    colIndex : number;
+    type: GateType;
+    constructor(
+        x: number,
+        y: number,
+        dragStartPosition : ICoordinate,
+        width: number,
+        height : number,
+        rowIndex : number,
+        colIndex : number,
+        type: GateType) {
+        this.id = v4();
+        this.x = x;
+        this.y = y;
+        this.dragStartPosition = dragStartPosition;
+        this.width = width;
+        this.height = height;
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+        this.type = type;
     }
 }

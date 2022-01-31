@@ -10,3 +10,19 @@ export interface IGate {
     colIndex : number,
     type: GateType
 }
+export interface IDraggableGate {
+    id : string,
+    x : number,
+    y : number,
+    dragStartPosition : ICoordinate
+    width : number,
+    height : number,
+    rowIndex : number,
+    colIndex : number,
+    type: GateType
+
+}
+export interface ICoordinate {
+    x : number;
+    y : number;
+}
