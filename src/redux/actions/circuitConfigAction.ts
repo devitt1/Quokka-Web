@@ -1,4 +1,4 @@
-import {IDraggableGate, IGate} from "../../common/interfaces";
+import  {IDraggableGate, IGate} from "../../common/interfaces";
 
 
 // SELECTED GATE OPERATIONS
