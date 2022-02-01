@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
 import {Gate as GateClass} from "../../../../common/classes";
-import {GateType} from "../../../../common/types";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import {
