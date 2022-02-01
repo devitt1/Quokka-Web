@@ -11,7 +11,7 @@ const Grid : React.FC = () => {
 
 
     const rows = Array.from(Array(circuitState.numQubits).keys());
-    const cols = Array.from(Array(30).keys());
+    const cols = Array.from(Array(36).keys());
 
     return (
         <svg className={styles.grid}>
