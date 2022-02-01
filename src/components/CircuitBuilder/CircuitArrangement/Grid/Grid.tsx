@@ -1,20 +1,20 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import styles from './Grid.module.scss';
 import GridRow from "./GridRow/GridRow";
 import DraggingGate from "../../Gate/DraggingGate/DraggingGate";
 import DroppedGates from "../../Gate/DroppedGates/DroppedGates";
-import QubitSymbol from "./GridRow/QubitSymbol";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 
 const Grid : React.FC = () => {
     const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
 
+
     const rows = Array.from(Array(circuitState.numQubits).keys());
-    const cols = Array.from(Array(36).keys());
+    const cols = Array.from(Array(30).keys());
 
     return (
-        <svg className={styles.grid} width="100%" height="100%" >
+        <svg className={styles.grid}>
         <pattern id="pattern-checkers" x="0" y="0" width="48" height="39" patternUnits="userSpaceOnUse">
             <rect  x="0" width="40" height="38" y="0" fill="#B5C2D7"
                   opacity="0.1"

@@ -23,7 +23,7 @@
     margin: 2% 5% 1% 12px;
     padding-right: 20px;
     height: 100%;
-    width: 100%;
+    width: calc(100% - 20px);
 
     button {
       @include text-bold-lato;

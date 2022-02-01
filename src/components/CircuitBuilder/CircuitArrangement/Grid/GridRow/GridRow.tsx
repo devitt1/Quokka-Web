@@ -27,7 +27,7 @@ const GridRow : React.FC<GridRowProps> = (children) => {
         dispatch(addQubit());
     }
 
-    return (<g className={styles.gridRow} y={rowVerticalOffset} width="100%" height="100%" >
+    return (<g className={styles.gridRow} y={rowVerticalOffset}  >
             <line x1={48} y1={rowVerticalOffset + 20} x2="100%"
                   y2={rowVerticalOffset + 20}/>
             {

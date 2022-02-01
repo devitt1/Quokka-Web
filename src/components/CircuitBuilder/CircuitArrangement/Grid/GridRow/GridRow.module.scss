@@ -1,9 +1,12 @@
 .gridRow {
+  width: 100%;
+  position: absolute;
   line {
-    stroke: black;
-    stroke-width: 3;
-    z-index: 0;
-    position: absolute;
+    stroke: #6076A0;
+    stroke-width: 2;
+    z-index: 1;
+    position: relative;
+    stroke-linecap: square;
   }
 
 
