@@ -6,9 +6,11 @@ import {Button} from "../../Button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import {updateGateSelectMode} from "../../../redux/actions/circuitConfigAction";
+import QsimAPIService from "../../../api/QsimAPIService";
+import APIClient from "../../../api/APIClient";
 const Toolbar : React.FC = () => {
     const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
-
+    const apiClient : APIClient = new APIClient();
     const dispatch = useDispatch();
     const standardGates = ['X', 'Y', 'Z', 'C'];
 
@@ -18,6 +20,9 @@ const Toolbar : React.FC = () => {
 
 
     const handleRunCircuitBtnClicked = () =>  {
+        const qasmScript = apiClient.qsimAPIService.createQASMScript(circuitConfig.circuitState.numQubits,
+            circuitConfig.droppedGates);
+        apiClient.qsimAPIService.runQASMScript(qasmScript, 5, false);
         console.log("run btn clicked!");
     }
 
@@ -29,7 +34,9 @@ const Toolbar : React.FC = () => {
         </div>
 
         <div className={styles.gateDropdowns}>
-            <Button selected={circuitConfig.gateSelectMode} buttonStyle="selectGateBtn" name="Select" onClick={handleSelectBtnClicked}/><Dropdown dropdownContent={standardGates} borderStyle="none" name={circuitConfig.selectedStandardGate}/>
+            <Button selected={circuitConfig.gateSelectMode} buttonStyle="selectGateBtn" name="Select"
+                    onClick={handleSelectBtnClicked}/><Dropdown dropdownContent={standardGates} borderStyle="none"
+                                                                name={circuitConfig.selectedStandardGate}/>
             <Dropdown dropdownContent={["compound gate"]} borderStyle="roundedRightCorner"  name="Compound Gate"/>
             <Button selected={true} buttonStyle="runCircuitBtn" name="run" onClick={handleRunCircuitBtnClicked}/>
         </div>

@@ -31,3 +31,9 @@ export interface ICoordinate {
     x : number;
     y : number;
 }
+
+export interface IQASMRequestBody {
+    script : string;
+    count : number;
+    state_vector : boolean;
+}
