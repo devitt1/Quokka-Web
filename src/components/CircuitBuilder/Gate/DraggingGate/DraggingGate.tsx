@@ -31,7 +31,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
     }
 
     const handleDraggableMouseMove = useRef((e : any) => {
-        const newX = e.clientX - xOffset - width/3;
+        const newX = e.clientX - xOffset;
         const newY = e.clientY - yOffset - height/2;
         dispatch(updateDraggingGatePosition(newX, newY));
 
