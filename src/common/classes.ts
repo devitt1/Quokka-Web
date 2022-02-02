@@ -1,7 +1,8 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
-import {ICoordinate, IDraggableGate, IGate} from "./interfaces";
-import {GateType} from "./types";
+import {ICoordinate, IDraggableGate, IGate, IModal} from "./interfaces";
+import {GateType, ModalState, ModalType} from "./types";
 import {v4} from 'uuid';
+import {ModalsState} from "../redux/reducers/modalsReducer";
 
 export class DeviceConnection implements DeviceConnectionState {
     connected: boolean;
@@ -69,4 +70,23 @@ export class DraggableGate implements IDraggableGate {
         this.colIndex = colIndex;
         this.type = type;
     }
+}
+
+export class Modal implements IModal {
+    id: string;
+    type : ModalType;
+    state : ModalState;
+
+    constructor(
+        type : ModalType,
+        state : ModalState
+    ) {
+        this.id = v4();
+        this.type = type;
+        this.state = state;
+
+    }
+
+
+
 }

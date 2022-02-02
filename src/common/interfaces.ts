@@ -1,4 +1,4 @@
-import {GateType} from "./types";
+import {GateType, ModalState, ModalType} from "./types";
 
 export interface IGate {
     id : string,
@@ -36,4 +36,10 @@ export interface IQASMRequestBody {
     script : string;
     count : number;
     state_vector : boolean;
+}
+
+export interface IModal {
+    id : string;
+    type: ModalType;
+    state : ModalState;
 }
