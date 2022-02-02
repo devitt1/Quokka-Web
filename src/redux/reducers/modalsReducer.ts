@@ -1,13 +1,18 @@
 import {Payload} from '../../common/types';
-import { INIT_MODAL_ACTION, TOGGLE_DEVICE_CONNECTION_MODAL_ACTION } from '../actions/modalsAction';
+import {
+    CLOSE_MODAL_ACTION,
+    INIT_MODAL_ACTION,
+    OPEN_MODAL_ACTION,
+} from '../actions/modalsAction';
+import {IModal} from "../../common/interfaces";
 
 
 export interface ModalsState {
-    showDeviceConnectionModal : boolean,
+    modals : IModal[]
 }
 
 const initialModalState = {
-    showDeviceConnectionModal : false
+    modals : [] as IModal[]
 }
 
 function modalsReducer (
@@ -19,10 +24,15 @@ function modalsReducer (
                 ...state,
                 initialModalState
             };
-        case TOGGLE_DEVICE_CONNECTION_MODAL_ACTION :
+        case OPEN_MODAL_ACTION:
             return {
                 ...state,
-                showDeviceConnectionModal: action.payload,
+                modals : state.modals.concat(action.payload)
+            }
+        case CLOSE_MODAL_ACTION:
+            return {
+                ...state,
+                modals: state.modals.filter(modal => modal.id !== action.payload.id)
             }
         default:
             return state;
