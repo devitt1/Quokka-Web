@@ -7,11 +7,12 @@ import About from './components/About/About';
 import Setup from './components/Setup/Setup';
 import CircuitOutput from './components/CircuitOutput/CircuitOutput';
 import PageNotFound from './components/PageNotFound/PageNotFound';
-import { Modal } from './components/Modal/Modal';
+import { Modal } from './components/ModalContainer/Modal/Modal';
 import Footer from './components/Footer/Footer';
 import LoginOrCreateAccount from "./components/LoginOrCreateAccount/LoginOrCreateAccount";
 import CursorContextProvider from "./components/Providers/CursorContextProvider";
 import Cursor from "./components/Cursor/Cursor";
+import ModalContainer from "./components/ModalContainer/ModalContainer";
 function App() {
   return (
     <div className="App">
@@ -30,7 +31,7 @@ function App() {
                     <Route path="/login-or-create-account" element={<LoginOrCreateAccount/>} />
                 </Routes>
             </BrowserRouter>
-            <Modal/>
+            <ModalContainer/>
             <Footer/>
         </CursorContextProvider>
 
