@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleDeviceConnectionModal } from '../../redux/actions/modalsAction';
+import {openModal} from '../../redux/actions/modalsAction';
 import styles from './Setup.module.scss';
+import {Modal} from "../../common/classes";
 
 const Setup : React.FC = () => {
     const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const Setup : React.FC = () => {
         <button
             onClick={() => {
                 //open connection modal
-                dispatch(toggleDeviceConnectionModal(true));
+                dispatch(openModal(new Modal('ConnectionModal', 'StartConnection')));
             }}
         >Connect to device</button>
     </div>)
