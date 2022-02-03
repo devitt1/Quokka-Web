@@ -8,9 +8,10 @@ import {RootState} from "../../../redux/reducers/rootReducer";
 import {updateGateSelectMode} from "../../../redux/actions/circuitConfigAction";
 import QsimAPIService from "../../../api/QsimAPIService";
 import APIClient from "../../../api/APIClient";
+import {openModal} from "../../../redux/actions/modalsAction";
+import {Modal} from "../../../common/classes";
 const Toolbar : React.FC = () => {
     const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
-    const apiClient : APIClient = new APIClient();
     const dispatch = useDispatch();
     const standardGates = ['X', 'Y', 'Z', 'C'];
 
@@ -20,10 +21,7 @@ const Toolbar : React.FC = () => {
 
 
     const handleRunCircuitBtnClicked = () =>  {
-        const qasmScript = apiClient.qsimAPIService.createQASMScript(circuitConfig.circuitState.numQubits,
-            circuitConfig.droppedGates);
-        apiClient.qsimAPIService.runQASMScript(qasmScript, 5, false);
-        console.log("run btn clicked!");
+        dispatch(openModal(new Modal('RunCircuitModal', 'StartRunCircuit')));
     }
 
     return (<div className={styles.toolbar}>

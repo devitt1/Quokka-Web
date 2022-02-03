@@ -2,6 +2,7 @@ import React, {useRef } from 'react';
 import styles from './Modal.module.scss';
 import {ModalState, ModalType} from "../../../common/types";
 import ConnectionModal from "./ConnectionModal";
+import RunCircuitModal from "./RunCircuitModal";
 
 
 export interface ModalProps {
@@ -20,10 +21,7 @@ export const Modal : React.FC<ModalProps> = (children) => {
             case "ConnectionModal":
                 return <ConnectionModal id={id} type={type} state={state}/>;
             case "RunCircuitModal":
-                return <div className={styles.content}>
-                    <h1> Run Circuit Modal </h1>
-
-                </div>;
+                return <RunCircuitModal id={id} type={type} state={state}/>;
             case "LoginModal":
                 return <div className={styles.content}>
                     <h1> Login Modal </h1>
