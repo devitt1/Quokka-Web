@@ -36,9 +36,7 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
 
     const handleInputChanged = (event : any) => {
         setDeviceName(event.target.value);
-
     }
-
 
     const renderState = (state : ModalState) => {
         switch (state) {
@@ -54,9 +52,11 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                         onKeyDown={handleKeyDown}
                         placeholder="Device name"
                     />
+
                     <button onClick={async () => handleConnectBtnClicked()}>
                         Connect
                     </button>
+
                 </div>)
             case 'Connecting':
                 return (

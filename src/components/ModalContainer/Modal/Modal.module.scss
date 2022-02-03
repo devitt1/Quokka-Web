@@ -62,7 +62,9 @@
       width: 60px;
       height: 60px;
     }
+
     button {
+      cursor: pointer;
       align-self: center;
       margin: 18px 31px;
       width: 150px;
@@ -79,6 +81,31 @@
       background: linear-gradient(93.58deg, #2B2B2B 0%, #1E2023 0.01%, #1F2E4D 100%);
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
       border-radius: 2px;
+    }
+
+    .buttonGroup {
+      display: flex;
+      flex-direction: row;
+      button {
+        cursor: pointer;
+        align-self: center;
+        margin: 18px 31px;
+        width: 150px;
+        height: 37px;
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 14px;
+        line-height: 17px;
+        color: white;
+        /* identical to box height */
+        text-align: center;
+        text-transform: uppercase;
+        background: linear-gradient(93.58deg, #2B2B2B 0%, #1E2023 0.01%, #1F2E4D 100%);
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 2px;
+      }
+
     }
 
     .spinner {
@@ -110,20 +137,6 @@
 
   }
 
-  /* The Close Button */
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
 
 }
 
