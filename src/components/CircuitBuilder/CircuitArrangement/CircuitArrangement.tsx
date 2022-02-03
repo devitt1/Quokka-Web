@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './CircuitArrangement.module.scss';
-import Grid from "./Grid/Grid";
+import Qubits from "./Qubits/Qubits";
 import Canvas from "./Canvas/Canvas";
 interface CircuitArrangementProps {
 }
@@ -11,8 +11,7 @@ const CircuitArrangement : React.FC<CircuitArrangementProps> = (props) => {
     return (
             <div className={styles.circuitArrangement}>
                 <Canvas/>
-                <Grid/>
-
+                <Qubits/>
             </div>
  )
 
