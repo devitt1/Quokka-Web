@@ -23,8 +23,20 @@ export interface IDraggableGate {
     type: GateType
 }
 
+export interface IQubit {
+    id: string;
+    qubitCells : IQubitCell[];
+    size : number
+}
+
+export interface IQubitCell {
+    id : string;
+    x : number
+}
+
 export interface ICircuitState {
-    numQubits : number
+    numQubits : number,
+    qubits : IQubit[]
 }
 
 export interface ICoordinate {

@@ -1,5 +1,5 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
-import {ICoordinate, IDraggableGate, IGate, IModal} from "./interfaces";
+import {ICoordinate, IDraggableGate, IGate, IModal, IQubit, IQubitCell} from "./interfaces";
 import {GateType, ModalState, ModalType} from "./types";
 import {v4} from 'uuid';
 import {ModalsState} from "../redux/reducers/modalsReducer";
@@ -72,6 +72,32 @@ export class DraggableGate implements IDraggableGate {
     }
 }
 
+export class Qubit implements IQubit {
+    id: string;
+    size : number;
+    qubitCells: IQubitCell[];
+    constructor(size : number) {
+        this.id = v4();
+        this.size = size;
+        const cols = Array.from(Array(size).keys());
+        var tempQubitCells = [] as IQubitCell[];
+        cols.map((col) => {
+            tempQubitCells.push(new QubitCell(48 * col))
+        })
+        this.qubitCells = tempQubitCells;
+    }
+}
+
+export class QubitCell implements IQubitCell {
+    id: string;
+    x: number;
+
+    constructor(x : number) {
+        this.id = v4();
+        this.x = x;
+    }
+}
+
 export class Modal implements IModal {
     id: string;
     type : ModalType;
@@ -86,7 +112,4 @@ export class Modal implements IModal {
         this.state = state;
 
     }
-
-
-
 }

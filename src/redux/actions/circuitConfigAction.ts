@@ -18,6 +18,8 @@ export const UPDATE_DRAGGING_GATE_POSITION = "UPDATE_DRAGGING_GATE_POSITION"
 
 // CIRCUIT STATE OPERATIONS
 export const ADD_QUBIT_ACTION = "ADD_QUBIT";
+export const REMOVE_QUBIT_ACTION = "REMOVE_QUBIT";
+
 
 export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
@@ -60,17 +62,6 @@ export const addDroppedGate = (gate : IGate) => async (dispatch : any) => {
         throw e;
     }
 }
-
-// export const removeDroppedGate = (gate : IGate) => async (dispatch : any) => {
-//     try {
-//         console.log(`Removing dropped gate at cell [${gate.rowIndex}, ${gate.colIndex}]`);
-//         dispatch({type: REMOVE_DROPPED_GATE_ACTION, payload: gate})
-//     }
-//     catch (e) {
-//         console.log("Error ", e);
-//         throw e;
-//     }
-// }
 
 export const removeDroppedGate = (id : string) => async (dispatch : any) => {
     try {
@@ -126,3 +117,12 @@ export const addQubit = () => async (dispatch : any) => {
     }
 }
 
+export const removeQubit = (id : string) => async (dispatch : any) => {
+    try {
+        dispatch({type: REMOVE_QUBIT_ACTION, payload: {id: id}})
+    }
+    catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}

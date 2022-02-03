@@ -2,15 +2,15 @@ import {Payload} from "../../common/types";
 import {
     ADD_DROPPED_GATE_ACTION, ADD_QUBIT_ACTION,
     INIT_SELECTED_STANDARD_GATE_ACTION, REMOVE_DRAGGING_GATE_ACTION,
-    REMOVE_DROPPED_GATE_ACTION,
+    REMOVE_DROPPED_GATE_ACTION, REMOVE_QUBIT_ACTION,
     UPDATE_DEFAULT_STANDARD_GATE_ACTION,
     UPDATE_DRAGGING_GATE_ACTION, UPDATE_DRAGGING_GATE_POSITION,
     UPDATE_GATE_SELECT_MODE_ACTION,
     UPDATE_SELECTED_STANDARD_GATE_ACTION
 
 } from "../actions/circuitConfigAction";
-import {ICircuitState, IDraggableGate, IGate} from "../../common/interfaces";
-import {DraggableGate, Gate} from "../../common/classes";
+import {ICircuitState, IDraggableGate, IGate, IQubit} from "../../common/interfaces";
+import {DraggableGate, Gate, Qubit} from "../../common/classes";
 
 export interface CircuitConfigState {
     selectedStandardGate: string,
@@ -26,7 +26,10 @@ const initialCircuitConfigState = {
     droppedGates : [] as IGate[],
     draggingGate : {} as IDraggableGate,
     circuitState : {
-        numQubits : 3
+        numQubits : 3,
+        qubits : [
+            new Qubit(45)
+        ] as IQubit[]
     } as ICircuitState
 }
 
@@ -100,7 +103,16 @@ action: Payload) {
                 ...state,
                 circuitState: {
                     ...state.circuitState,
-                    numQubits : state.circuitState.numQubits + 1
+                    qubits : [...state.circuitState.qubits, new Qubit(39)]
+                }
+            }
+        case REMOVE_QUBIT_ACTION:
+            return {
+                ...state,
+                circuitState: {
+                    ...state.circuitState,
+                    qubits : state.circuitState.qubits.filter(qubit =>
+                        (qubit.id !== action.payload.id))
                 }
             }
         default:
