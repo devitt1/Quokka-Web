@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import {CursorContext} from "../../../../../Providers/CursorContextProvider";
-import styles from './GridCell.module.scss';
+import styles from './QubitCell.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {addDroppedGate} from "../../../../../../redux/actions/circuitConfigAction";
 import {Gate} from "../../../../../../common/classes";
@@ -15,17 +15,13 @@ interface GridCellProps {
     hasGate : boolean;
 }
 
-const GridCell : React.FC <GridCellProps> = (props) => {
+const QubitCell : React.FC <GridCellProps> = (props) => {
     const [hovered, setHovered] = useState(false);
     const {cursor ,setCursor } = useContext(CursorContext);
     const [hasGate, setHasGate] = useState(props.hasGate);
     const cellRef : any = useRef(null);
     const {selectedStandardGate} = useSelector((state : RootState) => (state.circuitConfig));
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        // console.log(`cell[${props.rowIndex},${props.colIndex}]`);
-    },[]);
 
     const handleMouseDown = (event : any) => {
         if (!cursor.attached) {
@@ -78,7 +74,7 @@ const GridCell : React.FC <GridCellProps> = (props) => {
 
 
     return (
-        <g className={styles.gridCell}>
+        <g className={styles.qubitCell}>
             <rect ref={cellRef} x={props.cellXPos} y={props.cellYPos} width="40" height="38"
                   className={getCellStyle()}
                   onMouseDown={handleMouseDown}
@@ -91,4 +87,4 @@ const GridCell : React.FC <GridCellProps> = (props) => {
     )
 }
 
-export default GridCell;
+export default QubitCell;
