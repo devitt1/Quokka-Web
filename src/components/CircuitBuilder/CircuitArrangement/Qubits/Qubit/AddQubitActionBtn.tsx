@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Qubit.module.scss';
 
 interface AddQubitActionBtnProps {
     x: number
@@ -7,16 +8,16 @@ interface AddQubitActionBtnProps {
 }
 
 const AddQubitActionBtn : React.FC<AddQubitActionBtnProps> = (children) => {
+
     const {x, y, onClick} = children;
+
+    console.log("Add button render firefox", );
     const relativePosition = `translate(${x},${y})`
 
-    return (<g onClick={onClick} transform={relativePosition}>
-        <g filter="url(#filter0_d_367_4271)">
-            <circle cx="15.5" cy="13.5" r="11.5" fill="url(#paint0_linear_367_4271)"/>
-        </g>
-        <g filter="url(#filter1_d_367_4271)">
-            <path d="M16.4994 9.568V12.736H19.4594V14.512H16.4994V17.696H14.4834V14.512H11.5394V12.736H14.4834V9.568H16.4994Z" fill="white"/>
-        </g>
+    return (<g className={styles.addQubitActionBtn} onClick={onClick} transform={relativePosition}>
+        <circle cx="15.5" cy="13.5" r="11.5" fill="url(#paint0_linear_367_4271)"/>
+        <path d="M16.4994 9.568V12.736H19.4594V14.512H16.4994V17.696H14.4834V14.512H11.5394V12.736H14.4834V9.568H16.4994Z" fill="white"/>
+
         <defs>
             <filter id="filter0_d_367_4271" x="0" y="0" width="31" height="31" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                 <feFlood floodOpacity="0" result="BackgroundImageFix"/>

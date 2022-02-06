@@ -6,8 +6,6 @@ import {Button} from "../../Button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import {updateGateSelectMode} from "../../../redux/actions/circuitConfigAction";
-import QsimAPIService from "../../../api/QsimAPIService";
-import APIClient from "../../../api/APIClient";
 import {openModal} from "../../../redux/actions/modalsAction";
 import {Modal} from "../../../common/classes";
 const Toolbar : React.FC = () => {
