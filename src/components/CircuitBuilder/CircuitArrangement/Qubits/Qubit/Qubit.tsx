@@ -4,7 +4,7 @@ import QubitCell from "./QubitCell/QubitCell";
 import QubitSymbol from "./QubitSymbol";
 import {IQubitCell} from "../../../../../common/interfaces";
 
-interface GridRowProps {
+interface QubitProps {
     id : string;
     rowVerticalOffset : number;
     qubitCells : IQubitCell[];
@@ -12,7 +12,7 @@ interface GridRowProps {
     onQubitSelected : any;
 }
 
-const Qubit : React.FC<GridRowProps> = (children) => {
+const Qubit : React.FC<QubitProps> = (children) => {
 
     const {id, rowVerticalOffset, rowIndex, onQubitSelected, qubitCells} = children;
 
@@ -26,7 +26,7 @@ const Qubit : React.FC<GridRowProps> = (children) => {
                   y2={rowVerticalOffset + 20}/>
             {
                 qubitCells.map((cell, index) => {
-                    return <QubitCell key={cell.id} rowIndex={rowIndex}
+                    return <QubitCell key={cell.id} qubitId={id} rowIndex={rowIndex}
                                       colIndex={index} cellXPos={cell.x}
                                       cellYPos={rowVerticalOffset} hasGate={false}/>
                 })

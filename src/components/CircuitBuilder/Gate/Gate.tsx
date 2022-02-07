@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './Gate.module.scss';
-import {GateType} from "../../../common/types";
+import {GateTypes} from "../../../common/types";
 
 interface GateProps {
     x: number,
     y: number,
     width : number,
     height : number,
-    type : GateType
+    type : GateTypes
 }
 
 const Gate : React.FC <GateProps> = (children) => {

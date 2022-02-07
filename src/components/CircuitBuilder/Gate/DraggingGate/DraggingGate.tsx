@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
-import {Gate as GateClass} from "../../../../common/classes";
+import {DraggableGate, Gate as GateClass} from "../../../../common/classes";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import {
@@ -47,7 +47,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         const newColIndex = roundX / 48;
         const newRowIndex = roundY / 39;
 
-        const newDroppedGate = new GateClass(roundX, roundY, width, height, newRowIndex, newColIndex, draggingGate.type);
+        const newDroppedGate = new GateClass(roundX, roundY, width, height, newRowIndex, newColIndex, draggingGate.qubitIds, draggingGate.type);
         dispatch(addDroppedGate(newDroppedGate));
         dispatch(removeDraggingGate());
     }
@@ -61,7 +61,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
         console.log("Not dragging anywhere, add dropped gate at previous position");
 
-        const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.rowIndex, draggingGate.colIndex, draggingGate.type);
+        const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.rowIndex, draggingGate.colIndex, draggingGate.qubitIds, draggingGate.type);
         dispatch(removeDraggingGate());
         dispatch(addDroppedGate(gateToUpdate));
 

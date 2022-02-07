@@ -5,9 +5,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {addDroppedGate} from "../../../../../../redux/actions/circuitConfigAction";
 import {Gate} from "../../../../../../common/classes";
 import {RootState} from "../../../../../../redux/reducers/rootReducer";
-import {GateType} from "../../../../../../common/types";
+import {GateTypes} from "../../../../../../common/types";
 
-interface GridCellProps {
+interface QubitCellProps {
+    qubitId : string;
     rowIndex : number;
     colIndex : number;
     cellXPos : number;
@@ -15,7 +16,7 @@ interface GridCellProps {
     hasGate : boolean;
 }
 
-const QubitCell : React.FC <GridCellProps> = (props) => {
+const QubitCell : React.FC <QubitCellProps> = (props) => {
     const [hovered, setHovered] = useState(false);
     const {cursor ,setCursor } = useContext(CursorContext);
     const [hasGate, setHasGate] = useState(props.hasGate);
@@ -30,10 +31,14 @@ const QubitCell : React.FC <GridCellProps> = (props) => {
         }
 
         setHasGate(true);
+        const qubitIds = [];
+        qubitIds.push(props.qubitId);
+
+
 
         const gateToAdd = new Gate(props.cellXPos, props.cellYPos,
             40, 38,
-            props.rowIndex, props.colIndex, selectedStandardGate as GateType);
+            props.rowIndex, props.colIndex, qubitIds, selectedStandardGate as GateTypes);
         dispatch(addDroppedGate(gateToAdd))
         removeAttachment();
 

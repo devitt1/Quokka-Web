@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './DroppedGates.module.scss';
-import {GateType} from "../../../../common/types";
+import {GateTypes} from "../../../../common/types";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import DroppedGate from "./DroppedGate/DroppedGate";
@@ -18,8 +18,8 @@ const DroppedGates : React.FC<DroppedGatesProps> = () => {
         {
             droppedGates.map((gate) => {
                 return <DroppedGate key={gate.id} id={gate.id} x={gate.x} y={gate.y} rowIndex={gate.rowIndex}
-                                    colIndex={gate.colIndex} width={40} height={38}
-                                    type={gate.type as GateType}/>
+                                    colIndex={gate.colIndex} qubitIds={gate.qubitIds}width={40} height={38}
+                                    type={gate.type as GateTypes}/>
             })
         }
 

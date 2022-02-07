@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Qubits.module.scss';
 import Qubit from "./Qubit/Qubit";
+import {Qubit as QubitClass} from "../../../../common/classes";
 import DraggingGate from "../../Gate/DraggingGate/DraggingGate";
 import DroppedGates from "../../Gate/DroppedGates/DroppedGates";
 import {useDispatch, useSelector} from "react-redux";
@@ -24,16 +25,16 @@ const Qubits : React.FC = () => {
     }
 
     useEffect( () => {
-        const handleDel = async (event : any) => {
+        const handleQubitDeleted = async (event : any) => {
             if (event.keyCode === 46) //DELETE KEY
             {
                 dispatch(removeQubit(selectedQubitId));
-
             }
         };
-        window.addEventListener('keydown', handleDel);
+        window.addEventListener('keydown', handleQubitDeleted
+        );
         return () => {
-            window.removeEventListener('keydown', handleDel);
+            window.removeEventListener('keydown', handleQubitDeleted);
         }
     }, [selectedQubitId]);
 
@@ -52,6 +53,7 @@ const Qubits : React.FC = () => {
         <svg className={styles.qubits}>
         {
             circuitState.qubits.map((qubit, index) => {
+
                 return <Qubit key={qubit.id} id={qubit.id} rowVerticalOffset={39 * index} qubitCells={qubit.qubitCells} onQubitSelected={handleQubitSelected} rowIndex={index}/>
             })
 

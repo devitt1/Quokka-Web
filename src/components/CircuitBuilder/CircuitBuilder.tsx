@@ -9,7 +9,6 @@ const CircuitBuilder : React.FC = () => {
     return (
             <div className={styles.circuitBuilder}>
                 <Toolbar/>
-
                 <CircuitArrangement>
                 </CircuitArrangement>
                 <div className={styles.utilities}>
