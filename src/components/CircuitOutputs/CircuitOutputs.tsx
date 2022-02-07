@@ -1,22 +1,20 @@
 import React from 'react';
 import styles from './CircuitOutputs.module.scss';
-import CircuitOutput from "./CircuitOutput/CircuitOutput";
+import BuildOutput from "./BuildOutput/BuildOutput";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/reducers/rootReducer";
 
 const CircuitOutputs : React.FC = () => {
 
+    const {buildOutputs} = useSelector((state : RootState) => (state.circuitOutputs))
+
+
     var empty = false;
-
-    const CircuitOutputItemArray = [
-
-    ]
-
     return (<div className={styles.circuitOutputs}>
-        <h2>Circuit Output</h2>
-
-
+        <h2>Circuit Outputs</h2>
         {
             !empty ?
-                <CircuitOutput/>
+                <BuildOutput/>
                 :
                 <div className={styles.prompt}>
                     <p>Run a circuit in the Circuit Builder and visit this page again once complete to see the output.</p>
