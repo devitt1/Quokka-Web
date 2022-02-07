@@ -1,5 +1,7 @@
 export type Payload = { type: string, payload: any};
-export type GateType = 'X' | 'Y' | 'Z' | 'C';
+export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'C'];
+export type StandardGateTypes = typeof ALL_STD_GATES;
+export type GateTypes = StandardGateTypes[number];
 export type ModalType = 'LoginModal' | 'ConnectionModal' | 'RunCircuitModal';
 export type ModalState = 'StartConnection' | 'Connecting' | 'Connected'
 | 'StartRunCircuit' | 'RunningCircuit' | 'CompletedRunCircuit';

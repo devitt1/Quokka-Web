@@ -8,15 +8,15 @@ import {RootState} from "../../../redux/reducers/rootReducer";
 import {updateGateSelectMode} from "../../../redux/actions/circuitConfigAction";
 import {openModal} from "../../../redux/actions/modalsAction";
 import {Modal} from "../../../common/classes";
+import {ALL_STD_GATES} from "../../../common/types";
+
 const Toolbar : React.FC = () => {
     const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
     const dispatch = useDispatch();
-    const standardGates = ['X', 'Y', 'Z', 'C'];
 
     const handleSelectBtnClicked = () => {
         dispatch(updateGateSelectMode(!circuitConfig.gateSelectMode));
     }
-
 
     const handleRunCircuitBtnClicked = () =>  {
         dispatch(openModal(new Modal('RunCircuitModal', 'StartRunCircuit')));
@@ -31,12 +31,15 @@ const Toolbar : React.FC = () => {
 
         <div className={styles.gateDropdowns}>
             <Button selected={circuitConfig.gateSelectMode} buttonStyle="selectGateBtn" name="Select"
-                    onClick={handleSelectBtnClicked}/><Dropdown dropdownContent={standardGates} borderStyle="none"
+                    onClick={handleSelectBtnClicked}/><Dropdown dropdownContent={ALL_STD_GATES} borderStyle="none"
                                                                 name={circuitConfig.selectedStandardGate}/>
             <Dropdown dropdownContent={["compound gate"]} borderStyle="roundedRightCorner"  name="Compound Gate"/>
             <Button selected={true} buttonStyle="runCircuitBtn" name="run" onClick={handleRunCircuitBtnClicked}/>
         </div>
     </div>)
+
 }
+
+
 
 export default Toolbar;
