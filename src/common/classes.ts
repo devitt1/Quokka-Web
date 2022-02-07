@@ -1,6 +1,6 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
 import {ICoordinate, IDraggableGate, IGate, IModal, IQubit, IQubitCell} from "./interfaces";
-import {GateType, ModalState, ModalType} from "./types";
+import {GateTypes, ModalState, ModalType} from "./types";
 import {v4} from 'uuid';
 import {ModalsState} from "../redux/reducers/modalsReducer";
 
@@ -21,7 +21,8 @@ export class Gate implements IGate {
     height: number;
     rowIndex: number;
     colIndex : number;
-    type: GateType;
+    qubitIds : string[];
+    type: GateTypes;
     constructor(
         x: number,
         y: number,
@@ -29,8 +30,10 @@ export class Gate implements IGate {
         height : number,
         rowIndex : number,
         colIndex : number,
-        type: GateType) {
+        qubitIds : string[],
+        type: GateTypes) {
         this.id = v4();
+       this.qubitIds = qubitIds;
        this.x = x;
        this.y = y;
        this.width = width;
@@ -50,7 +53,8 @@ export class DraggableGate implements IDraggableGate {
     height: number;
     rowIndex: number;
     colIndex : number;
-    type: GateType;
+    qubitIds : string[];
+    type: GateTypes;
     constructor(
         x: number,
         y: number,
@@ -59,10 +63,12 @@ export class DraggableGate implements IDraggableGate {
         height : number,
         rowIndex : number,
         colIndex : number,
-        type: GateType) {
+        qubitIds : string[],
+        type: GateTypes) {
         this.id = v4();
         this.x = x;
         this.y = y;
+        this.qubitIds = qubitIds;
         this.dragStartPosition = dragStartPosition;
         this.width = width;
         this.height = height;
