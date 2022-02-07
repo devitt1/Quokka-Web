@@ -1,5 +1,5 @@
 import {AxiosInstance} from "axios";
-import {IGate, IQASMRequestBody} from "../common/interfaces";
+import {ICircuitState, IGate, IQASMRequestBody, IQubit} from "../common/interfaces";
 
 class QsimAPIService {
     private readonly axios: AxiosInstance;
@@ -8,8 +8,41 @@ class QsimAPIService {
         this.axios = axiosInstance;
     }
 
-    createQASMScript(numQubit : number, droppedGates : IGate[]) {
-        return `OPENQASM 2.0;\nqreg q[${numQubit}];\ncreg c[${numQubit}];\nrx(pi) q[0];\nmeasure q -> c;`;
+    createQASMScript(qubits : IQubit[], droppedGates : IGate[]) {
+
+        let qasmGatesScript = "";
+        droppedGates.forEach((droppedGate) => {
+            qasmGatesScript += this.createQASMGateScript(qubits, droppedGate)
+
+        });
+        return `OPENQASM 2.0;\n
+        qreg q[${qubits.length}];
+        \ncreg c[${qubits.length}];
+        ${qasmGatesScript}
+        \nmeasure q -> c;`;
+    }
+
+
+
+    createQASMGateScript = (qubits : IQubit[], gate : IGate) => {
+        var qasmGateScript = "";
+        // if (gate.qubitIds.length === 1) {
+        qasmGateScript = `\nr${gate.type.toLowerCase()}(pi) q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
+        // }
+        console.log("qasmGateScript=", qasmGateScript)
+        return qasmGateScript;
+    }
+
+
+    getQubitById = (id: string, qubits : IQubit[]) => {
+        return qubits.find(qubit => qubit.id === id);
+    }
+
+    findQubitIndex = (id: string, qubits : IQubit[]) => {
+        const index = qubits.findIndex((qubit) => {
+            return qubit.id === id;
+        });
+        return index;
     }
 
     async runQASMScript(script : string, runCount : number, stateVector : boolean) {
@@ -20,8 +53,7 @@ class QsimAPIService {
         }
 
         console.log('qasmRequestBody:', JSON.stringify(qasmRequestBody));
-        const response = await this.sendQASMRequest(qasmRequestBody);
-        return response;
+        return await this.sendQASMRequest(qasmRequestBody);
     }
 
     async sendQASMRequest(qasmRequestBody : IQASMRequestBody) {
