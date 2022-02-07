@@ -1,0 +1,23 @@
+@import '../../common/global.scss';
+
+.circuitOutputs {
+  display: flex;
+  flex-direction: column;
+  h2 {
+    align-self: flex-start;
+    margin-left: 35px;
+
+  }
+
+  .prompt {
+    align-self: flex-start;
+    margin-left: 35px;
+    text-align: start;
+    p {
+      &.warningMessage {
+        color: red;
+      }
+    }
+  }
+
+}

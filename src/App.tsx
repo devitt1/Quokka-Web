@@ -5,7 +5,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CircuitBuilder from './components/CircuitBuilder/CircuitBuilder';
 import About from './components/About/About';
 import Setup from './components/Setup/Setup';
-import CircuitOutput from './components/CircuitOutput/CircuitOutput';
+import CircuitOutputs from './components/CircuitOutputs/CircuitOutputs';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import { Modal } from './components/ModalContainer/Modal/Modal';
 import Footer from './components/Footer/Footer';
@@ -26,7 +26,7 @@ function App() {
                     <Route path="/about" element={<About/>}/>
                     <Route path="/setup" element={<Setup/>}/>
                     <Route path="/circuit-builder" element={<CircuitBuilder/>}/>
-                    <Route path="/circuit-output" element={<CircuitOutput/>}/>
+                    <Route path="/circuit-output" element={<CircuitOutputs/>}/>
                     <Route path="*" element={<PageNotFound/>}/>
                     <Route path="/login-or-create-account" element={<LoginOrCreateAccount/>} />
                 </Routes>

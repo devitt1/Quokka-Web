@@ -1,0 +1,67 @@
+@import '../../../common/global.scss';
+
+
+.circuitOutput {
+  align-self: center;
+  width: 95%;
+  height: 37px;
+  display: grid;
+  margin-left: 35px;
+  grid-template-columns: 30fr 5fr 25fr 10fr 15fr;
+
+  background: linear-gradient(180deg, #F2F4F8 0%, #F8F8F9 100%);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 1px;
+
+  padding: 0px 20px 6px 13px;
+
+  p {
+    text-align: start;
+    align-self: center;
+    &.circuitName {
+      grid-column: 1;
+      @include text-h4;
+    }
+    &.date {
+      grid-column: 2;
+      @include text-normal-small;
+    }
+    &.processingTime {
+      grid-column: 3;
+      @include text-normal-small;
+      strong {
+        @include text-bold-lato;
+      }
+
+    }
+
+  }
+
+
+
+  button {
+    @include link-button;
+
+    &.downloadBtn {
+      grid-column: 4;
+    }
+
+  }
+
+  .viewOrDelete {
+    grid-column: 5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .viewOutputBtn {
+      align-self: center;
+    }
+    img {
+      cursor: pointer;
+      width: 12px;
+      height: 16px;
+      align-self: center;
+      margin-left: 45px;
+    }
+  }
+}

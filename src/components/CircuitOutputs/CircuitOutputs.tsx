@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './CircuitOutput.module.scss';
-import CircuitOutputItem from "./CircuitOutputItem";
+import styles from './CircuitOutputs.module.scss';
+import CircuitOutput from "./CircuitOutput/CircuitOutput";
 
-const CircuitOutput : React.FC = () => {
+const CircuitOutputs : React.FC = () => {
 
     var empty = false;
 
@@ -10,13 +10,13 @@ const CircuitOutput : React.FC = () => {
 
     ]
 
-    return (<div className={styles.circuitOutput}>
+    return (<div className={styles.circuitOutputs}>
         <h2>Circuit Output</h2>
 
 
         {
             !empty ?
-                <CircuitOutputItem/>
+                <CircuitOutput/>
                 :
                 <div className={styles.prompt}>
                     <p>Run a circuit in the Circuit Builder and visit this page again once complete to see the output.</p>
@@ -28,4 +28,4 @@ const CircuitOutput : React.FC = () => {
     </div>)
 }
 
-export default CircuitOutput;
+export default CircuitOutputs;

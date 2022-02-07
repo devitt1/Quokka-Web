@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './CircuitOutput.module.scss';
-import bin from '../../assets/bin.svg';
-const CircuitOutputItem : React.FC = () => {
-    return (<div className={styles.circuitOutputItem}>
+import bin from '../../../assets/bin.svg';
+const CircuitOutput : React.FC = () => {
+    return (<div className={styles.circuitOutput}>
         <p className={styles.circuitName}> Circuit Name</p>
         <p className={styles.date}>10/12/2021</p>
         <p className={styles.processingTime}><strong>
@@ -14,10 +14,7 @@ const CircuitOutputItem : React.FC = () => {
             <button className={styles.viewOutputBtn}>
                 View Output</button>
         </div>
-
-
-
     </div>)
 }
 
-export default CircuitOutputItem;
+export default CircuitOutput;
