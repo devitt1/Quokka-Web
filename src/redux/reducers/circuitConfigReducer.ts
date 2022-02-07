@@ -10,7 +10,7 @@ import {
 
 } from "../actions/circuitConfigAction";
 import {ICircuitState, IDraggableGate, IGate, IQubit} from "../../common/interfaces";
-import {DraggableGate, Gate, Qubit} from "../../common/classes";
+import {Gate, Qubit} from "../../common/classes";
 
 export interface CircuitConfigState {
     selectedStandardGate: string,
@@ -86,6 +86,7 @@ action: Payload) {
                    height: state.draggingGate.height,
                    rowIndex : state.draggingGate.rowIndex,
                    colIndex : state.draggingGate.colIndex,
+                   qubitIds : state.draggingGate.qubitIds,
                    type: state.draggingGate.type
                 }
             }
