@@ -8,3 +8,5 @@ const BuildOutputView : React.FC = () => {
         Circuit Output View
     </div>
 }
+
+export default BuildOutputView;

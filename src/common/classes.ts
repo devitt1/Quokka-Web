@@ -1,5 +1,5 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
-import {ICoordinate, IDraggableGate, IGate, IModal, IQubit, IQubitCell} from "./interfaces";
+import {IBuildOutput, ICoordinate, IDraggableGate, IGate, IModal, IQubit, IQubitCell} from "./interfaces";
 import {GateTypes, ModalState, ModalType} from "./types";
 import {v4} from 'uuid';
 import {ModalsState} from "../redux/reducers/modalsReducer";
@@ -117,5 +117,23 @@ export class Modal implements IModal {
         this.type = type;
         this.state = state;
 
+    }
+}
+
+export class BuildOutput implements IBuildOutput {
+    id: string;
+    name: string;
+    output: string;
+    runDuration: number;
+    buildCircuitArrangement: string;
+
+    constructor(name: string,
+                output: string, runDuration: number,
+                buildCircuitArrangement: string) {
+        this.id = v4();
+        this.name = name;
+        this.output = output;
+        this.runDuration = runDuration;
+        this.buildCircuitArrangement = buildCircuitArrangement;
     }
 }
