@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Qubits.module.scss';
 import Qubit from "./Qubit/Qubit";
-import {Qubit as QubitClass} from "../../../../common/classes";
 import DraggingGate from "../../Gate/DraggingGate/DraggingGate";
 import DroppedGates from "../../Gate/DroppedGates/DroppedGates";
 import {useDispatch, useSelector} from "react-redux";
