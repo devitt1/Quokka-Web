@@ -9,5 +9,15 @@ const DIMENSION = {
     }
 }
 
+export const ROUTES = {
+    ABOUT : "/about",
+    SETUP : "/setup",
+    CIRCUIT_BUILDER: "/circuitBuilder",
+    CIRCUIT_OUTPUT: "/circuitOutput",
+    BUILD_OUTPUT: "/buildOutput",
+    LOGIN: "/login",
+    PAGE_NOT_FOUND: "*"
+}
+
 
 export {}
