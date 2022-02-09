@@ -1,0 +1,32 @@
+@import '../../common/global.scss';
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  border: 2px dotted black;
+  .heading {
+    height: 14px;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    color: #1F2E4D;
+    align-self: start;
+    text-align: left;
+    @include underlined-button;
+    transition: 0.4s;
+
+    img {
+      margin-left: 8.14px
+    }
+
+    &:hover {
+      background-color: #ccc;
+    }
+  }
+
+
+
+  .content {
+
+  }
+}
