@@ -19,17 +19,19 @@ $roboto-font : Roboto, sans-serif;
   line-height: 14.4px;
 }
 
-@mixin text-normal-roboto {
-  font-family: $roboto-font;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14.06px;
-}
 
 @mixin text-bold-lato {
   font-family: $lato-font;
   font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14.4px;
+}
+
+@mixin text-uppercase-lato {
+  font-family: $lato-font;
+  font-style: normal;
+  text-transform: uppercase;
   font-weight: 700;
   font-size: 12px;
   line-height: 14.4px;
@@ -43,10 +45,20 @@ $roboto-font : Roboto, sans-serif;
   line-height: 36px;
 }
 
+
 @mixin text-h4 {
   font-family: $lato-font;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 19.2px;
+}
+
+
+@mixin text-normal-roboto {
+  font-family: $roboto-font;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.06px;
 }

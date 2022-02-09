@@ -79,3 +79,19 @@ $roboto-font : Roboto, sans-serif;
   cursor: pointer;
   text-decoration: underline;
 }
+
+@mixin underlined-button {
+  font-family: $lato-font;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14.4px;
+
+  color: #1F2E4D;
+  /* identical to box height */
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
