@@ -19,7 +19,8 @@ const BuildOutputView : React.FC<BuildOutputViewProps> = (children) => {
             <h2 className={styles.outputName}>{buildOutput.name}</h2>
             <div className={styles.metaDataAndDownload}>
                 <p>10/12/21</p>
-                <p className={styles.buildDuration} >Processing time: 4:00</p>
+                <p className={styles.buildDuration} >
+                    <strong>Processing time:</strong>4:00</p>
                 <button className={styles.downloadCSVButton}>Download CSV</button>
             </div>
         </div>
