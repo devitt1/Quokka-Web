@@ -1,8 +1,9 @@
 @import '../../common/global.scss';
 
-.circuitOutputs {
+.circuitOutput {
   display: flex;
   flex-direction: column;
+  margin-right: 38px;
   h2 {
     align-self: flex-start;
     margin-left: 35px;

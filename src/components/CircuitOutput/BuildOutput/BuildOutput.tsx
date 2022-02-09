@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './BuildOutput.module.scss';
 import bin from '../../../assets/bin.svg';
+import {BrowserRouter, Link, Route} from "react-router-dom";
+import BuildOutputView from "../BuildOutputView/BuildOutputView";
+import {ROUTES} from "../../../common/constants";
 
 interface BuildOutputProps {
     id : string;
@@ -11,10 +14,10 @@ interface BuildOutputProps {
 
 const BuildOutput : React.FC<BuildOutputProps> = (children) => {
 
-    const {id, name, output, runDuration} = children;
+    const {id, name, runDuration} = children;
 
     const handleViewOutputClicked = () => {
-
+        console.log('View output clicked');
     }
 
     return (<div className={styles.buildOutput}>
@@ -26,11 +29,18 @@ const BuildOutput : React.FC<BuildOutputProps> = (children) => {
         <button className={styles.downloadBtn}> Download CSV</button>
         <div className={styles.viewOrDelete}>
             <img src={bin} alt={'bin'}/>
-            <button className={styles.viewOutputBtn}
-                    onClick={handleViewOutputClicked}>
+            {/*<button className={styles.viewOutputBtn}*/}
+            {/*        onClick={handleViewOutputClicked}>*/}
+            {/*    View Output*/}
+            {/*</button>*/}
+
+            <Link  className={styles.viewOutputBtn}
+                   to={`${ROUTES.CIRCUIT_OUTPUT}${ROUTES.BUILD_OUTPUT}/${id}`}
+                   state={children}>
                 View Output
-            </button>
+            </Link>
         </div>
+
     </div>)
 }
 

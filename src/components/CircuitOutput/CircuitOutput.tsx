@@ -1,21 +1,18 @@
 import React from 'react';
-import styles from './CircuitOutputs.module.scss';
+import styles from './CircuitOutput.module.scss';
 import BuildOutput from "./BuildOutput/BuildOutput";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {IBuildOutput} from "../../common/interfaces";
+import BuildOutputChart from "./BuildOutputView/BuildOutputChart/BuildOutputChart";
 
-const CircuitOutputs : React.FC = () => {
+const CircuitOutput : React.FC = () => {
 
     const {buildOutputs} = useSelector((state : RootState) => (state.circuitOutputs))
-
-    const arr = [1, 2, 3];
-    var empty = false;
-    return (<div className={styles.circuitOutputs}>
-        <h2>Circuit Outputs</h2>
+    return (<div className={styles.circuitOutput}>
+        <h2>Circuit Output</h2>
         {
-            !empty ?
-                // <BuildOutput/>
+            buildOutputs.length !== 0 ?
                     buildOutputs.map((buildOutput : IBuildOutput, index : number) => {
                         return <BuildOutput
                             key={buildOutput.id}
@@ -36,4 +33,4 @@ const CircuitOutputs : React.FC = () => {
     </div>)
 }
 
-export default CircuitOutputs;
+export default CircuitOutput;

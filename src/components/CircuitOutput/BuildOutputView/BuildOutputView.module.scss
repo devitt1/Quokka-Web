@@ -1,0 +1,50 @@
+@import '../../../common/global.scss';
+
+.buildOutputView {
+  display: flex;
+  flex-direction: column;
+  padding-left: 38px;
+  padding-right: 32px;
+  width: calc(100% - 38px - 32px);
+  height: 100%;
+
+
+  h2 {
+    align-self: flex-start;
+  }
+  button {
+    align-self: flex-start;
+    &.viewCircuitArrangementBtn {
+      @include underlined-button;
+    }
+  }
+
+  .outputHeader {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+
+
+    .outputName {
+      align-self: center;
+      text-align: start;
+    }
+
+    .metaDataAndDownload {
+      @include text-bold-lato;
+      display: flex;
+      flex-direction: row;
+      align-self: center;
+
+      .buildDuration {
+        margin-left: 17px;
+      }
+
+      .downloadCSVButton {
+        align-self: center;
+        @include underlined-button;
+      }
+    }
+  }
+}
