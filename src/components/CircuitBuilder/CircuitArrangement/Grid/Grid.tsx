@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styles from './Qubits.module.scss';
+import styles from './Grid.module.scss';
 import Qubit from "./Qubit/Qubit";
 import DraggingGate from "../../Gate/DraggingGate/DraggingGate";
 import DroppedGates from "../../Gate/DroppedGates/DroppedGates";
@@ -8,7 +8,7 @@ import {RootState} from "../../../../redux/reducers/rootReducer";
 import AddQubitActionBtn from "./Qubit/AddQubitActionBtn";
 import {addQubit, removeQubit} from "../../../../redux/actions/circuitConfigAction";
 
-const Qubits : React.FC = () => {
+const Grid : React.FC = () => {
     const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
     const [selectedQubitId, setSelectedQubitId] = useState("");
     const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const Qubits : React.FC = () => {
     }
 
     return (
-        <svg className={styles.qubits}>
+        <svg className={styles.grid}>
         {
             circuitState.qubits.map((qubit, index) => {
 
@@ -64,5 +64,5 @@ const Qubits : React.FC = () => {
     </svg>);
 }
 
-export default Qubits;
+export default Grid;
 
