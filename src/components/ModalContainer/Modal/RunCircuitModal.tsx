@@ -37,7 +37,7 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
     const handleRunBtnClicked = async () => {
         console.log("run btn clicked!");
         const qasmScript = apiClient.qsimAPIService.createQASMScript(circuitConfig.circuitState.qubits,
-            circuitConfig.droppedGates);
+            circuitConfig.circuitState.droppedGates);
         const result = await apiClient.qsimAPIService.runQASMScript(qasmScript, circuitRunCount, false);
         setRunOutput(JSON.stringify(result.data.result.c));
     }

@@ -33,6 +33,7 @@
       @include text-normal-small;
       strong {
         @include text-bold-lato;
+        margin-right: 5px;
       }
 
     }

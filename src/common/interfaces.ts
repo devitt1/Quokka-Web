@@ -38,7 +38,9 @@ export interface IQubitCell {
 
 export interface ICircuitState {
     numQubits : number,
-    qubits : IQubit[]
+    qubits : IQubit[],
+    droppedGates : IGate[],
+    draggingGate : IDraggableGate,
 }
 
 export interface ICoordinate {

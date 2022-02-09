@@ -20,7 +20,7 @@ interface DraggingGateProps {
 
 const DraggingGate : React.FC<DraggingGateProps> = (children) => {
     const {xOffset, yOffset, width, height} = children;
-    const {draggingGate} = useSelector((state: RootState) => state.circuitConfig);
+    const {draggingGate} = useSelector((state: RootState) => state.circuitConfig.circuitState);
     const dispatch = useDispatch();
     const draggingGateRef : any = useRef(null);
 

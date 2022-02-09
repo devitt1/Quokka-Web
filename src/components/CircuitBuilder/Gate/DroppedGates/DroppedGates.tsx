@@ -11,7 +11,7 @@ interface DroppedGatesProps {
 
 const DroppedGates : React.FC<DroppedGatesProps> = () => {
 
-    const {droppedGates} = useSelector((state : RootState) => (state.circuitConfig));
+    const {droppedGates} = useSelector((state : RootState) => (state.circuitConfig.circuitState));
 
 
     return (<g className={styles.droppedGates}>

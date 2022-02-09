@@ -15,17 +15,15 @@ import {Gate, Qubit} from "../../common/classes";
 export interface CircuitConfigState {
     selectedStandardGate: string,
     gateSelectMode : boolean,
-    droppedGates : IGate[],
-    draggingGate : IDraggableGate,
     circuitState : ICircuitState
 }
 
 const initialCircuitConfigState = {
     selectedStandardGate : 'Standard Gate',
     gateSelectMode : false,
-    droppedGates : [] as IGate[],
-    draggingGate : {} as IDraggableGate,
     circuitState : {
+        droppedGates : [] as IGate[],
+        draggingGate : {} as IDraggableGate,
         numQubits : 3,
         qubits : [
             new Qubit(45)
@@ -62,40 +60,54 @@ action: Payload) {
         case ADD_DROPPED_GATE_ACTION:
             return {
                 ...state,
-                droppedGates: [...state.droppedGates, action.payload]
+                circuitState: {
+                    ...state.circuitState,
+                    droppedGates: [...state.circuitState.droppedGates, action.payload]
+                }
             }
         case REMOVE_DROPPED_GATE_ACTION:
             return {
                 ...state,
-                droppedGates: state.droppedGates.filter(gate => (gate.id !== action.payload))
+                circuitState: {
+                    ...state.circuitState,
+                    droppedGates: state.circuitState.droppedGates.filter(gate => (gate.id !== action.payload))
+                }
             }
 
         case UPDATE_DRAGGING_GATE_ACTION:
             return {
                 ...state,
-                draggingGate : action.payload
+                circuitState: {
+                    ...state.circuitState,
+                    draggingGate : action.payload
+                }
             }
 
         case UPDATE_DRAGGING_GATE_POSITION:
             return {
                 ...state,
-               draggingGate : {
-                   x: action.payload.x,
-                   y: action.payload.y,
-                   width: state.draggingGate.width,
-                   height: state.draggingGate.height,
-                   rowIndex : state.draggingGate.rowIndex,
-                   colIndex : state.draggingGate.colIndex,
-                   qubitIds : state.draggingGate.qubitIds,
-                   type: state.draggingGate.type
+                circuitState: {
+                    ...state.circuitState,
+                    draggingGate : {
+                        x: action.payload.x,
+                        y: action.payload.y,
+                        width: state.circuitState.draggingGate.width,
+                        height: state.circuitState.draggingGate.height,
+                        rowIndex : state.circuitState.draggingGate.rowIndex,
+                        colIndex : state.circuitState.draggingGate.colIndex,
+                        qubitIds : state.circuitState.draggingGate.qubitIds,
+                        type: state.circuitState.draggingGate.type
+                    }
                 }
             }
 
         case REMOVE_DRAGGING_GATE_ACTION:
             return {
                 ...state,
-                draggingGate: {} as Gate
-
+                circuitState: {
+                    ...state.circuitState,
+                    draggingGate: {} as Gate
+                }
             }
 
         //CircuitState operations
