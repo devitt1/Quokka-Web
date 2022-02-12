@@ -54,7 +54,6 @@ export const updateGateSelectMode = (mode : boolean) => async (dispatch : any) =
 
 export const addDroppedGate = (gate : IGate) => async (dispatch : any) => {
     try {
-        console.log(`Adding dropped gate at cell [${gate.rowIndex}, ${gate.colIndex}]`);
         dispatch({type: ADD_DROPPED_GATE_ACTION, payload: gate})
     }
     catch (e) {

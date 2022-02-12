@@ -19,28 +19,26 @@ export class Gate implements IGate {
     y: number;
     width: number;
     height: number;
-    rowIndex: number;
-    colIndex : number;
-    qubitIds : string[];
     type: GateTypes;
+    rotAngle : string;
+    qubitIds : string[];
+
     constructor(
         x: number,
         y: number,
         width: number,
         height : number,
-        rowIndex : number,
-        colIndex : number,
         qubitIds : string[],
-        type: GateTypes) {
+        type: GateTypes,
+        rotAngle : string) {
         this.id = v4();
        this.qubitIds = qubitIds;
        this.x = x;
        this.y = y;
        this.width = width;
        this.height = height;
-       this.rowIndex = rowIndex;
-       this.colIndex = colIndex;
        this.type = type;
+       this.rotAngle = rotAngle;
     }
 }
 
@@ -51,20 +49,18 @@ export class DraggableGate implements IDraggableGate {
     dragStartPosition : ICoordinate;
     width: number;
     height: number;
-    rowIndex: number;
-    colIndex : number;
     qubitIds : string[];
     type: GateTypes;
+    rotAngle : string;
     constructor(
         x: number,
         y: number,
         dragStartPosition : ICoordinate,
         width: number,
         height : number,
-        rowIndex : number,
-        colIndex : number,
         qubitIds : string[],
-        type: GateTypes) {
+        type: GateTypes,
+        rotAngle : string) {
         this.id = v4();
         this.x = x;
         this.y = y;
@@ -72,9 +68,8 @@ export class DraggableGate implements IDraggableGate {
         this.dragStartPosition = dragStartPosition;
         this.width = width;
         this.height = height;
-        this.rowIndex = rowIndex;
-        this.colIndex = colIndex;
         this.type = type;
+        this.rotAngle = rotAngle;
     }
 }
 

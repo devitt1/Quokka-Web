@@ -6,10 +6,9 @@ export interface IGate {
     y : number,
     width : number,
     height : number,
-    rowIndex : number,
-    colIndex : number,
     qubitIds : string[],
-    type: GateTypes
+    type: GateTypes,
+    rotAngle : string,
 }
 
 export interface IDraggableGate {
@@ -19,10 +18,9 @@ export interface IDraggableGate {
     dragStartPosition : ICoordinate
     width : number,
     height : number,
-    rowIndex : number,
-    colIndex : number,
     qubitIds : string[],
-    type: GateTypes
+    type: GateTypes,
+    rotAngle: string;
 }
 
 export interface IQubit {

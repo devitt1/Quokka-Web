@@ -16,21 +16,19 @@ interface DroppedGateProps {
     id: string,
     x: number,
     y: number,
-    rowIndex : number,
-    colIndex : number,
     qubitIds: string[]
     width : number,
     height : number,
-    type : GateTypes
+    type : GateTypes,
+    rotAngle : string,
 }
 
 const DroppedGate : React.FC<DroppedGateProps> = (children) => {
-    const {x, y, id, width, height, rowIndex, colIndex, qubitIds, type} = children;
+    const {x, y, id, width, height, qubitIds, type, rotAngle} = children;
     const dispatch = useDispatch();
 
     const handleMouseEnter = (event : any) => {
-        console.log(`Mouse entered at dropped gate at cell [${rowIndex}, ${colIndex}]`);
-        const gateToUpdate = new DraggableGate(x, y,{x: x, y: y}, width, height, rowIndex, colIndex, qubitIds, type);
+        const gateToUpdate = new DraggableGate(x, y,{x: x, y: y}, width, height, qubitIds, type, rotAngle);
         dispatch(removeDroppedGate(id));
         dispatch(updateDraggingGate(gateToUpdate));
     }
@@ -39,7 +37,7 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
     return (<g className={styles.droppedGate}
             onMouseEnter={handleMouseEnter}
     >
-            <Gate x={x} y={y} width={width} height={height} type={type as GateTypes}/>
+            <Gate x={x} y={y} width={width} height={height} type={type as GateTypes} rotAngle={rotAngle} isAttachment={false}/>
     </g>)
 }
 

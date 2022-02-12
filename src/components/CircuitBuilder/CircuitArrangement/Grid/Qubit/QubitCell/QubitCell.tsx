@@ -34,11 +34,8 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
         const qubitIds = [];
         qubitIds.push(props.qubitId);
 
-
-
         const gateToAdd = new Gate(props.cellXPos, props.cellYPos,
-            40, 38,
-            props.rowIndex, props.colIndex, qubitIds, selectedStandardGate as GateTypes);
+            40, 38, qubitIds, selectedStandardGate as GateTypes, 'pi/2');
         dispatch(addDroppedGate(gateToAdd))
         removeAttachment();
 

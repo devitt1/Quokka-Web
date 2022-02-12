@@ -93,8 +93,6 @@ action: Payload) {
                         y: action.payload.y,
                         width: state.circuitState.draggingGate.width,
                         height: state.circuitState.draggingGate.height,
-                        rowIndex : state.circuitState.draggingGate.rowIndex,
-                        colIndex : state.circuitState.draggingGate.colIndex,
                         qubitIds : state.circuitState.draggingGate.qubitIds,
                         type: state.circuitState.draggingGate.type
                     }
