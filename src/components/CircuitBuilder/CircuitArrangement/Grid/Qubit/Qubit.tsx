@@ -32,7 +32,7 @@ const Qubit : React.FC<QubitProps> = (children) => {
                 })
             }
 
-            <QubitSymbol x={5} y={rowIndex * 39} onClick={handleQubitSymbolSelected} />
+            <QubitSymbol x={5} y={rowIndex * 64 + 21} onClick={handleQubitSymbolSelected} />
 
         </g>
     )
