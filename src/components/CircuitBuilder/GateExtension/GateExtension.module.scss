@@ -1,0 +1,12 @@
+.gateExtension {
+  &:hover {
+    stroke: black;
+  }
+  .trunk {
+    cursor: move;
+  }
+  .target {
+    cursor: pointer;
+  }
+}
+
