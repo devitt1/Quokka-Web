@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.scss';
+import styles from './App.module.scss';
 import Header from './components/Header/Header';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CircuitBuilder from './components/CircuitBuilder/CircuitBuilder';
@@ -16,7 +16,7 @@ import BuildOutputView from "./components/CircuitOutput/BuildOutputView/BuildOut
 import {ROUTES} from "./common/constants";
 function App() {
   return (
-    <div className="App">
+    <div className={styles.App}>
         <CursorContextProvider>
             <Cursor/>
             <BrowserRouter>
