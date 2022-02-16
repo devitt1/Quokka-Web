@@ -1,4 +1,4 @@
-import {GateTypes, ModalState, ModalType} from "./types";
+import {GateExtTypes, GateTypes, ModalState, ModalType} from "./types";
 
 export interface IGate {
     id : string,
@@ -9,6 +9,8 @@ export interface IGate {
     qubitIds : string[],
     type: GateTypes,
     rotAngle : string,
+    gateExtension : IGateExtension;
+    droppedFromMenu : boolean;
 }
 
 export interface IDraggableGate {
@@ -21,7 +23,21 @@ export interface IDraggableGate {
     qubitIds : string[],
     type: GateTypes,
     rotAngle: string;
+    gateExtension : IGateExtension;
+    droppedFromMenu : boolean;
 }
+
+export interface IGateExtension {
+    id: string,
+    x: number,
+    y: number,
+    width : number,
+    height: number,
+    targetY: number,
+    qubitId : string,
+    type: GateExtTypes,
+}
+
 
 export interface IQubit {
     id: string;

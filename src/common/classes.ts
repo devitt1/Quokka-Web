@@ -1,6 +1,15 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
-import {IBuildOutput, ICoordinate, IDraggableGate, IGate, IModal, IQubit, IQubitCell} from "./interfaces";
-import {GateTypes, ModalState, ModalType} from "./types";
+import {
+    IBuildOutput,
+    ICoordinate,
+    IDraggableGate,
+    IGate,
+    IGateExtension,
+    IModal,
+    IQubit,
+    IQubitCell
+} from "./interfaces";
+import {GateExtTypes, GateTypes, ModalState, ModalType} from "./types";
 import {v4} from 'uuid';
 import {ModalsState} from "../redux/reducers/modalsReducer";
 
@@ -22,6 +31,8 @@ export class Gate implements IGate {
     type: GateTypes;
     rotAngle : string;
     qubitIds : string[];
+    gateExtension : IGateExtension;
+    droppedFromMenu : boolean;
 
     constructor(
         x: number,
@@ -30,7 +41,10 @@ export class Gate implements IGate {
         height : number,
         qubitIds : string[],
         type: GateTypes,
-        rotAngle : string) {
+        rotAngle : string,
+        gateExtension : IGateExtension,
+        droppedFromMenu : boolean,
+        ) {
         this.id = v4();
        this.qubitIds = qubitIds;
        this.x = x;
@@ -39,6 +53,8 @@ export class Gate implements IGate {
        this.height = height;
        this.type = type;
        this.rotAngle = rotAngle;
+       this.gateExtension = gateExtension
+        this.droppedFromMenu = droppedFromMenu;
     }
 }
 
@@ -52,6 +68,8 @@ export class DraggableGate implements IDraggableGate {
     qubitIds : string[];
     type: GateTypes;
     rotAngle : string;
+    gateExtension : IGateExtension;
+    droppedFromMenu : boolean;
     constructor(
         x: number,
         y: number,
@@ -60,7 +78,8 @@ export class DraggableGate implements IDraggableGate {
         height : number,
         qubitIds : string[],
         type: GateTypes,
-        rotAngle : string) {
+        rotAngle : string,
+        gateExtension : IGateExtension, droppedFromMenu : boolean) {
         this.id = v4();
         this.x = x;
         this.y = y;
@@ -70,7 +89,39 @@ export class DraggableGate implements IDraggableGate {
         this.height = height;
         this.type = type;
         this.rotAngle = rotAngle;
+        this.gateExtension = gateExtension;
+        this.droppedFromMenu = droppedFromMenu;
     }
+}
+
+export class GateExtension implements IGateExtension {
+    id: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    targetY : number;
+    qubitId : string;
+    type: GateExtTypes;
+
+    constructor(x: number,
+                y:number,
+                width: number,
+                height: number,
+                targetY : number,
+                qubitId : string,
+                type: GateExtTypes
+    ) {
+        this.id = v4();
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.targetY = targetY;
+        this.qubitId = qubitId;
+        this.type = type;
+    }
+
 }
 
 export class Qubit implements IQubit {
