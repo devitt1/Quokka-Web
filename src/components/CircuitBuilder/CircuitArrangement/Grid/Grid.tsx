@@ -25,24 +25,11 @@ const Grid : React.FC = () => {
     })
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        (async()=> {
-            // await sleep(300);
-            const gridElem = gridRef.current;
-            console.log(gridElem.getBoundingClientRect());
-            setGridPosition({
-                x : gridElem.getBoundingClientRect().x,
-                y : gridElem.getBoundingClientRect().y
-            })
-        })()}, [])
-
     const handleAddQubitActionBtnClicked = () => {
-        console.log("Add Qubit clicked");
         dispatch(addQubit());
     }
 
     const handleQubitSelected = (qubitId : string) => {
-        console.log("Qubit selected = ", qubitId);
        setSelectedQubitId(qubitId);
     }
 
@@ -53,8 +40,7 @@ const Grid : React.FC = () => {
                 dispatch(removeQubit(selectedQubitId));
             }
         };
-        window.addEventListener('keydown', handleQubitDeleted
-        );
+        window.addEventListener('keydown', handleQubitDeleted);
         return () => {
             window.removeEventListener('keydown', handleQubitDeleted);
         }
@@ -87,7 +73,11 @@ const Grid : React.FC = () => {
         {
             circuitState.qubits.map((qubit, index) => {
 
-                return <Qubit key={qubit.id} id={qubit.id} rowVerticalOffset={64 * index + 21} qubitCells={qubit.qubitCells} onQubitSelected={handleQubitSelected} rowIndex={index}/>
+                return <Qubit key={qubit.id} id={qubit.id}
+                              rowVerticalOffset={DIMENSIONS.GRID.HEIGHT * index + DIMENSIONS.GRID.PADDING.TOP}
+                              qubitCells={qubit.qubitCells}
+                              onQubitSelected={handleQubitSelected}
+                              rowIndex={index}/>
             })
 
         }
@@ -95,10 +85,10 @@ const Grid : React.FC = () => {
            y={circuitState.qubits.length * DIMENSIONS.GRID.HEIGHT
            + DIMENSIONS.ADD_QUBIT_BTN.Y_OFFSET + DIMENSIONS.GRID.PADDING.TOP }
            onClick={handleAddQubitActionBtnClicked}/>
-        <GateExtension
-            xOffset={gridPosition.x}
-            yOffset={gridPosition.y}
-        />
+        {/*<GateExtension*/}
+        {/*    xOffset={gridPosition.x}*/}
+        {/*    yOffset={gridPosition.y}*/}
+        {/*/>*/}
         <DroppedGates/>
 
         <DraggingGate

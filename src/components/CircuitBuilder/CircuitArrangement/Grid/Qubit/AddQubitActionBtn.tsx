@@ -10,8 +10,6 @@ interface AddQubitActionBtnProps {
 const AddQubitActionBtn : React.FC<AddQubitActionBtnProps> = (children) => {
 
     const {x, y, onClick} = children;
-
-    console.log("Add button render firefox", );
     const relativePosition = `translate(${x},${y})`
 
     return (<g className={styles.addQubitActionBtn} onClick={onClick} transform={relativePosition}>
