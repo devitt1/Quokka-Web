@@ -1,4 +1,4 @@
-import  {IDraggableGate, IGate} from "../../common/interfaces";
+import {IDraggableGate, IGate, IGateExtension} from "../../common/interfaces";
 
 
 // SELECTED GATE OPERATIONS
@@ -10,7 +10,7 @@ export const UPDATE_GATE_SELECT_MODE_ACTION = "UPDATE_GATE_SELECT_MODE";
 // DROPPED GATES OPERATIONS
 export const ADD_DROPPED_GATE_ACTION = "ADD_DROPPED_GATE";
 export const REMOVE_DROPPED_GATE_ACTION = "REMOVE_DROPPED_GATE";
-
+export const UPDATE_DROPPED_GATE_ACTION = "UPDATE_DROPPED_GATE";
 // DRAGGING GATE OPERATIONS
 export const UPDATE_DRAGGING_GATE_ACTION = "UPDATE_DRAGGING_GATE";
 export const REMOVE_DRAGGING_GATE_ACTION = "REMOVE_DRAGGING_GATE";
@@ -20,6 +20,9 @@ export const UPDATE_DRAGGING_GATE_POSITION = "UPDATE_DRAGGING_GATE_POSITION"
 export const ADD_QUBIT_ACTION = "ADD_QUBIT";
 export const REMOVE_QUBIT_ACTION = "REMOVE_QUBIT";
 
+// DRAGGING GATE EXTENSION OPERATIONS
+export const UPDATE_DRAGGING_GATE_EXTENSION_ACTION= "UPDATE_DRAGGING_GATE_EXTENSION";
+export const UPDATE_DROPPED_GATE_EXTENSION_ACTION="UPDATE_DROPPED_GATE_EXTENSION";
 
 export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
@@ -64,7 +67,6 @@ export const addDroppedGate = (gate : IGate) => async (dispatch : any) => {
 
 export const removeDroppedGate = (id : string) => async (dispatch : any) => {
     try {
-        console.log(`Removing dropped gate with id=${id}`);
         dispatch({type: REMOVE_DROPPED_GATE_ACTION, payload: id})
     }
     catch (e) {
@@ -121,6 +123,36 @@ export const removeQubit = (id : string) => async (dispatch : any) => {
         dispatch({type: REMOVE_QUBIT_ACTION, payload: {id: id}})
     }
     catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateDraggingGateExtension = (targetY : number) => async (dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_DRAGGING_GATE_EXTENSION_ACTION, payload: targetY})
+
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateDroppedGateExtension = (id : string, property : string, value : any) => async (dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_DROPPED_GATE_EXTENSION_ACTION, payload: {id: id, property : property, value : value}})
+
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateDroppedGate = (id : string, property : string, value : any) => async (dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_DROPPED_GATE_ACTION, payload: {id: id, property : property, value : value}})
+
+    } catch (e) {
         console.log("Error: ", e);
         throw e;
     }

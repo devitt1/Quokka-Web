@@ -1,12 +1,17 @@
 .gateExtension {
   &:hover {
-    stroke: black;
+    stroke: #5C7DFF;
+    stroke-width: 4px;
   }
-  .trunk {
-    cursor: move;
+  .innerStroke {
+    cursor: pointer;
+  }
+  .outerStroke {
+    stroke: #5C7DFF;
+    stroke-width: 3px;
   }
   .target {
-    cursor: pointer;
+    cursor: none;
   }
 }
 

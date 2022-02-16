@@ -2,10 +2,11 @@ import React, {useCallback, useContext, useEffect, useRef, useState} from 'react
 import {CursorContext} from "../../../../../Providers/CursorContextProvider";
 import styles from './QubitCell.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {addDroppedGate} from "../../../../../../redux/actions/circuitConfigAction";
-import {Gate} from "../../../../../../common/classes";
+import {addDroppedGate, updateDroppedGate} from "../../../../../../redux/actions/circuitConfigAction";
+import {Gate, GateExtension} from "../../../../../../common/classes";
 import {RootState} from "../../../../../../redux/reducers/rootReducer";
 import {GateTypes} from "../../../../../../common/types";
+import {DIMENSIONS} from "../../../../../../common/constants";
 
 interface QubitCellProps {
     qubitId : string;
@@ -33,10 +34,11 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
         setHasGate(true);
         const qubitIds = [];
         qubitIds.push(props.qubitId);
-
+        const newGateExt = new GateExtension(props.cellXPos + 5, props.cellYPos, 48, 28,
+            props.cellYPos + DIMENSIONS.STD_GATE.HEIGHT/2 + 5 ,"",'CNOT_TARGET');
         const gateToAdd = new Gate(props.cellXPos, props.cellYPos,
-            40, 38, qubitIds, selectedStandardGate as GateTypes, 'pi/2');
-        dispatch(addDroppedGate(gateToAdd))
+            40, 38, qubitIds, selectedStandardGate as GateTypes, 'pi/2', newGateExt, true);
+        dispatch(addDroppedGate(gateToAdd));
         removeAttachment();
 
     }

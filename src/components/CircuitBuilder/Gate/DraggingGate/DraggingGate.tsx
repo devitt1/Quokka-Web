@@ -6,17 +6,21 @@
  * Author: Thien Phuc Ho
  */
 
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
 import {Gate as GateClass} from "../../../../common/classes";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import {
-    addDroppedGate, removeDraggingGate,
+    addDroppedGate, removeDraggingGate, updateDraggingGateExtension,
     updateDraggingGatePosition
 } from "../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../common/constants";
+import GateExtension from "../../GateExtension/GateExtension";
+import {GateExtension as GateExtClass} from "../../../../common/classes";
+import DraggableGateExtension from "../../GateExtension/DraggableGateExtension/DraggableGateExtension";
+import {IDraggableGate} from "../../../../common/interfaces";
 
 /**
  * @param xOffset x position relative to cursor pointer x
@@ -51,6 +55,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
     const handleDraggableMouseMove = useRef((e : any) => {
         const newX = e.clientX - xOffset - width/2;
         const newY = e.clientY - yOffset - height/2;
+
         dispatch(updateDraggingGatePosition(newX, newY));
 
     });
@@ -59,14 +64,33 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         document.removeEventListener('mousemove', handleDraggableMouseMove.current);
         const draggingGateElem = draggingGateRef.current;
         const bBox = draggingGateElem.getBBox();
-        const roundX = Math.floor(bBox.x / 48 ) * 48;
-        const roundY = Math.floor(bBox.y / 64 ) * 64 + 21;
 
-        const {newX, newY} = getSnapToGridPosition(bBox.x, bBox.y);
-        const newColIndex = roundX / 48;
-        const newRowIndex = roundY / 39;
+        var {newX, newY} = getSnapToGridPositionFloor(bBox.x, bBox.y);
 
-        const newDroppedGate = new GateClass(newX, newY, width, height, draggingGate.qubitIds, draggingGate.type, 'pi/2');
+        var dist = newY - draggingGate.dragStartPosition.y;
+        const diff = draggingGate.gateExtension.targetY + dist - newY;
+        var offset;
+        var newYOffset;
+        if (dist > 0) {
+            console.log(`moved down ${newY - draggingGate.dragStartPosition.y}` );
+        } else {
+            console.log(`moved up ${newY - draggingGate.dragStartPosition.y}` );
+        }
+
+        if (diff > 0) {
+            offset = draggingGate.gateExtension.targetY + dist;
+            console.log(`target below ${draggingGate.gateExtension.targetY + dist - newY}`);
+            newYOffset = newY;
+        } else {
+            newYOffset = getSnapToGridPositionCeiling(bBox.y);
+            offset = draggingGate.gateExtension.targetY + newYOffset - draggingGate.dragStartPosition.y;
+            console.log(`target above ${draggingGate.gateExtension.targetY + dist - newY}`);
+        }
+        console.log('newYOffset', newYOffset);
+
+        const newGateExt = new GateExtClass(newX, newY, width, height, offset, "", 'CNOT_TARGET');
+        const newDroppedGate = new GateClass(newX, newYOffset, width, height, draggingGate.qubitIds, draggingGate.type, 'pi/2', newGateExt, draggingGate.droppedFromMenu);
+
         dispatch(addDroppedGate(newDroppedGate));
         dispatch(removeDraggingGate());
     }
@@ -80,22 +104,39 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         }
         console.log("Not dragging anywhere, add dropped gate at previous position");
 
-        const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height,
-        draggingGate.qubitIds, draggingGate.type, 'pi/2');
+
+        // console.log(`moved ${draggingGate.dragStartPosition.y - draggingGate.y}` )
+        const newGateExt = new GateExtClass(draggingGate.x, draggingGate.y, width, height, draggingGate.gateExtension.targetY, "", 'CNOT_TARGET');
+        const newDroppedGate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.qubitIds, draggingGate.type, 'pi/2', newGateExt, draggingGate.droppedFromMenu);
+
+        // const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height,
+        // draggingGate.qubitIds, draggingGate.type, 'pi/2');
         dispatch(removeDraggingGate());
-        dispatch(addDroppedGate(gateToUpdate));
+        dispatch(addDroppedGate(newDroppedGate));
 
     }
+
 
 
     return <g ref={draggingGateRef} className={styles.draggingGate}
               onMouseDown={handleDraggableMouseDown}
               onMouseUp={handleDraggableMouseUp}
-              onMouseLeave={handleDraggableMouseLeft}
+              onMouseLeave={handleDraggableMouseLeft}>
+        {
+            draggingGate.gateExtension ?  <DraggableGateExtension gateX={draggingGate.x} gateY={draggingGate.y}
+                                                                  targetY={draggingGate.gateExtension.targetY + (draggingGate.y - draggingGate.dragStartPosition.y)}
+                                                                  type={draggingGate.gateExtension.type}/>
+                : null
+        }
 
-    >
-      <Gate x={draggingGate.x} y={draggingGate.y} width={width} height={height} type={draggingGate.type}
+        <Gate
+            x={draggingGate.x} y={draggingGate.y} width={width} height={height} type={draggingGate.type}
             isAttachment={false} rotAngle={draggingGate.rotAngle}/>
+
+
+
+
+
     </g>
 }
 
@@ -103,13 +144,24 @@ export default DraggingGate;
 
 /**
  * This function takes x, y co-ordinates of a gate and
- * round those values to the nearest grid position
+ * round those values to the nearest grid position (floor y)
  * @param x
  * @param y
  */
-export const getSnapToGridPosition = (x : number, y : number) => {
+export const getSnapToGridPositionFloor = (x : number, y : number) => {
     const roundX = Math.floor(x / DIMENSIONS.GRID.WIDTH ) *  DIMENSIONS.GRID.WIDTH;
     const roundY = Math.floor(y / DIMENSIONS.GRID.HEIGHT ) *
         DIMENSIONS.GRID.HEIGHT + DIMENSIONS.GRID.PADDING.TOP;
     return {newX : roundX, newY: roundY}
+}
+
+/**
+ * This function takes y co-ordinate of a gate and
+ * round those values to the nearest grid position (ceiling y)
+ * @param y
+ */
+export const getSnapToGridPositionCeiling = (y : number) => {
+    const roundY = Math.ceil(y / DIMENSIONS.GRID.HEIGHT ) *
+        DIMENSIONS.GRID.HEIGHT + DIMENSIONS.GRID.PADDING.TOP;
+    return roundY;
 }
