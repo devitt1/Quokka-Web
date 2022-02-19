@@ -8,7 +8,7 @@ export interface DeviceConnectionState {
 
 const initialDeviceConnectionState = {
     connected : false,
-    deviceName: 'hello'
+    deviceName: 'default'
 }
 
 function deviceConnectionReducer (
