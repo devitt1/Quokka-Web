@@ -11,6 +11,8 @@ export interface IGate {
     rotAngle : string,
     gateExtension : IGateExtension;
     droppedFromMenu : boolean;
+
+    toQASM() : string;
 }
 
 export interface IDraggableGate {
@@ -51,7 +53,6 @@ export interface IQubitCell {
 }
 
 export interface ICircuitState {
-    numQubits : number,
     qubits : IQubit[],
     droppedGates : IGate[],
     draggingGate : IDraggableGate,

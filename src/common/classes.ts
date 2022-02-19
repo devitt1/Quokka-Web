@@ -56,6 +56,12 @@ export class Gate implements IGate {
        this.gateExtension = gateExtension
         this.droppedFromMenu = droppedFromMenu;
     }
+
+    public toQASM () {
+        const qasmGateScript = `${this.type.toLowerCase()}(${this.rotAngle})`;
+        console.log("qasmGateScript=", qasmGateScript)
+        return qasmGateScript;
+    }
 }
 
 export class DraggableGate implements IDraggableGate {

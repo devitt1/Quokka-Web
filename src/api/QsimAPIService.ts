@@ -15,11 +15,7 @@ class QsimAPIService {
             qasmGatesScript += this.createQASMGateScript(qubits, droppedGate)
 
         });
-        return `OPENQASM 2.0;\n
-        qreg q[${qubits.length}];
-        \ncreg c[${qubits.length}];
-        ${qasmGatesScript}
-        \nmeasure q -> c;`;
+        return `OPENQASM 2.0;\nqreg q[${qubits.length}];\ncreg c[${qubits.length}];${qasmGatesScript}\nmeasure q -> c;`;
     }
 
 
@@ -27,16 +23,12 @@ class QsimAPIService {
     createQASMGateScript = (qubits : IQubit[], gate : IGate) => {
         var qasmGateScript = "";
         // if (gate.qubitIds.length === 1) {
-        qasmGateScript = `\nr${gate.type.toLowerCase()}(pi) q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
+        qasmGateScript = `\n${gate.toQASM()} q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
         // }
         console.log("qasmGateScript=", qasmGateScript)
         return qasmGateScript;
     }
 
-
-    getQubitById = (id: string, qubits : IQubit[]) => {
-        return qubits.find(qubit => qubit.id === id);
-    }
 
     findQubitIndex = (id: string, qubits : IQubit[]) => {
         const index = qubits.findIndex((qubit) => {
