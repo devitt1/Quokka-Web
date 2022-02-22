@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import {
     addDroppedGate, removeDraggingGate, updateDraggingGateExtension,
-    updateDraggingGatePosition
+    updateDraggingGatePosition, updateSelectedGateId
 } from "../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../common/constants";
 import GateExtension from "../../GateExtension/GateExtension";
@@ -43,6 +43,8 @@ interface DraggingGateProps {
 const DraggingGate : React.FC<DraggingGateProps> = (children) => {
     const {xOffset, yOffset, width, height} = children;
     const {draggingGate} = useSelector((state: RootState) => state.circuitConfig.circuitState);
+    const {selectedGateId} = useSelector((state: RootState) => state.circuitConfig);
+
     const dispatch = useDispatch();
     const draggingGateRef : any = useRef(null);
 
@@ -62,6 +64,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
     const handleDraggableMouseUp = (event : any) => {
         document.removeEventListener('mousemove', handleDraggableMouseMove.current);
+
         const draggingGateElem = draggingGateRef.current;
         const bBox = draggingGateElem.getBBox();
 
@@ -88,9 +91,13 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         }
         console.log('newYOffset', newYOffset);
 
-        const newGateExt = new GateExtClass(newX, newY, width, height, offset, "", 'CNOT_TARGET');
-        const newDroppedGate = new GateClass(newX, newYOffset, width, height, draggingGate.qubitIds, draggingGate.type, 'pi/2', newGateExt, draggingGate.droppedFromMenu);
+        const newGateExt = new GateExtClass(offset, draggingGate.gateExtension.qubitId, 'CNOT_TARGET');
+        const newDroppedGate = new GateClass(newX, newYOffset, width, height, draggingGate.qubitIds, draggingGate.type, newGateExt, draggingGate.droppedFromMenu,  draggingGate.rotAngle);
+        if (draggingGate.dragStartPosition.x === newX && draggingGate.dragStartPosition.y === newY && !draggingGate.droppedFromMenu) {
+            console.log("Gate not moved.. so definitely user wanted to select it");
+            dispatch(updateSelectedGateId(newDroppedGate.id));
 
+        }
         dispatch(addDroppedGate(newDroppedGate));
         dispatch(removeDraggingGate());
     }
@@ -104,19 +111,12 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         }
         console.log("Not dragging anywhere, add dropped gate at previous position");
 
-
-        // console.log(`moved ${draggingGate.dragStartPosition.y - draggingGate.y}` )
-        const newGateExt = new GateExtClass(draggingGate.x, draggingGate.y, width, height, draggingGate.gateExtension.targetY, "", 'CNOT_TARGET');
-        const newDroppedGate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.qubitIds, draggingGate.type, 'pi/2', newGateExt, draggingGate.droppedFromMenu);
-
-        // const gateToUpdate = new GateClass(draggingGate.x, draggingGate.y, width, height,
-        // draggingGate.qubitIds, draggingGate.type, 'pi/2');
+        const newGateExt = new GateExtClass(draggingGate.gateExtension.targetY, draggingGate.gateExtension.qubitId, 'CNOT_TARGET');
+        const newDroppedGate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.qubitIds, draggingGate.type, newGateExt, draggingGate.droppedFromMenu, draggingGate.rotAngle);
         dispatch(removeDraggingGate());
         dispatch(addDroppedGate(newDroppedGate));
 
     }
-
-
 
     return <g ref={draggingGateRef} className={styles.draggingGate}
               onMouseDown={handleDraggableMouseDown}
@@ -130,6 +130,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         }
 
         <Gate
+            id={draggingGate.id}
             x={draggingGate.x} y={draggingGate.y} width={width} height={height} type={draggingGate.type}
             isAttachment={false} rotAngle={draggingGate.rotAngle}/>
 

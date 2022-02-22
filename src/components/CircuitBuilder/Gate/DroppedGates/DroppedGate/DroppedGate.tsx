@@ -6,15 +6,12 @@ import {GateTypes} from "../../../../../common/types";
 import {useDispatch, useSelector} from "react-redux";
 import {
     removeDroppedGate,
-    updateDraggingGate, updateDroppedGateExtension
+    updateDraggingGate, updateDroppedGate, updateDroppedGateExtension
 } from "../../../../../redux/actions/circuitConfigAction";
-import {DIMENSIONS} from "../../../../../common/constants";
-import {RootState} from "../../../../../redux/reducers/rootReducer";
 import {IGateExtension} from "../../../../../common/interfaces";
 import GateExtension from "../../../GateExtension/GateExtension";
 import {GateExtension as GateExtClass} from "../../../../../common/classes";
-import DraggableGateExtension from "../../../GateExtension/DraggableGateExtension/DraggableGateExtension";
-import Grid from "../../../CircuitArrangement/Grid/Grid";
+import {RootState} from "../../../../../redux/reducers/rootReducer";
 
 
 interface DroppedGateProps {
@@ -25,14 +22,19 @@ interface DroppedGateProps {
     width : number,
     height : number,
     type : GateTypes,
-    rotAngle : string,
-    gateExtension : IGateExtension
-    droppedFromMenu: boolean
+    gateExtension : IGateExtension,
+    droppedFromMenu: boolean,
+    rotAngle? : string | null
 }
 
 const DroppedGate : React.FC<DroppedGateProps> = (children) => {
     const {x, y, id, width, height, qubitIds, type, rotAngle, gateExtension, droppedFromMenu} = children;
     const [targetMove, setTargetMove] = useState(false);
+    const {selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
+    var droppedGateStyle = styles.droppedGate;
+    if (selectedGateId === id) {
+        droppedGateStyle = styles.droppedGate + " " + styles.selected;
+    }
     const dispatch = useDispatch();
 
 
@@ -42,14 +44,12 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
     });
 
     const handleTargetSet = useRef ((e: any)=> {
-        console.log('target set');
         document.removeEventListener('mousemove', handleTargetMouseMove.current);
         document.removeEventListener('mouseup', handleTargetSet.current);
     });
 
 
     const handleMouseEnter = (event : any) => {
-        console.log('mouse entered dropped gate')
         if (targetMove) {
             return;
         }
@@ -58,10 +58,10 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
             return;
         }
 
-        const gateExtToUpdate = new GateExtClass(x, y, width, height, gateExtension.targetY,
-            "", gateExtension.type);
+        const gateExtToUpdate = new GateExtClass(gateExtension.targetY,
+            gateExtension.qubitId, gateExtension.type);
         const gateToUpdate = new DraggableGate(x, y,{x: x, y: y}, width, height, qubitIds, type,
-            rotAngle, gateExtToUpdate, droppedFromMenu);
+            gateExtToUpdate, droppedFromMenu, rotAngle);
         dispatch(removeDroppedGate(id));
         dispatch(updateDraggingGate(gateToUpdate));
     }
@@ -76,7 +76,11 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
         setTargetMove(false);
     }
 
-    return (<g className={styles.droppedGate}>
+    const handleDroppedGateMouseLeft = (event : any) => {
+        dispatch(updateDroppedGate(id, 'droppedFromMenu', false));
+    }
+
+    return (<g className={droppedGateStyle} onMouseLeave={handleDroppedGateMouseLeft}>
         <GateExtension
             gateId={id}
             droppedFromMenu={droppedFromMenu}
@@ -85,9 +89,12 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
             onTargetMove={handleTargetMove}
             onTargetDragEnd={handleTargetDragEnd}
             type={gateExtension.type}/>
-        <Gate x={x} y={y} width={width} height={height} type={type as GateTypes} rotAngle={rotAngle}
-              isAttachment={false}
-              onMouseEnter={handleMouseEnter}/>
+        <Gate
+            id={id}
+            x={x} y={y} width={width} height={height}
+            type={type as GateTypes} rotAngle={rotAngle}
+            isAttachment={false}
+            onMouseEnter={handleMouseEnter}/>
 
     </g>)
 }

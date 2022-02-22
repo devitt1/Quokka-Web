@@ -1,0 +1,15 @@
+.circuitConfig {
+  grid-row: 2;
+  grid-column: 1 / span 2;
+  display: flex;
+  background: white;
+  flex-direction: column;
+  margin: 16px 17px 0 0px;
+  height: 100%;
+  width: calc(100% - 17px);
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

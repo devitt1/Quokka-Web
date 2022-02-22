@@ -6,12 +6,18 @@ import {
     REMOVE_DRAGGING_GATE_ACTION,
     REMOVE_DROPPED_GATE_ACTION,
     REMOVE_QUBIT_ACTION,
+    UPDATE_CIRCUIT_RUNNING_STATUS_ACTION,
     UPDATE_DEFAULT_STANDARD_GATE_ACTION,
     UPDATE_DRAGGING_GATE_ACTION,
     UPDATE_DRAGGING_GATE_EXTENSION_ACTION,
-    UPDATE_DRAGGING_GATE_POSITION, UPDATE_DROPPED_GATE_ACTION,
+    UPDATE_DRAGGING_GATE_POSITION,
+    UPDATE_DROPPED_GATE_ACTION,
     UPDATE_DROPPED_GATE_EXTENSION_ACTION,
+    UPDATE_GATE_INPUT_VALUE_ACTION,
     UPDATE_GATE_SELECT_MODE_ACTION,
+    UPDATE_QUBIT_POSITION_ACTION,
+    UPDATE_SELECTED_GATE_ID_ACTION,
+    UPDATE_SELECTED_QUBIT_ACTION,
     UPDATE_SELECTED_STANDARD_GATE_ACTION
 
 } from "../actions/circuitConfigAction";
@@ -19,19 +25,27 @@ import {ICircuitState, IDraggableGate, IGate, IQubit} from "../../common/interfa
 import {Gate, Qubit} from "../../common/classes";
 
 export interface CircuitConfigState {
-    selectedStandardGate: string,
-    gateSelectMode : boolean,
-    circuitState : ICircuitState
+    selectedStandardGate: string;
+    gateSelectMode : boolean;
+    selectedQubitId : string;
+    selectedGateId : string;
+    status : boolean;
+    circuitState : ICircuitState;
 }
 
 const initialCircuitConfigState = {
     selectedStandardGate : 'Standard Gate',
     gateSelectMode : false,
+    selectedQubitId : "",
+    selectedGateId: "",
+    status : false,
     circuitState : {
         droppedGates : [] as IGate[],
         draggingGate : {} as IDraggableGate,
         qubits : [
-            new Qubit(45)
+            new Qubit(45),
+            new Qubit(45),
+            // new Qubit(45)
         ] as IQubit[]
     } as ICircuitState
 }
@@ -117,6 +131,15 @@ action: Payload) {
                 }
             }
 
+        case UPDATE_QUBIT_POSITION_ACTION:
+            return {
+                ...state,
+                circuitState:  {
+                    ...state.circuitState,
+                    qubits: updateQubitInArray(state.circuitState.qubits, action)
+                }
+            }
+
         //CircuitState operations
         case ADD_QUBIT_ACTION:
             return {
@@ -125,6 +148,11 @@ action: Payload) {
                     ...state.circuitState,
                     qubits : [...state.circuitState.qubits, new Qubit(39)]
                 }
+            }
+        case UPDATE_SELECTED_QUBIT_ACTION:
+            return {
+                ...state,
+                selectedQubitId: action.payload
             }
         case REMOVE_QUBIT_ACTION:
             return {
@@ -168,6 +196,25 @@ action: Payload) {
                     droppedGates: updateObjectInArray(state.circuitState.droppedGates, action, null)
                 }
             }
+        case UPDATE_CIRCUIT_RUNNING_STATUS_ACTION:
+            return {
+                ...state,
+                status: action.payload
+            }
+
+        case UPDATE_GATE_INPUT_VALUE_ACTION:
+            return {
+                ...state,
+                circuitState: {
+                    ...state.circuitState,
+                    droppedGate: updateObjectInArray(state.circuitState.droppedGates, action, null)
+                }
+            }
+        case UPDATE_SELECTED_GATE_ID_ACTION:
+            return {
+                ...state,
+                selectedGateId: action.payload.id
+            }
         default:
             return state;
     }
@@ -175,6 +222,24 @@ action: Payload) {
 
 
 export default circuitConfigReducer;
+
+export const updateQubitInArray = (array : IQubit[], action : Payload) => {
+    return array.map((item, index) => {
+        if (item.id !== action.payload.id) {
+            return item;
+        }
+
+        var newQubit = item;
+
+        // @ts-ignore
+        newQubit[action.payload.property] = action.payload.value;
+
+        return {
+            ...item,
+            ...newQubit
+        }
+    })
+}
 
 export const updateObjectInArray = (array : IGate[], action : Payload, innerProperty : string | null) => {
     return array.map((item, index) => {

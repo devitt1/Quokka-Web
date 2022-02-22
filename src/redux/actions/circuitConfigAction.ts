@@ -1,16 +1,17 @@
 import {IDraggableGate, IGate, IGateExtension} from "../../common/interfaces";
 
-
 // SELECTED GATE OPERATIONS
 export const INIT_SELECTED_STANDARD_GATE_ACTION = "INIT_SELECTED_STANDARD_GATE";
 export const UPDATE_SELECTED_STANDARD_GATE_ACTION = "UPDATE_SELECTED_STANDARD_GATE";
 export const UPDATE_DEFAULT_STANDARD_GATE_ACTION = "UPDATE_DEFAULT_STANDARD_GATE";
 export const UPDATE_GATE_SELECT_MODE_ACTION = "UPDATE_GATE_SELECT_MODE";
+export const UPDATE_SELECTED_GATE_ID_ACTION = "UPDATE_SELECTED_GATE_ID";
 
 // DROPPED GATES OPERATIONS
 export const ADD_DROPPED_GATE_ACTION = "ADD_DROPPED_GATE";
 export const REMOVE_DROPPED_GATE_ACTION = "REMOVE_DROPPED_GATE";
 export const UPDATE_DROPPED_GATE_ACTION = "UPDATE_DROPPED_GATE";
+
 // DRAGGING GATE OPERATIONS
 export const UPDATE_DRAGGING_GATE_ACTION = "UPDATE_DRAGGING_GATE";
 export const REMOVE_DRAGGING_GATE_ACTION = "REMOVE_DRAGGING_GATE";
@@ -19,10 +20,17 @@ export const UPDATE_DRAGGING_GATE_POSITION = "UPDATE_DRAGGING_GATE_POSITION"
 // CIRCUIT STATE OPERATIONS
 export const ADD_QUBIT_ACTION = "ADD_QUBIT";
 export const REMOVE_QUBIT_ACTION = "REMOVE_QUBIT";
-
+export const UPDATE_SELECTED_QUBIT_ACTION = "UPDATE_SELECTED_QUBIT";
+export const UPDATE_QUBIT_POSITION_ACTION = "UPDATE_QUBIT_POSITION"
 // DRAGGING GATE EXTENSION OPERATIONS
 export const UPDATE_DRAGGING_GATE_EXTENSION_ACTION= "UPDATE_DRAGGING_GATE_EXTENSION";
 export const UPDATE_DROPPED_GATE_EXTENSION_ACTION="UPDATE_DROPPED_GATE_EXTENSION";
+
+// CIRCUIT RUNNING OPERATIONS
+export const UPDATE_CIRCUIT_RUNNING_STATUS_ACTION = "UPDATE_CIRCUIT_RUNNING_STATUS";
+
+// UPDATE GATE INPUT PARAMETER
+export const UPDATE_GATE_INPUT_VALUE_ACTION = "UPDATE_GATE_INPUT_VALUE_ACTION";
 
 export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
@@ -118,6 +126,24 @@ export const addQubit = () => async (dispatch : any) => {
     }
 }
 
+export const updateSelectedQubit = (id : string) => async (dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_SELECTED_QUBIT_ACTION, payload: id})
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateQubit = (id: string, property :string, value : any) => async (dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_QUBIT_POSITION_ACTION, payload: {id: id, property : property, value: value}});
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
 export const removeQubit = (id : string) => async (dispatch : any) => {
     try {
         dispatch({type: REMOVE_QUBIT_ACTION, payload: {id: id}})
@@ -151,6 +177,25 @@ export const updateDroppedGateExtension = (id : string, property : string, value
 export const updateDroppedGate = (id : string, property : string, value : any) => async (dispatch : any) => {
     try {
         dispatch({type: UPDATE_DROPPED_GATE_ACTION, payload: {id: id, property : property, value : value}})
+
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateCircuitRunningStatus = (status : boolean) => async (dispatch: any) => {
+    try {
+        dispatch({type: UPDATE_CIRCUIT_RUNNING_STATUS_ACTION, payload: status});
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateSelectedGateId = (id : string) => async (dispatch: any) => {
+    try {
+        dispatch({type: UPDATE_SELECTED_GATE_ID_ACTION, payload: {id: id}});
 
     } catch (e) {
         console.log("Error: ", e);

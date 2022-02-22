@@ -1,23 +1,27 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './Grid.module.scss';
 import Qubit from "./Qubit/Qubit";
-import DraggingGate from "../../Gate/DraggingGate/DraggingGate";
-import DroppedGates from "../../Gate/DroppedGates/DroppedGates";
+import DraggingGate from "../../../Gate/DraggingGate/DraggingGate";
+import DroppedGates from "../../../Gate/DroppedGates/DroppedGates";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../redux/reducers/rootReducer";
+import {RootState} from "../../../../../redux/reducers/rootReducer";
 import AddQubitActionBtn from "./Qubit/AddQubitActionBtn";
-import {addQubit, removeQubit} from "../../../../redux/actions/circuitConfigAction";
-import {DIMENSIONS} from "../../../../common/constants";
-import {sleep} from "../../../../common/helpers";
-import GateExtension from "../../GateExtension/GateExtension";
+import {
+    addQubit,
+    removeDroppedGate,
+    removeQubit,
+    updateSelectedQubit
+} from "../../../../../redux/actions/circuitConfigAction";
+import {DIMENSIONS} from "../../../../../common/constants";
+import {sleep} from "../../../../../common/helpers";
+import GateExtension from "../../../GateExtension/GateExtension";
 
 
 
 
 
 const Grid : React.FC = () => {
-    const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
-    const [selectedQubitId, setSelectedQubitId] = useState("");
+    const {circuitState, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     const gridRef : any = useRef(null);
     const [gridPosition, setGridPosition] = useState({
         x : 0,
@@ -30,7 +34,12 @@ const Grid : React.FC = () => {
     }
 
     const handleQubitSelected = (qubitId : string) => {
-       setSelectedQubitId(qubitId);
+        if (selectedQubitId === qubitId) {
+            dispatch(updateSelectedQubit(""));
+        } // unselect if already selected
+        else {
+            dispatch(updateSelectedQubit(qubitId));
+        }
     }
 
     useEffect( () => {
@@ -38,6 +47,11 @@ const Grid : React.FC = () => {
             if (event.keyCode === 46) //DELETE KEY
             {
                 dispatch(removeQubit(selectedQubitId));
+                circuitState.droppedGates.forEach((gate, index) => {
+                    if (gate.qubitIds.includes(selectedQubitId)) {
+                        dispatch(removeDroppedGate(gate.id));
+                    }
+                })
             }
         };
         window.addEventListener('keydown', handleQubitDeleted);
@@ -45,6 +59,19 @@ const Grid : React.FC = () => {
             window.removeEventListener('keydown', handleQubitDeleted);
         }
     }, [selectedQubitId]);
+
+    useEffect( () => {
+        const handleGateDeleted = async (event : any) => {
+            if (event.keyCode === 46) //DELETE KEY
+            {
+                dispatch(removeDroppedGate(selectedGateId));
+            }
+        };
+        window.addEventListener('keydown', handleGateDeleted);
+        return () => {
+            window.removeEventListener('keydown', handleGateDeleted);
+        }
+    }, [selectedGateId]);
 
     const showGridPattern = () => {
         return  (<>
@@ -68,8 +95,10 @@ const Grid : React.FC = () => {
     }
 
     return (
-        <svg className={styles.grid} ref={gridRef}>
-            {showGridPattern()}
+        <svg className={styles.grid} ref={gridRef}
+             // viewBox="0, 350, 1500, 200" //TODO: copy this setting for circuitArrangement
+        >
+            {/*{showGridPattern()}*/}
         {
             circuitState.qubits.map((qubit, index) => {
 

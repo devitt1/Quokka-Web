@@ -9,6 +9,13 @@
     stroke-linecap: square;
   }
 
+  .qubitSelectedBoundingBox {
+    stroke-width: 2;
+    z-index: 2;
+    stroke: #5C7DFF;
+    border-radius: 4px;
+    fill: transparent;
+  }
   .addQubitActionBtn {
   }
 

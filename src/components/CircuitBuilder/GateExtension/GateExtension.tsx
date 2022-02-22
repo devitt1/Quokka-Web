@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './GateExtension.module.scss'
 import {DIMENSIONS} from "../../../common/constants";
 import {GateExtTypes} from "../../../common/types";
-import {IGateExtension} from "../../../common/interfaces";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../redux/reducers/rootReducer";
 import {updateDroppedGate, updateDroppedGateExtension} from "../../../redux/actions/circuitConfigAction";
+import {RootState} from "../../../redux/reducers/rootReducer";
 
 interface GateExtensionProps {
     gateId : string;
@@ -22,11 +21,12 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
 
     const gateExtRef : any = useRef(null);
     const {gateX, gateY, targetY, onTargetMove, onTargetDragEnd, type, gateId, droppedFromMenu} = props;
+    const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
     const relativePos = `translate(0,0)`
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (droppedFromMenu) {
+        if (droppedFromMenu && type === 'CNOT_TARGET') {
             document.addEventListener('mousemove', handleTargetMouseMove.current);
         }
         return () => {
@@ -48,11 +48,21 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
 
     const handleTargetMouseUp = (e : any) => {
         document.removeEventListener('mousemove', handleTargetMouseMove.current);
-        const newY = Math.floor(e.clientY / 64) * 64 - 168 + DIMENSIONS.STD_GATE.HEIGHT/2;
-        dispatch(updateDroppedGateExtension(gateId, 'targetY', newY))
+        const newY = Math.floor(e.clientY / DIMENSIONS.GRID.HEIGHT) * DIMENSIONS.GRID.HEIGHT - 170 + DIMENSIONS.STD_GATE.HEIGHT/2;
+        dispatch(updateDroppedGateExtension(gateId, 'targetY', newY));
+        console.log(circuitState);
+        console.log(getQubitIdFromYCoordinate(newY)?.id);
+        dispatch(updateDroppedGateExtension(gateId, 'qubitId', getQubitIdFromYCoordinate(newY)?.id))
         dispatch(updateDroppedGate(gateId, 'droppedFromMenu', false));
         onTargetMove(false);
         onTargetDragEnd(newY);
+    }
+
+    const getQubitIdFromYCoordinate = (y : number) => {
+        return circuitState.qubits.find((item) => {
+            console.log(`item y ${item.y}, y ${y}`);
+            return item.y === y;
+        });
     }
 
     const renderGateExt = (type : GateExtTypes) => {
