@@ -3,6 +3,8 @@ export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT'];
 export type StandardGateTypes = typeof ALL_STD_GATES;
 export type GateTypes = StandardGateTypes[number];
 export type GateExtTypes = 'CNOT_TARGET' | 'None';
-export type ModalType = 'LoginModal' | 'ConnectionModal' | 'RunCircuitModal';
+export type ModalType = 'LoginModal' | 'ConnectionModal' | 'RunCircuitModal'
+    | 'EditGateInputModal';
 export type ModalState = 'StartConnection' | 'Connecting' | 'Connected'
-| 'StartRunCircuit' | 'RunningCircuit' | 'CompletedRunCircuit';
+| 'StartRunCircuit' | 'RunningCircuit' | 'CompletedRunCircuit' |
+    'StartEnterInput';
