@@ -21,12 +21,21 @@ class QsimAPIService {
 
 
     createQASMGateScript = (qubits : IQubit[], gate : IGate) => {
-        var qasmGateScript = "";
-        // if (gate.qubitIds.length === 1) {
-        qasmGateScript = `\n${gate.toQASM()} q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
-        // }
-        console.log("qasmGateScript=", qasmGateScript)
-        return qasmGateScript;
+        try {
+            var qasmGateScript = "";
+            if (gate.type === 'CNOT') {
+                qasmGateScript = `\ncx q[${this.findQubitIndex(gate.qubitIds[0], qubits)}], q[${this.findQubitIndex(gate.gateExtension.qubitId, qubits)}];`;
+
+            } else {
+                qasmGateScript = `\n${gate.toQASM()} q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
+            }
+            console.log("qasmGateScript=", qasmGateScript)
+            return qasmGateScript;
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+
     }
 
 

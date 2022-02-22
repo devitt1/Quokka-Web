@@ -1,5 +1,6 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
 import {
+    IBaseClass,
     IBuildOutput,
     ICoordinate,
     IDraggableGate,
@@ -11,7 +12,7 @@ import {
 } from "./interfaces";
 import {GateExtTypes, GateTypes, ModalState, ModalType} from "./types";
 import {v4} from 'uuid';
-import {ModalsState} from "../redux/reducers/modalsReducer";
+import {DIMENSIONS} from "./constants";
 
 export class DeviceConnection implements DeviceConnectionState {
     connected: boolean;
@@ -22,14 +23,21 @@ export class DeviceConnection implements DeviceConnectionState {
     }
 }
 
-export class Gate implements IGate {
+export class BaseClass implements IBaseClass {
     id : string;
+    constructor() {
+        this.id = v4();
+    }
+}
+
+
+export class Gate extends BaseClass implements IGate {
     x: number;
     y: number;
     width: number;
     height: number;
     type: GateTypes;
-    rotAngle : string;
+    rotAngle? : string | null;
     qubitIds : string[];
     gateExtension : IGateExtension;
     droppedFromMenu : boolean;
@@ -41,41 +49,39 @@ export class Gate implements IGate {
         height : number,
         qubitIds : string[],
         type: GateTypes,
-        rotAngle : string,
         gateExtension : IGateExtension,
         droppedFromMenu : boolean,
-        ) {
-        this.id = v4();
-       this.qubitIds = qubitIds;
-       this.x = x;
-       this.y = y;
-       this.width = width;
-       this.height = height;
-       this.type = type;
-       this.rotAngle = rotAngle;
-       this.gateExtension = gateExtension
+        rotAngle? : string | null,
+    ) {
+        super();
+        this.qubitIds = qubitIds;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.type = type;
+        this.rotAngle = rotAngle;
+        this.gateExtension = gateExtension
         this.droppedFromMenu = droppedFromMenu;
     }
 
     public toQASM () {
-        const qasmGateScript = `${this.type.toLowerCase()}(${this.rotAngle})`;
+        var qasmGateScript : string;
+        if (this.type === 'CNOT') {
+            qasmGateScript = `cx`;
+        } else if (this.rotAngle === null) {
+            qasmGateScript = `${this.type.toLowerCase()}`;
+        } else {
+            qasmGateScript = `${this.type.toLowerCase()}(${this.rotAngle})`;
+        }
         console.log("qasmGateScript=", qasmGateScript)
         return qasmGateScript;
     }
 }
 
-export class DraggableGate implements IDraggableGate {
-    id : string;
-    x: number;
-    y: number;
+
+export class DraggableGate extends Gate implements IDraggableGate {
     dragStartPosition : ICoordinate;
-    width: number;
-    height: number;
-    qubitIds : string[];
-    type: GateTypes;
-    rotAngle : string;
-    gateExtension : IGateExtension;
-    droppedFromMenu : boolean;
     constructor(
         x: number,
         y: number,
@@ -84,45 +90,27 @@ export class DraggableGate implements IDraggableGate {
         height : number,
         qubitIds : string[],
         type: GateTypes,
-        rotAngle : string,
-        gateExtension : IGateExtension, droppedFromMenu : boolean) {
-        this.id = v4();
-        this.x = x;
-        this.y = y;
-        this.qubitIds = qubitIds;
+        gateExtension : IGateExtension,
+        droppedFromMenu : boolean,
+        rotAngle? : string | null) {
+        super(x, y, width, height,qubitIds, type,
+            gateExtension, droppedFromMenu, rotAngle);
         this.dragStartPosition = dragStartPosition;
-        this.width = width;
-        this.height = height;
-        this.type = type;
-        this.rotAngle = rotAngle;
-        this.gateExtension = gateExtension;
-        this.droppedFromMenu = droppedFromMenu;
     }
 }
 
-export class GateExtension implements IGateExtension {
-    id: string;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
+
+
+export class GateExtension extends BaseClass implements IGateExtension {
     targetY : number;
     qubitId : string;
     type: GateExtTypes;
 
-    constructor(x: number,
-                y:number,
-                width: number,
-                height: number,
-                targetY : number,
-                qubitId : string,
-                type: GateExtTypes
-    ) {
-        this.id = v4();
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    constructor(
+        targetY : number,
+        qubitId : string,
+        type: GateExtTypes) {
+        super();
         this.targetY = targetY;
         this.qubitId = qubitId;
         this.type = type;
@@ -130,61 +118,63 @@ export class GateExtension implements IGateExtension {
 
 }
 
-export class Qubit implements IQubit {
-    id: string;
+export class Qubit extends BaseClass implements IQubit {
+    y : number;
     size : number;
     qubitCells: IQubitCell[];
+
     constructor(size : number) {
-        this.id = v4();
+        super();
+        this.y = 0;
         this.size = size;
         const cols = Array.from(Array(size).keys());
         var tempQubitCells = [] as IQubitCell[];
         cols.map((col) => {
-            tempQubitCells.push(new QubitCell(48 * col))
+            tempQubitCells.push(new QubitCell(DIMENSIONS.GRID.WIDTH * col))
         })
         this.qubitCells = tempQubitCells;
     }
 }
 
-export class QubitCell implements IQubitCell {
-    id: string;
+export class QubitCell extends BaseClass implements IQubitCell {
     x: number;
 
     constructor(x : number) {
-        this.id = v4();
+        super();
         this.x = x;
     }
 }
 
-export class Modal implements IModal {
-    id: string;
+export class Modal extends BaseClass implements IModal {
     type : ModalType;
     state : ModalState;
+    extras? : any;
 
     constructor(
         type : ModalType,
-        state : ModalState
+        state : ModalState,
+        extras? : any
     ) {
-        this.id = v4();
+        super();
         this.type = type;
         this.state = state;
+        this.extras = extras;
 
     }
 }
 
-export class BuildOutput implements IBuildOutput {
-    id: string;
+export class BuildOutput extends BaseClass implements IBuildOutput {
     name: string;
-    output: string;
+    outputData: number[][];
     runDuration: number;
     buildCircuitArrangement: string;
 
     constructor(name: string,
-                output: string, runDuration: number,
+                outputData: number[][], runDuration: number,
                 buildCircuitArrangement: string) {
-        this.id = v4();
+        super();
         this.name = name;
-        this.output = output;
+        this.outputData = outputData;
         this.runDuration = runDuration;
         this.buildCircuitArrangement = buildCircuitArrangement;
     }
