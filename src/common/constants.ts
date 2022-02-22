@@ -42,6 +42,8 @@ export const ROUTES = {
     SETUP : "/setup",
     CIRCUIT_BUILDER: "/circuitBuilder",
     CIRCUIT_OUTPUT: "/circuitOutput",
+    SAVED_FILES: "/account/savedFiles",
+
     BUILD_OUTPUT: "/buildOutput",
     LOGIN: "/login",
     PAGE_NOT_FOUND: "*"
