@@ -14,6 +14,7 @@ import Cursor from "./components/Cursor/Cursor";
 import ModalContainer from "./components/ModalContainer/ModalContainer";
 import BuildOutputView from "./components/CircuitOutput/BuildOutputView/BuildOutputView";
 import {ROUTES} from "./common/constants";
+import SavedFiles from "./components/SavedFiles/SavedFiles";
 function App() {
   return (
     <div className={styles.App}>
@@ -28,8 +29,10 @@ function App() {
                     <Route path={ROUTES.SETUP} element={<Setup/>}/>
                     <Route path={ROUTES.CIRCUIT_BUILDER} element={<CircuitBuilder/>}/>
                     <Route path={ROUTES.CIRCUIT_OUTPUT} element={<CircuitOutput/>}/>
+                    <Route path={ROUTES.SAVED_FILES} element={<SavedFiles/>}/>
                     <Route path={ROUTES.LOGIN} element={<LoginOrCreateAccount/>} />
                     <Route path={`${ROUTES.CIRCUIT_OUTPUT}${ROUTES.BUILD_OUTPUT}/:buildId`} element={<BuildOutputView/>}/>
+                    <Route path={``} element={<About/>}/>
                     <Route path="*" element={<PageNotFound/>}/>
 
                 </Routes>
