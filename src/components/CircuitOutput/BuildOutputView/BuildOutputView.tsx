@@ -4,13 +4,15 @@ import {useLocation} from "react-router-dom";
 import {IBuildOutput} from "../../../common/interfaces";
 import Accordion from "../../Accordion/Accordion";
 import BuildOutputChart from "./BuildOutputChart/BuildOutputChart";
+import Grid from "../../CircuitBuilder/CircuitConfig/CircuitArrangement/Grid/Grid";
+import CircuitArrangement from "../../CircuitBuilder/CircuitConfig/CircuitArrangement/CircuitArrangement";
 
 interface BuildOutputViewProps {
 }
 
 
 
-const BuildOutputView : React.FC<BuildOutputViewProps> = (children) => {
+const BuildOutputView : React.FC<BuildOutputViewProps> = (props) => {
     const location = useLocation();
     const buildOutput = location.state as IBuildOutput;
 
@@ -25,9 +27,10 @@ const BuildOutputView : React.FC<BuildOutputViewProps> = (children) => {
             </div>
         </div>
         <Accordion title={'View Circuit Arrangement'}>
-            <p>This is circuit arrangement</p>
+            {/*<p>This is circuit arrangement</p>*/}
+            <Grid/>
         </Accordion>
-        <BuildOutputChart/>
+        <BuildOutputChart outputData={buildOutput.outputData}/>
     </div>
 }
 

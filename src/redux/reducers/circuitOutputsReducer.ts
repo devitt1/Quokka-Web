@@ -1,7 +1,7 @@
 import {Payload} from "../../common/types";
 import {IBuildOutput} from "../../common/interfaces";
 import {BuildOutput} from "../../common/classes";
-import {INIT_CIRCUIT_OUTPUTS_ACTION} from "../actions/circuitOutputsAction";
+import {ADD_BUILD_OUTPUT_ACTION, INIT_CIRCUIT_OUTPUTS_ACTION} from "../actions/circuitOutputsAction";
 
 export interface CircuitOutputsState {
     buildOutputs : IBuildOutput[]
@@ -11,17 +11,17 @@ const initialCircuitOutputsState = {
     buildOutputs : [
         new BuildOutput(
             'First',
-            'buildOutput#1',
+            [[0,1], [0,1]],
             5,
             'buildArrangement#1'
         ), new BuildOutput(
             'Second',
-            'buildOutput#2',
+            [[0,1], [1,0]],
             10,
             'buildArrangement#2'
         ),   new BuildOutput(
             'Third',
-            'buildOutput#3',
+            [[0, 0], [0,0]],
             15,
             'buildArrangement#3'
         )
@@ -35,6 +35,11 @@ function circuitOutputsReducer (state = initialCircuitOutputsState, action: Payl
             return {
                 ...state,
                 initialCircuitOutputsState
+            }
+        case ADD_BUILD_OUTPUT_ACTION:
+            return {
+                ...state,
+                buildOutputs: [...state.buildOutputs, action.payload]
             }
         default:
             return state;

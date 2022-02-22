@@ -1,41 +1,84 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './BuildOutputChart.module.scss';
-import {BarChart as CustomBarChart} from "../../../BarChart/BarChart";
 import {ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Cell, Label} from "recharts";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../redux/reducers/rootReducer";
+import _ from 'lodash';
 
 
-export const mockedData = [
-    {
-        key : "000",
-        value: 0
-    },
-    {
-        key : "001",
-        value: 50
-    },
-    {
-        key : "010",
-        value: 100
-    },
-    {
-        key : "011",
-        value: 200
-    },
-    {
-        key: "100",
-        value : 700
-    },
-    {
-        key : "110",
-        value: 150
-    },
-    {
-        key : "111",
-        value: 25
-    }
+
+const mockedRawData : number[][] = [
+    [0, 1],
+    [0, 1],
+    [0, 0],
+    [0, 1],
+    [0, 1],
+    [0, 1],
+    [0, 1],
+    [0, 1],
+    [0, 1],
+    [0, 1],
 ]
 
-const BuildOutputChart : React.FC = () => {
+/**
+ * key: output data
+ * value: number of occurrence
+ */
+interface IBinaryState {
+    key : string,
+    value : number
+}
+
+const generateBinaryStates = (numQubits : number) => {
+    if (numQubits > 10) return; //if numQubits too high too many combinations...
+    var states : string [] = [];
+    var binaryStates : IBinaryState[] | undefined = [] as IBinaryState[];
+    var maxDecimal = parseInt("1".repeat(numQubits),2);
+    // For every number between 0-> decimal
+    for(var i = 0; i <= maxDecimal; i++){
+        // Convert to binary, pad with 0, and add to final resultState : IBinaryStates
+        const state = i.toString(2).padStart(numQubits,'0');
+        states.push(state);
+        binaryStates.push({
+            key: state,
+            value : 0
+        } as IBinaryState)
+    }
+    return binaryStates;
+}
+
+interface BuildOutputChartProps {
+    outputData : number[][]
+}
+
+const BuildOutputChart : React.FC <BuildOutputChartProps> = (props) => {
+    const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
+    const [data, setData]= useState<IBinaryState[]>([]);
+    const {outputData} = props;
+
+    useEffect(() => {
+        convertRawDataToBinaryStates(outputData);
+    }, [])
+
+    const convertRawDataToBinaryStates = (mockedRawDataArray : number[][]) => {
+        const resultBinaryStates = generateBinaryStates(circuitState.qubits.length);
+
+        mockedRawDataArray.map((innerArrayItem, index) =>
+        {
+            const rawDataState = innerArrayItem.join('');
+            resultBinaryStates?.forEach((resultState, resultStateIndex) => {
+                if (rawDataState === resultState.key) {
+                    _.set(resultBinaryStates, resultStateIndex, {
+                        key: resultState.key,
+                        value : resultState.value + 1 || 1
+                    })
+                }
+            })
+        });
+
+        if (resultBinaryStates) setData(resultBinaryStates);
+    }
+
 
     const VerticalLabel = (props : any) => {
         const values = props.value.split(" ");
@@ -50,10 +93,10 @@ const BuildOutputChart : React.FC = () => {
             >
 
                 {
-                    values.map((value :any) => {
+                    values.map((value :any, index: number) => {
                         return value === values[0] ?
-                            <tspan x={cx} dy='1.6em'>{value}</tspan> :
-                            <tspan x={cx} dy='1.6em'>{value}</tspan>
+                            <tspan key={value + index} x={cx} dy='1.6em'>{value}</tspan> :
+                            <tspan key={value + index} x={cx} dy='1.6em'>{value}</tspan>
                     })
                 }
             </text>
@@ -65,40 +108,48 @@ const BuildOutputChart : React.FC = () => {
         return `|${tickItem.toLocaleString()}⟩`
     }
 
+    const renderBarChart = (data : IBinaryState[]) => {
+        return <BarChart
+            width={500}
+            height={435}
+            data={data}>
+            <XAxis
+                tickLine={false}
+                stroke="#D3DCED"
+                tickFormatter={formatTick}
+                strokeWidth={2}
+                tick={{ fill: 'black' }}
+
+                dataKey="key"/>
+            <YAxis
+                tickLine={false}
+                stroke="#D3DCED"
+                tick={{ fill: 'black' }}
+                strokeWidth={2}>
+                <Label
+                    content={VerticalLabel}
+                    value="Measurement"
+                    position="left">
+
+                </Label>
+
+            </YAxis>
+            <Tooltip cursor={{fill: 'transparent'}} content={<CustomTooltip/>} />
+            <Bar dataKey="value" >
+                {
+                    data?.map((entry, index) => (<Cell key={`cell-${index}`} fill="#576C95"/>))
+                }
+            </Bar>
+        </BarChart>
+    }
+
     return <div className={styles.buildOutputChart}>
-        <ResponsiveContainer width="95%" height="90%" aspect={2.4}>
-            <BarChart
-                width={500}
-                height={435}
-                data={mockedData}>
-                <XAxis
-                    tickLine={false}
-                    stroke="#D3DCED"
-                    tickFormatter={formatTick}
-                    strokeWidth={2}
-                    tick={{ fill: 'black' }}
+        <ResponsiveContainer width="95%" height="90%" aspect={2.8}>
+            {
+                data.length !== 0 ? renderBarChart(data) :
+                <p>No data available</p>
+            }
 
-                    dataKey="key"/>
-                <YAxis
-                    tickLine={false}
-                    stroke="#D3DCED"
-                    tick={{ fill: 'black' }}
-                    strokeWidth={2}>
-                    <Label
-                        content={VerticalLabel}
-                        value="Measurement"
-                        position="left">
-
-                    </Label>
-
-                </YAxis>
-                <Tooltip cursor={{fill: 'transparent'}} content={<CustomTooltip/>} />
-                <Bar dataKey="value" >
-                    {
-                       mockedData.map((entry, index) => (<Cell key={`cell-${index}`} fill="#576C95"/>))
-                    }
-                </Bar>
-            </BarChart>
         </ResponsiveContainer>
     </div>
 }

@@ -8,13 +8,13 @@ import {ROUTES} from "../../../common/constants";
 interface BuildOutputProps {
     id : string;
     name : string;
-    output : string;
+    outputData : number[][];
     runDuration : number;
 }
 
 const BuildOutput : React.FC<BuildOutputProps> = (children) => {
 
-    const {id, name, runDuration} = children;
+    const {id, name, outputData, runDuration} = children;
 
     const handleViewOutputClicked = () => {
         console.log('View output clicked');

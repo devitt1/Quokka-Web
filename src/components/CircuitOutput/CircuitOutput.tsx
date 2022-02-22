@@ -18,7 +18,7 @@ const CircuitOutput : React.FC = () => {
                             key={buildOutput.id}
                             id={buildOutput.id}
                             name={buildOutput.name}
-                            output={buildOutput.name}
+                            outputData={buildOutput.outputData}
                             runDuration={buildOutput.runDuration}
                         />
                     })
