@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import useMousePosition from "../hooks/useMousePosition";
 import styles from './Cursor.module.scss';
-import x_gate from '../../assets/x_gate.svg';
 import {CursorContext} from "../Providers/CursorContextProvider";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
@@ -35,11 +34,12 @@ const Cursor : React.FC = () => {
             className={styles.cursor}
         >
             {
-                // cursor.attached ?  renderGate(circuitConfig.selectedStandardGate) : null
                 cursor.attached
                     ?
                     <CursorAttachment>
-                        <Gate x={clientX} y={clientY}
+                        <Gate
+                              id=""
+                              x={clientX} y={clientY}
                               width={40} height={38}
                               type={circuitConfig.selectedStandardGate}
                               rotAngle='pi/2'
@@ -47,8 +47,8 @@ const Cursor : React.FC = () => {
                     </CursorAttachment>
                     : null
             }
-            <p>{clientX}</p>
-            <p>{clientY}</p>
+            {/*<p>{clientX}</p>*/}
+            {/*<p>{clientY}</p>*/}
         </div>
     );
 };
