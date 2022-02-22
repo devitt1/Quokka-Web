@@ -13,7 +13,7 @@ const ModalContainer : React.FC = () => {
     return ReactDOM.createPortal(<div className={styles.modalContainer}>
         {
             modals.map((modal, index) => {
-                return <Modal key={modal.id} id={modal.id} type={modal.type} state={modal.state}/>
+                return <Modal key={modal.id} id={modal.id} type={modal.type} state={modal.state} extras={modal.extras}/>
             })
         }
     </div>, document.querySelector('#modal') as Element);

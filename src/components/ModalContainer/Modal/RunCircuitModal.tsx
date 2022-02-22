@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Modal.module.scss';
 import {ModalState} from "../../../common/types";
-import logo from "../../../assets/logo.svg";
 import {ModalProps} from "./Modal";
 import {closeModal} from "../../../redux/actions/modalsAction";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import APIClient from "../../../api/APIClient";
+import {updateCircuitRunningStatus} from "../../../redux/actions/circuitConfigAction";
+import {BuildOutput} from "../../../common/classes";
+import {addBuildOutput} from "../../../redux/actions/circuitOutputsAction";
 
 const RunCircuitModal : React.FC<ModalProps> = (props) => {
     const [modalState, setModalState] = useState(props.state);
     const [circuitRunCount, setCircuitRunCount] = useState(0);
     const [runEstimatedDuration, setRunEstimatedDuration] = useState(0);
     const [runOutput, setRunOutput] = useState("");
+    const [qasmScriptString, setQASMScriptString] = useState("");
     const apiClient : APIClient = new APIClient();
     const dispatch = useDispatch();
     const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
@@ -25,7 +28,7 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
 
     const handleInputChanged = (event : any) => {
         const runCountValue = parseInt(event.target.value);
-        const estimatedTimeValue = (3.021*Math.pow(10, -7) * Math.exp(0.6204 * circuitConfig.circuitState.numQubits));
+        const estimatedTimeValue = (3.021*Math.pow(10, -7) * Math.exp(0.6204 * circuitConfig.circuitState.qubits.length));
         console.log(estimatedTimeValue);
         setRunEstimatedDuration(estimatedTimeValue);
         setCircuitRunCount(runCountValue);
@@ -38,8 +41,18 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
         console.log("run btn clicked!");
         const qasmScript = apiClient.qsimAPIService.createQASMScript(circuitConfig.circuitState.qubits,
             circuitConfig.circuitState.droppedGates);
-        const result = await apiClient.qsimAPIService.runQASMScript(qasmScript, circuitRunCount, false);
-        setRunOutput(JSON.stringify(result.data.result.c));
+        dispatch(updateCircuitRunningStatus(true));
+        dispatch(closeModal(props.id));
+        const response = await apiClient.qsimAPIService.runQASMScript(qasmScript, circuitRunCount, false);
+        setQASMScriptString(qasmScript);
+        setRunOutput(JSON.stringify(response.data.result.c));
+        createNewBuildOutput(response.data.result.c);
+        dispatch(updateCircuitRunningStatus(false));
+    }
+
+    const createNewBuildOutput = (outputData : number[][]) => {
+        const newBuildOutput = new BuildOutput('New Untitled Circuit', outputData, runEstimatedDuration, `buildArrangement`);
+        dispatch(addBuildOutput(newBuildOutput));
     }
 
     const handleCancelBtnClicked = async () => {
@@ -67,8 +80,11 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
                             Run
                         </button>
                     </div>
-                    <p>Run output</p>
-                    <p>{runOutput}</p>
+
+                    {/*<h4>QASM script string</h4>*/}
+                    {/*<p>{qasmScriptString}</p>*/}
+                    {/*<h4>Run output</h4>*/}
+                    {/*<p>{runOutput}</p>*/}
                 </div>)
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
