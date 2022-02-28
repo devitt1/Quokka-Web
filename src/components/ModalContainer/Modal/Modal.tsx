@@ -4,6 +4,8 @@ import {ModalState, ModalType} from "../../../common/types";
 import ConnectionModal from "./ConnectionModal";
 import RunCircuitModal from "./RunCircuitModal";
 import EditGateInputModal from "./EditGateInputModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
+import SaveCircuitModal from "./SaveCircuitModal";
 
 export interface ModalProps {
     id: string,
@@ -29,6 +31,10 @@ export const Modal : React.FC<ModalProps> = (children) => {
                 return <div className={styles.content}>
                     <h1> Login Modal </h1>
                 </div>
+            case "ForgotPasswordModal":
+                return <ForgotPasswordModal id={id} type={type} state={state}/>;
+            case "SaveCircuitModal":
+                return <SaveCircuitModal id={id} type={type} state={state}/>
             default:
                 return <div></div>
         }

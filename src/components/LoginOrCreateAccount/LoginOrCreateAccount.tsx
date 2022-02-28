@@ -3,7 +3,17 @@ import styles from './LoginOrCreateAccount.module.scss';
 import {NavLink} from "react-router-dom";
 import logo from '../../assets/logo.svg'
 import underlay_quokka_icon from '../../assets/underlay_quokka_icon.svg';
+import {useDispatch} from "react-redux";
+import {openModal} from "../../redux/actions/modalsAction";
+import {Modal} from "../../common/classes";
 const LoginOrCreateAccount : React.FC = () => {
+
+    const dispatch = useDispatch();
+
+    const handleForgotButtonClicked = () => {
+        dispatch(openModal(new Modal('ForgotPasswordModal', 'EmailPasswordEntry')));
+    }
+
     return (
         <div className={styles.container}>
             <img src={underlay_quokka_icon}/>
@@ -14,7 +24,7 @@ const LoginOrCreateAccount : React.FC = () => {
                     <input placeholder="Email Address" className={styles.emailInput} />
                     <input placeholder="Password" className={styles.passwordInput}/>
                     <button className={styles.loginBtn}>Login</button>
-                    <button className={styles.forgotBtn}>Forgot Password?</button>
+                    <button className={styles.forgotBtn} onClick={handleForgotButtonClicked}>Forgot Password?</button>
 
                 </div>
                 <div className={styles.createAccount}>

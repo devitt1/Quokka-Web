@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import APIClient from "../../../api/APIClient";
 import {ModalState} from "../../../common/types";
 import {ModalProps} from "./Modal";
+import {Button} from "../../Button/Button";
 
 
 const ConnectionModal : React.FC<ModalProps>= (props) => {
@@ -52,11 +53,11 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                         onKeyDown={handleKeyDown}
                         placeholder="Device name"
                     />
-
-                    <button onClick={async () => handleConnectBtnClicked()}>
-                        Connect
-                    </button>
-
+                    <div className={styles.buttonGroup}>
+                        <Button selected={false} name='Connect' onClick={async() => handleConnectBtnClicked()}
+                                types={['standardBtn']}
+                        />
+                    </div>
                 </div>)
             case 'Connecting':
                 return (
