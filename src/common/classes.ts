@@ -64,19 +64,6 @@ export class Gate extends BaseClass implements IGate {
         this.gateExtension = gateExtension
         this.droppedFromMenu = droppedFromMenu;
     }
-
-    public toQASM () {
-        var qasmGateScript : string;
-        if (this.type === 'CNOT') {
-            qasmGateScript = `cx`;
-        } else if (this.rotAngle === null) {
-            qasmGateScript = `${this.type.toLowerCase()}`;
-        } else {
-            qasmGateScript = `${this.type.toLowerCase()}(${this.rotAngle})`;
-        }
-        console.log("qasmGateScript=", qasmGateScript)
-        return qasmGateScript;
-    }
 }
 
 

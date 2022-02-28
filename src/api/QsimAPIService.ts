@@ -1,5 +1,6 @@
 import {AxiosInstance} from "axios";
 import {ICircuitState, IGate, IQASMRequestBody, IQubit} from "../common/interfaces";
+import {gateToQASM} from "../common/helpers";
 
 class QsimAPIService {
     private readonly axios: AxiosInstance;
@@ -18,8 +19,6 @@ class QsimAPIService {
         return `OPENQASM 2.0;\nqreg q[${qubits.length}];\ncreg c[${qubits.length}];${qasmGatesScript}\nmeasure q -> c;`;
     }
 
-
-
     createQASMGateScript = (qubits : IQubit[], gate : IGate) => {
         try {
             var qasmGateScript = "";
@@ -27,7 +26,7 @@ class QsimAPIService {
                 qasmGateScript = `\ncx q[${this.findQubitIndex(gate.qubitIds[0], qubits)}], q[${this.findQubitIndex(gate.gateExtension.qubitId, qubits)}];`;
 
             } else {
-                qasmGateScript = `\n${gate.toQASM()} q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
+                qasmGateScript = `\n${gateToQASM(gate)} q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
             }
             console.log("qasmGateScript=", qasmGateScript)
             return qasmGateScript;
