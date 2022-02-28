@@ -1,62 +1,25 @@
-@import "../../common/global.scss";
 
 .dropdown {
-  button {
-    @include text-semibold-small;
-    @include toolbar-gate-dropdown;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  font-family: Lato, sans-serif;
+  justify-content: space-between;
+  font-weight: 800;
+  row-gap: 15px;
+  color: #222225;
+  background: #F8F9FB;
+  line-height: 20px;
+  cursor: default;
 
-    &.roundedRightCorner {
-      @include toolbar-gate-dropdown-rounded-right-corner;
-    }
+  &.accountMenuDropdown {
+    padding-top: 8px;
+    z-index: 999;
+    top: 50px;
+    right: 40px;
+    width: 190px;
+    border-bottom: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 
-    img {
-      margin-left: 6px;
-      width: 10px;
-      height: 10px;
-      align-self: center;
-    }
-
-    &.selected {
-      background: linear-gradient(180deg, #889CC4 0%, #F0F3F7 100%);
-      border-bottom-right-radius: 0px;
-      border-top-right-radius: 0px;
-    }
-
-    &:hover{
-      background: linear-gradient(180deg, #C6CCD9 0%, #F2F5F9 100%);
-
-    }
   }
-
-  .dropdownList {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    width: 140px;
-    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
-    z-index: 2;
-    .dropdownItem {
-      display: flex;
-      width: 126px;
-      height: 31px;
-      text-align: start;
-      vertical-align: center;
-      align-items: center;
-      padding-left: 15px;
-      font-family: 'lato';
-      font-size: 12px;
-      font-weight: 400;
-      cursor: pointer;
-      background-color: #f0f3f7;
-
-      &:hover {
-        background-color: #DEE2EA;
-      }
-      p {
-        color: $black;
-      }
-    }
-  }
-
-
 }

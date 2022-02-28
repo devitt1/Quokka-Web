@@ -29,10 +29,16 @@
     display: grid;
     padding: 10px;
 
+    grid-template-columns: 65fr 35fr;
+
     .status {
       display: flex;
       flex-direction: row;
+      grid-row: 1;
+      grid-column: 1;
       align-items: center;
+      justify-content: flex-end;
+      margin-right: 15px;
 
        p {
          @include text-menu-button-small;
@@ -72,66 +78,46 @@
 
     .accountMenu {
       display: flex;
-      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+      grid-row: 1;
+      grid-column: 2;
 
-      img {
-        height: 60%;
-        margin-right: 5px;
+      .loginNavLink {
+        margin-right: 22px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        img {
+          align-self: center;
+          width: 23px;
+          height: 23px;
+          margin-right: 7px;
+        }
+        .loginLbl {
+          color: $black;
+          padding: 0;
+          border: none;
+          background: none;
+          text-decoration: underline;
+          align-self: center;
+          cursor: pointer;
+          @include text-menu-button-small;
+        }
       }
 
       .accountMenuDropdown {
         display: flex;
         flex-direction: row;
-        position: relative;
-        margin-right: 20px;
-        button {
-          &.accountMenuButton {
-            position: relative;
-            border: none;
-            fill: none;
-            width: 44px;
-            height: 14px;
-            text-decoration: underline;
-            cursor: pointer;
-            font-family: 'lato';
-          }
-        }
-      }
-
-      .dropdownList {
-        box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
-        z-index: 2;
-        margin-top: 30px;
-        position: absolute;
-        .dropdownItem {
-          display: flex;
-          width: 120px;
-          height: 100%;
-          text-align: start;
-          vertical-align: center;
-          align-items: center;
-          padding-left: 15px;
-          font-family: 'lato';
-          font-size: 12px;
-          font-weight: 400;
-          cursor: pointer;
-          background-color: #f0f3f7;
-
-          &:hover {
-            background-color: #DEE2EA;
-          }
-          p {
-            color: $black;
-          }
-        }
-      }
-
-      .loginLbl {
+        align-items: center;
         color: $black;
         padding: 0;
         border: none;
         background: none;
         text-decoration: underline;
+        align-self: center;
         cursor: pointer;
         @include text-menu-button-small;
       }
@@ -139,6 +125,7 @@
 
     .navButtons {
       @include text-nav-button;
+      grid-row: 2;
       grid-column: 1 / span 2;
       display: flex;
       align-items: center;

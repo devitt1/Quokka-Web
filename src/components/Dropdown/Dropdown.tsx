@@ -1,60 +1,20 @@
 import React, {useState} from 'react';
 import styles from './Dropdown.module.scss';
-import arrow_down_black from '../../assets/arrow_down_black.svg';
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/reducers/rootReducer";
-import {updateSelectedStandardGate} from "../../redux/actions/circuitConfigAction";
+import {DropdownTypes} from "../../common/types";
 interface DropdownProps {
-    name : string;
-    borderStyle: string;
-    dropdownContent: string[];
+    type?: DropdownTypes
 }
 
 
 export const Dropdown : React.FC<DropdownProps> = (props) => {
-    const dispatch = useDispatch();
-
-    var dropDownBtnStyle = styles.dropdown;
-    const [toggleDropdown, setToggleDropdown] = useState(false);
-    if (props.borderStyle === "roundedRightCorner"){
-        dropDownBtnStyle = styles.roundedRightCorner;
+    const {type, children} = props;
+    const dropdownStyle = [styles.dropdown];
+    if (type === 'accountMenuDropdown') {
+        dropdownStyle.push(styles[type]);
     }
-
-    if (toggleDropdown) {
-        dropDownBtnStyle += ' ' + styles.selected;
-    }
-
-    const handleDropdownClicked = () => {
-        setToggleDropdown(!toggleDropdown);
-
-    }
-
-    const handleDropdownItemClicked = (dropdownItem : string) => {
-        dispatch(updateSelectedStandardGate(dropdownItem));
-    }
-
-    return <div className={styles.dropdown}>
-        <button className={dropDownBtnStyle} onClick={handleDropdownClicked}>
-            {props.name}
-            <img src={arrow_down_black}/>
-        </button>
-
-        {toggleDropdown
-        ?
-            <div className={styles.dropdownList}>
-                {
-                    props.dropdownContent.map((dropdownItem, index) =>
-                        (<div key={index} className={styles.dropdownItem} onClick={() => handleDropdownItemClicked(dropdownItem)}>
-                            <p>{dropdownItem}</p>
-                        </div>)
-                    )
-                }
-            </div>
-            :
-            null
-
+    return <div className={dropdownStyle.join(' ')}>
+        {
+            children
         }
-
-
     </div>
 }
