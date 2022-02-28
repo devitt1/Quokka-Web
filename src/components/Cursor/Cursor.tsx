@@ -11,12 +11,12 @@ import Gate from "../CircuitBuilder/Gate/Gate";
 const Cursor : React.FC = () => {
     const {clientX, clientY } = useMousePosition();
     const {cursor, setCursor} = useContext(CursorContext);
-    const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
+    const {selectedStandardGate, circuitConfigMode} = useSelector((state: RootState) => state.circuitConfig);
     const dispatch = useDispatch();
 
     useEffect(() => {
         // console.log("selected standard gate changes, mode changes");
-            if (circuitConfig.gateSelectMode) {
+            if (circuitConfigMode === 'GateSelectionMode') {
                 // console.log("make cursor attached because select mode is on");
                 setCursor({attached: true});
             }
@@ -26,7 +26,7 @@ const Cursor : React.FC = () => {
                 dispatch(updateDefaultStandardGate());
             }
         },
-        [circuitConfig.selectedStandardGate, circuitConfig.gateSelectMode])
+        [selectedStandardGate, circuitConfigMode])
 
 
     return (
@@ -41,7 +41,7 @@ const Cursor : React.FC = () => {
                               id=""
                               x={clientX} y={clientY}
                               width={40} height={38}
-                              type={circuitConfig.selectedStandardGate}
+                              type={selectedStandardGate}
                               rotAngle='pi/2'
                               isAttachment={true}/>
                     </CursorAttachment>
