@@ -1,0 +1,59 @@
+@import "../../../common/global.scss";
+
+.dropdownList {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+
+  font-family: lato, sans-serif;
+  .dropdownItem {
+    z-index: 2;
+    display: flex;
+    width: 126px;
+    height: 31px;
+    text-align: start;
+    vertical-align: center;
+    align-items: center;
+    padding-left: 15px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    background-color: #f0f3f7;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 0px 4px 4px;
+    &:hover {
+      background-color: #DEE2EA;
+    }
+    p {
+      color: $black;
+    }
+  }
+
+  &.accountMenuDropdown {
+    border-top: 1px solid #DEE2EA;
+    width: 100%;
+    .dropdownItem {
+      z-index: 3;
+      display: flex;
+      width: calc(100% - 26px);
+      height: 31px;
+      align-self: center;
+      text-align: center;
+      vertical-align: center;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 400;
+      cursor: pointer;
+      background-color: #F8F9FB;
+      padding: 5px 13px;
+
+      &:hover {
+        background-color: #DEE2EA;
+      }
+      p {
+        color: $black;
+      }
+    }
+  }
+}
