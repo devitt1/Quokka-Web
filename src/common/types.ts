@@ -3,8 +3,46 @@ export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT'];
 export type StandardGateTypes = typeof ALL_STD_GATES;
 export type GateTypes = StandardGateTypes[number];
 export type GateExtTypes = 'CNOT_TARGET' | 'None';
-export type ModalType = 'LoginModal' | 'ConnectionModal' | 'RunCircuitModal'
-    | 'EditGateInputModal';
-export type ModalState = 'StartConnection' | 'Connecting' | 'Connected'
-| 'StartRunCircuit' | 'RunningCircuit' | 'CompletedRunCircuit' |
-    'StartEnterInput';
+
+export type CircuitConfigMode =
+    | 'NoSelectionMode'
+    | 'GateSelectionMode'
+    | 'CompoundGateCreationMode';
+
+
+export type ModalType =
+    | 'LoginModal'
+    | 'ConnectionModal'
+    | 'RunCircuitModal'
+    | 'EditGateInputModal'
+    | 'ForgotPasswordModal'
+    | 'SaveCircuitModal';
+
+export type ModalState =
+    |'StartConnection'
+    | 'Connecting'
+    | 'Connected'
+    | 'StartRunCircuit'
+    | 'RunningCircuit'
+    | 'CompletedRunCircuit'
+    | 'StartEnterInput'
+    | 'EmailPasswordEntry'
+    | 'EmailPasswordSent'
+    | 'SaveCircuitNameEntry';
+
+export type ButtonTypes =
+    | 'standardBtn'
+    | 'selectGateBtn'
+    | 'circuitBtn'
+    | 'circuitRunBtn'
+    | 'circuitSaveBtn'
+    | 'circuitInstructionBtn'
+    | 'circuitCancelBtn'
+    | 'dropdownBtn'
+    | 'dropdownBtnRoundedRightCorners'
+    | 'imageBtn'
+    | 'accountMenuBtn';
+
+export type DropdownTypes =
+    | 'dropdownList'
+    | 'accountMenuDropdown'
