@@ -9,16 +9,17 @@ import APIClient from "../../../api/APIClient";
 import {updateCircuitRunningStatus} from "../../../redux/actions/circuitConfigAction";
 import {BuildOutput} from "../../../common/classes";
 import {addBuildOutput} from "../../../redux/actions/circuitOutputsAction";
+import {IGate} from "../../../common/interfaces";
+import {Button} from "../../Button/Button";
 
 const RunCircuitModal : React.FC<ModalProps> = (props) => {
     const [modalState, setModalState] = useState(props.state);
     const [circuitRunCount, setCircuitRunCount] = useState(0);
     const [runEstimatedDuration, setRunEstimatedDuration] = useState(0);
-    const [runOutput, setRunOutput] = useState("");
-    const [qasmScriptString, setQASMScriptString] = useState("");
     const apiClient : APIClient = new APIClient();
     const dispatch = useDispatch();
     const circuitConfig = useSelector((state: RootState) => state.circuitConfig);
+    const droppedGates = useSelector<RootState, IGate[]>((state: RootState) => (state.circuitConfig.circuitState.droppedGates));
 
     const handleKeyDown = async (event : any) => {
         if (event.key === 'Enter') {
@@ -38,14 +39,12 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
 
 
     const handleRunBtnClicked = async () => {
-        console.log("run btn clicked!");
+        console.log("run btn clicked! dopped gates", circuitConfig.circuitState.droppedGates);
         const qasmScript = apiClient.qsimAPIService.createQASMScript(circuitConfig.circuitState.qubits,
-            circuitConfig.circuitState.droppedGates);
+            droppedGates);
         dispatch(updateCircuitRunningStatus(true));
         dispatch(closeModal(props.id));
         const response = await apiClient.qsimAPIService.runQASMScript(qasmScript, circuitRunCount, false);
-        setQASMScriptString(qasmScript);
-        setRunOutput(JSON.stringify(response.data.result.c));
         createNewBuildOutput(response.data.result.c);
         dispatch(updateCircuitRunningStatus(false));
     }
@@ -73,18 +72,11 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
                     />
                     <p className={styles.italic}>Estimated processing time = {runEstimatedDuration}</p>
                     <div className={styles.buttonGroup}>
-                        <button onClick={async () => handleCancelBtnClicked()}>
-                            Cancel
-                        </button>
-                        <button onClick={async () => handleRunBtnClicked()}>
-                            Run
-                        </button>
+                        <Button name={'Cancel'} types={['standardBtn']}
+                        onClick={async () => handleCancelBtnClicked()}/>
+                        <Button name={'Run'} types={['standardBtn']}
+                                onClick={async () => handleRunBtnClicked()}/>
                     </div>
-
-                    {/*<h4>QASM script string</h4>*/}
-                    {/*<p>{qasmScriptString}</p>*/}
-                    {/*<h4>Run output</h4>*/}
-                    {/*<p>{runOutput}</p>*/}
                 </div>)
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
