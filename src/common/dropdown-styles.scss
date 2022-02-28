@@ -2,37 +2,3 @@ $lato-font : Lato, sans-serif;
 $roboto-font : Roboto, sans-serif;
 @import './colours.scss';
 
-@mixin toolbar-gate-dropdown {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  border: none;
-  cursor: pointer;
-  background:  linear-gradient(180deg, #EEEEEE 0%, #FFFFFF 100%);
-  color: $black;
-  height: 37px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1px;
-  width: 140px;
-
-}
-
-@mixin toolbar-gate-dropdown-rounded-right-corner {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  padding-left: 12px;
-  border: none;
-  padding-right: 12px;
-  cursor: pointer;
-  width: 140px;
-  background:  linear-gradient(180deg, #EEEEEE 0%, #FFFFFF 100%);
-  color: $black;
-  height: 37px;
-  text-align: center;
-  align-items: center;
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-}
