@@ -15,7 +15,6 @@ export interface IGate extends IBaseClass{
     droppedFromMenu : boolean;
     rotAngle? : string | null,
 
-    toQASM() : string;
 }
 
 export interface IDraggableGate extends IGate {
