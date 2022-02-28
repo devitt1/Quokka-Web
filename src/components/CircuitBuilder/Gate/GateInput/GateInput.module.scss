@@ -6,6 +6,8 @@
   }
 
   .inputText {
+    cursor: default;
+    user-select: none;
     font-size: 10px;
     fill: black;
     stroke: black;
