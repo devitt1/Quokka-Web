@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from "./DroppedGate.module.scss";
 import Gate from "../../Gate";
-import {DraggableGate, Gate as GateClass} from "../../../../../common/classes";
+import {DraggableGate} from "../../../../../common/classes";
 import {GateTypes} from "../../../../../common/types";
 import {useDispatch, useSelector} from "react-redux";
 import {
     removeDroppedGate,
-    updateDraggingGate, updateDroppedGate, updateDroppedGateExtension
+    updateDraggingGate, updateDroppedGate,
 } from "../../../../../redux/actions/circuitConfigAction";
 import {IGateExtension} from "../../../../../common/interfaces";
 import GateExtension from "../../../GateExtension/GateExtension";

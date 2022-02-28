@@ -18,8 +18,7 @@ import SavedFiles from "./components/SavedFiles/SavedFiles";
 function App() {
   return (
     <div className={styles.App}>
-        <CursorContextProvider>
-            <Cursor/>
+
             <BrowserRouter>
                 <nav>
                     <Header/>
@@ -39,7 +38,7 @@ function App() {
             </BrowserRouter>
             <ModalContainer/>
             <Footer/>
-        </CursorContextProvider>
+
 
     </div>
   );
