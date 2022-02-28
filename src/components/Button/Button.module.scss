@@ -1,54 +1,174 @@
 @import '../../common/global.scss';
 
 .button {
+  cursor: pointer;
   button {
-    &.selectGateBtn {
+    font-family: Lato, sans-serif;
+
+    &.standardBtn {
+      cursor: pointer;
+      align-self: center;
+      margin: 18px 31px;
+      width: 150px;
+      height: 37px;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 17px;
+      color: white;
+      text-align: center;
+      text-transform: uppercase;
+      background: linear-gradient(93.58deg, #2B2B2B 0%, #1E2023 0.01%, #1F2E4D 100%);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 2px;
+
+      &:hover {
+        background: linear-gradient(93.58deg, #000000 0%, #1E2023 0.01%, #021E56 100%);
+      }
+
+    }
+
+    &.dropdownBtn {
       @include text-semibold-small;
       display: flex;
       position: relative;
       flex-direction: row;
-      padding-left: 12px;
       border: none;
-      padding-right: 12px;
       cursor: pointer;
       background:  linear-gradient(180deg, #EEEEEE 0%, #FFFFFF 100%);
       color: $black;
       height: 37px;
       text-align: center;
       align-items: center;
-      border-bottom-left-radius: 4px;
-      border-top-left-radius: 4px;
+      justify-content: center;
+      margin-right: 1px;
+      width: 140px;
+      img {
+        margin-left: 6px;
+        width: 10px;
+        height: 10px;
+        align-self: center;
+      }
+
+      &.dropdownBtnRoundedRightCorners {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+
+      &.selected {
+        background: linear-gradient(180deg, #889CC4 0%, #F0F3F7 100%);
+      }
+
+      &:hover{
+        background: linear-gradient(180deg, #C6CCD9 0%, #F2F5F9 100%);
+      }
+    }
+
+    &.selectGateBtn {
+      line-height: 14.4px;
+      padding: 0 12px 0 12px;
+      border: none;
+      cursor: pointer;
+      background:  linear-gradient(180deg, #EEEEEE 0%, #FFFFFF 100%);
+      color: $black;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      height: 37px;
+      border-radius: 4px 0 0 4px;
       margin-right: 1px;
       &.selected {
         background: linear-gradient(180deg, #889CC4 0%, #F0F3F7 100%);
-        //border-radius: 4px 0px 0px 4px;
       }
-
       &:hover {
         background: linear-gradient(180deg, #C6CCD9 0%, #F2F5F9 100%);
-        //border-radius: 4px 0px 0px 4px;
       }
-
     }
 
-    &.runCircuitBtn {
-      font-family: Lato;
-      font-style: normal;
-      font-weight: 800;
-      font-size: 14px;
-      line-height: 17px;
-      text-align: center;
-      text-transform: uppercase;
-
-
-      margin-right: 17px;
-      margin-left: 14px;
-      width: 75px;
+    &.circuitBtn {
       height: 37px;
-      color: white;
+      text-transform: uppercase;
+      width: 75px;
       background: linear-gradient(93.58deg, #2F9776 0%, #5F92F3 0.01%, #5D76A7 100%);
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
       border-radius: 2px;
+      .btnLbl {
+        font-weight: 1000;
+        color: white;
+        font-size: 12px;
+      }
+
+      &.circuitRunBtn {
+        margin-right: 70px;
+        margin-left: 14px;
+      }
+
+      &.circuitSaveBtn {
+        margin-right: 70px;
+      }
+
+      &.circuitCancelBtn {
+        background: linear-gradient(93.58deg, #2F9776 0%, #B3C2DF 0.01%, #D5DCEB 100%);
+        margin-right: 11px;
+        .btnLbl {
+          font-weight: 1000;
+          color: black;
+          font-size: 12px;
+        }
+
+        &:hover {
+          background: linear-gradient(93.58deg, #2F9776 0%, #869BC5 0.01%, #D0DFFD 100%);
+        }
+      }
+
+      &.circuitInstructionBtn {
+        margin-right: 27px;
+        text-decoration: underline;
+        border: none;
+        background: transparent;
+        .btnLbl {
+          text-decoration: underline;
+        }
+        &:hover {
+          background: transparent;
+          .btnLbl {
+            font-weight: 300;
+          }
+        }
+      }
+
+
+      &:hover {
+        background: linear-gradient(93.58deg, #2F9776 0%, #4473CF 0.01%, #375083 100%);
+      }
+    }
+
+
+
+    &.accountMenuBtn {
+      display: flex;
+      flex-direction: row;
+      border: none;
+      background: transparent;
+      text-decoration: underline;
+      align-items: center;
+      p {
+
+      }
+      img {
+        margin-right: 7px;
+        width: 23px;
+        height: 23px;
+
+        &.rightImage {
+          margin-left: 6px;
+          width: 10px;
+          height: 10px;
+        }
+      }
+      &:hover {
+        background: transparent;
+
+      }
     }
   }
 }
