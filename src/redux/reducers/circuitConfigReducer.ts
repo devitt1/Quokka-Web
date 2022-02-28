@@ -1,4 +1,4 @@
-import {Payload} from "../../common/types";
+import {CircuitConfigMode, Payload} from "../../common/types";
 import {
     ADD_DROPPED_GATE_ACTION,
     ADD_QUBIT_ACTION,
@@ -14,7 +14,7 @@ import {
     UPDATE_DROPPED_GATE_ACTION,
     UPDATE_DROPPED_GATE_EXTENSION_ACTION,
     UPDATE_GATE_INPUT_VALUE_ACTION,
-    UPDATE_GATE_SELECT_MODE_ACTION,
+    UPDATE_CIRCUIT_CONFIG_MODE_ACTION,
     UPDATE_QUBIT_POSITION_ACTION,
     UPDATE_SELECTED_GATE_ID_ACTION,
     UPDATE_SELECTED_QUBIT_ACTION,
@@ -26,7 +26,7 @@ import {Gate, Qubit} from "../../common/classes";
 
 export interface CircuitConfigState {
     selectedStandardGate: string;
-    gateSelectMode : boolean;
+    circuitConfigMode : CircuitConfigMode;
     selectedQubitId : string;
     selectedGateId : string;
     status : boolean;
@@ -35,7 +35,7 @@ export interface CircuitConfigState {
 
 const initialCircuitConfigState = {
     selectedStandardGate : 'Standard Gate',
-    gateSelectMode : false,
+    circuitConfigMode : 'NoSelectionMode' as CircuitConfigMode,
     selectedQubitId : "",
     selectedGateId: "",
     status : false,
@@ -69,14 +69,15 @@ action: Payload) {
                 ...state,
                 selectedStandardGate: 'Standard Gate',
             }
-        case UPDATE_GATE_SELECT_MODE_ACTION:
+        case UPDATE_CIRCUIT_CONFIG_MODE_ACTION:
             return {
                 ...state,
-                gateSelectMode: action.payload,
+                circuitConfigMode: action.payload.circuitConfigMode,
             }
 
         //Dropped Gates Store Operations
         case ADD_DROPPED_GATE_ACTION:
+            console.log("added dropped gate, ", action.payload)
             return {
                 ...state,
                 circuitState: {

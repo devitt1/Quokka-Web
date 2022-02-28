@@ -1,10 +1,11 @@
 import {IDraggableGate, IGate, IGateExtension} from "../../common/interfaces";
+import {CircuitConfigMode} from "../../common/types";
 
 // SELECTED GATE OPERATIONS
 export const INIT_SELECTED_STANDARD_GATE_ACTION = "INIT_SELECTED_STANDARD_GATE";
 export const UPDATE_SELECTED_STANDARD_GATE_ACTION = "UPDATE_SELECTED_STANDARD_GATE";
 export const UPDATE_DEFAULT_STANDARD_GATE_ACTION = "UPDATE_DEFAULT_STANDARD_GATE";
-export const UPDATE_GATE_SELECT_MODE_ACTION = "UPDATE_GATE_SELECT_MODE";
+export const UPDATE_CIRCUIT_CONFIG_MODE_ACTION = "UPDATE_CIRCUIT_CONFIG_MODE";
 export const UPDATE_SELECTED_GATE_ID_ACTION = "UPDATE_SELECTED_GATE_ID";
 
 // DROPPED GATES OPERATIONS
@@ -53,9 +54,9 @@ export const updateDefaultStandardGate = () => async (dispatch : any) => {
     }
 }
 
-export const updateGateSelectMode = (mode : boolean) => async (dispatch : any) => {
+export const updateCircuitConfigMode = (mode : CircuitConfigMode) => async (dispatch : any) => {
     try {
-        dispatch({type:UPDATE_GATE_SELECT_MODE_ACTION, payload: mode});
+        dispatch({type:UPDATE_CIRCUIT_CONFIG_MODE_ACTION, payload: {circuitConfigMode : mode}});
     }
     catch (e) {
         console.log("Error: ", e);
@@ -65,6 +66,7 @@ export const updateGateSelectMode = (mode : boolean) => async (dispatch : any) =
 
 export const addDroppedGate = (gate : IGate) => async (dispatch : any) => {
     try {
+        console.log("Added gate", gate);
         dispatch({type: ADD_DROPPED_GATE_ACTION, payload: gate})
     }
     catch (e) {
