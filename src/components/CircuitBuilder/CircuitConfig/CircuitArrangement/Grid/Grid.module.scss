@@ -4,4 +4,15 @@
   height: 100%;
 
   z-index: 1;
+
+  .selectionBox {
+    cursor: crosshair;
+    stroke: #6090EF;
+    stroke-width: 2;
+    fill: rgba(96, 144, 239, 0.15);
+    border: 2px solid #6090EF;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+
 }

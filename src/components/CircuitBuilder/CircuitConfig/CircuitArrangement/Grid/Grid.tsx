@@ -13,16 +13,37 @@ import {
     updateSelectedQubit
 } from "../../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../../common/constants";
-import {sleep} from "../../../../../common/helpers";
-import GateExtension from "../../../GateExtension/GateExtension";
 
+interface ISelectionBox {
+    mouseStartPosition : {x : number, y: number};
+    dimen: {width : number, height: number};
+    offset: {left: number, top : number};
+    isDrawing: boolean
+}
 
+const initialSelectionBox =  {
+    mouseStartPosition : {x: 0, y: 0},
+    dimen: {width : 0, height: 0},
+    offset: {left: 0, top : 0},
+    isDrawing: false
+}
 
+const getElOffset = (el: any) => {
+    const rect = el.getBoundingClientRect();
+
+    return {
+        left: rect.x,
+        top: rect.y
+    };
+};
 
 
 const Grid : React.FC = () => {
     const {circuitState, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     const gridRef : any = useRef(null);
+    const [selectionBox, setSelectionBox] = useState<ISelectionBox>(initialSelectionBox);
+    const {circuitConfigMode} = useSelector((state : RootState) => (state.circuitConfig));
+
     const [gridPosition, setGridPosition] = useState({
         x : 0,
         y : 168
@@ -94,9 +115,59 @@ const Grid : React.FC = () => {
         </>)
     }
 
+    const handleMouseDown = (event: any) => {
+        if (circuitConfigMode !== 'CompoundGateCreationMode') return;
+
+        console.log('mouse down in grid');
+
+        var offset = getElOffset(gridRef.current);
+        console.log(`draw offset [left, top], [${offset.left}, ${offset.top}]`);
+
+        const mouseStartPos = {x: event.clientX - offset.left, y: event.clientY - offset.top};
+        setSelectionBox({
+            mouseStartPosition: {x: mouseStartPos.x, y: mouseStartPos.y},
+            dimen: {width: 0, height: 0},
+            offset: offset,
+            isDrawing: true
+        })
+    }
+
+    const handleMouseMove = (event: any) => {
+        if (!selectionBox.isDrawing) return;
+        console.log('mouse move in grid while drawing selection box');
+        var currMousePos = {x: event.clientX - selectionBox.offset.left, y: event.clientY - selectionBox.offset.top};
+        var newDimesion = {width: currMousePos.x - selectionBox.mouseStartPosition.x, height: currMousePos.y - selectionBox.mouseStartPosition.y}
+
+        if (newDimesion.width <= 0) {// drawing direction to the left
+            newDimesion.width = Math.abs(newDimesion.width)
+        } else {
+            currMousePos.x = selectionBox.mouseStartPosition.x;
+            setSelectionBox(prev => ({...prev, mouseStartPosition: {x: currMousePos.x, y: currMousePos.y}}));
+        }
+
+        if (newDimesion.height <= 0) {// drawing direction to the left
+            newDimesion.height = Math.abs(newDimesion.height);
+        } else {
+            currMousePos.y = selectionBox.mouseStartPosition.y;
+            setSelectionBox(prev => ({...prev, mouseStartPosition: {x: currMousePos.x, y: currMousePos.y}}));
+        }
+
+        setSelectionBox(prev => ({...prev, dimen: {width: newDimesion.width, height: newDimesion.height}}));
+    }
+
+    const handleMouseUp = (event: any) => {
+        if (!selectionBox.isDrawing) return;
+        console.log('mouse up in grid while drawing selection box');
+        setSelectionBox(prev => ({...prev, isDrawing: false}));
+        console.log('stopped drawing');
+    }
+
     return (
         <svg className={styles.grid} ref={gridRef}
-             // viewBox="0, 350, 1500, 200" //TODO: copy this setting for circuitArrangement
+             onMouseDown={handleMouseDown}
+             onMouseMove={handleMouseMove}
+             onMouseUp={handleMouseUp}
+
         >
             {/*{showGridPattern()}*/}
         {
@@ -114,15 +185,16 @@ const Grid : React.FC = () => {
            y={circuitState.qubits.length * DIMENSIONS.GRID.HEIGHT
            + DIMENSIONS.ADD_QUBIT_BTN.Y_OFFSET + DIMENSIONS.GRID.PADDING.TOP }
            onClick={handleAddQubitActionBtnClicked}/>
-        {/*<GateExtension*/}
-        {/*    xOffset={gridPosition.x}*/}
-        {/*    yOffset={gridPosition.y}*/}
-        {/*/>*/}
         <DroppedGates/>
 
         <DraggingGate
             xOffset={gridPosition.x}
             yOffset={gridPosition.y} x={0} y={0} width={40} height={38}/>
+
+        <rect className={styles.selectionBox}
+              x={selectionBox.mouseStartPosition.x}
+              y={selectionBox.mouseStartPosition.y}
+              width={selectionBox.dimen.width} height={selectionBox.dimen.height}/>
 
     </svg>);
 }
