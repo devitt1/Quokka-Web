@@ -6,12 +6,17 @@ import { RootState } from '../../redux/reducers/rootReducer';
 
 import {useSelector } from 'react-redux';
 import account_icon from '../../assets/account_icon.svg';
+import arrow_down_black from '../../assets/arrow_down_black.svg';
 import {ROUTES} from "../../common/constants";
 import {Button} from "../Button/Button";
+import DropdownButton from "../DropdownButton/DropdownButton";
+import {Dropdown} from "../Dropdown/Dropdown";
+import DropdownList from "../Dropdown/DropdownList/DropdownList";
 
 const Header : React.VFC  = () => {
     const deviceConn = useSelector((state: RootState) => state.deviceConnection);
     const [accountMenuClicked, setAccountMenuClicked] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
     var connDotStyle = styles.connectionDot;
     var statusStyle = styles.status;
 
@@ -24,8 +29,22 @@ const Header : React.VFC  = () => {
         setAccountMenuClicked(!accountMenuClicked);
     }
 
-    const handleDropdownItemClicked = (dropdownItem: string) => {
+    const handleAccountMenuItemClicked = () => {
+        setAccountMenuClicked(!accountMenuClicked);
+    }
 
+    const renderAccountMenuButton = () => {
+        return <div className={styles.accountMenuDropdown}>
+
+            <DropdownButton name={'Account'} buttonTypes={['accountMenuBtn']} leftImageSource={account_icon}
+                            rightImageSource={arrow_down_black}>
+                    <Dropdown type={'accountMenuDropdown'}>
+                        <div> Welcome <br/>email@address.com</div>
+                        <DropdownList type={'accountMenuDropdown'} list={['Saved Files', 'Connect to a \n Quokka device', 'Update password', 'Logout']}
+                                      onDropdownItemClicked={handleAccountMenuItemClicked}/>
+                    </Dropdown>
+                </DropdownButton>
+            </div>
     }
 
     return (<div className={styles.header}>
@@ -52,33 +71,14 @@ const Header : React.VFC  = () => {
 
 
                 {
-                        <div className={styles.accountMenuDropdown}>
-                            <img alt="AccIcon" style={{width: 23, height: 23}} src={account_icon}/>
-                            {/*<NavLink to="/login" className={(navData) =>styles.loginLbl}>Login/Create Account</NavLink>*/}
-                            <button className={styles.accountMenuButton} onClick={handleAccountMenuClicked}>
-                                Account
-                            </button>
-                            {
-                                accountMenuClicked ?
-                                    <div className={styles.dropdownList}>
-                                        {
-                                        ['Saved Files', 'Connect to a Quokka device', 'Update password', 'Logout'].map((dropdownItem, index) =>
-                                        (
-                                        <div key={index} className={styles.dropdownItem} onClick={() => handleDropdownItemClicked(dropdownItem)}>
-                                            <p>{dropdownItem}</p>
-                                        </div>
-                                        ))}
-                                    </div> :
-                                    null
-                            }
-
-
-
-
+                    !loggedIn ?
+                        <div className={styles.loginNavLink}>
+                            <img src={account_icon} />
+                            <NavLink to="/login" className={(navData) => styles.loginLbl}>Login/Create Account</NavLink>
 
                         </div>
-
-
+                        :
+                    renderAccountMenuButton()
                 }
             </div>
 
