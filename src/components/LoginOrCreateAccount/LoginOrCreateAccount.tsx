@@ -1,7 +1,5 @@
 import React from 'react';
 import styles from './LoginOrCreateAccount.module.scss';
-import {NavLink} from "react-router-dom";
-import logo from '../../assets/logo.svg'
 import underlay_quokka_icon from '../../assets/underlay_quokka_icon.svg';
 import {useDispatch} from "react-redux";
 import {openModal} from "../../redux/actions/modalsAction";

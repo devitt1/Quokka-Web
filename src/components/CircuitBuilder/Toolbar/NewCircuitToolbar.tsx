@@ -85,7 +85,7 @@ const NewCircuitToolbar : React.FC = () => {
 
             <Button selected={circuitConfig.circuitConfigMode === 'GateSelectionMode'} types={["selectGateBtn"]} name="Select"
                     onClick={handleSelectBtnClicked}/>
-
+            <hr/>
             <DropdownButton buttonTypes={['dropdownBtn']} name={circuitConfig.selectedStandardGate}
                             rightImageSource={arrow_down_black}>
                 <Dropdown>
@@ -93,7 +93,7 @@ const NewCircuitToolbar : React.FC = () => {
                                   onDropdownItemClicked={handleStandardGateDropdownItemClicked}/>
                 </Dropdown>
             </DropdownButton>
-
+            <hr/>
             <DropdownButton name={'Compound Gate'} buttonTypes={["dropdownBtn",'dropdownBtnRoundedRightCorners']}
                             rightImageSource={arrow_down_black}>
                 <Dropdown>

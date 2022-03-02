@@ -40,8 +40,8 @@
       text-align: center;
       align-items: center;
       justify-content: center;
-      margin-right: 1px;
       width: 140px;
+
       img {
         margin-left: 6px;
         width: 10px;
@@ -56,6 +56,10 @@
 
       &.selected {
         background: linear-gradient(180deg, #889CC4 0%, #F0F3F7 100%);
+        &.dropdownBtnRoundedRightCorners {
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 4px;
+        }
       }
 
       &:hover{
@@ -75,7 +79,7 @@
       font-size: 12px;
       height: 37px;
       border-radius: 4px 0 0 4px;
-      margin-right: 1px;
+
       &.selected {
         background: linear-gradient(180deg, #889CC4 0%, #F0F3F7 100%);
       }
