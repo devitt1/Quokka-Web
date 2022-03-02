@@ -13,13 +13,20 @@ const DropdownList : React.FC<DropdownProps> = (props) => {
     if (type === 'accountMenuDropdown') {
         dropdownListStyle.push(styles[type]);
     }
+    const dropdownItemStyle = [styles.dropdownItem];
+
     return <div className={dropdownListStyle.join(' ')} >
         {
-            list.map((dropdownItem, index) =>
-                (<div key={index}
-                      className={styles.dropdownItem} onClick={() => onDropdownItemClicked(dropdownItem)}>
-                    <p>{dropdownItem}</p>
-                </div>)
+            list.map((dropdownItem, index) => {
+                const dropdownItemStyle = [styles.dropdownItem];
+                if (index === list.length-1) {
+                    dropdownItemStyle.push(styles['lastItem'])
+                }
+                return (<div key={index}
+                                 className={dropdownItemStyle.join(' ')} onClick={() => onDropdownItemClicked(dropdownItem)}>
+                        <p>{dropdownItem}</p>
+                    </div>)
+                }
             )
         }
     </div>
