@@ -21,17 +21,17 @@ const Qubit : React.FC<QubitProps> = (props) => {
     const {id, rowVerticalOffset, rowIndex, onQubitSelected, qubitCells} = props;
     const {selectedQubitId} = useSelector((state: RootState) => (state.circuitConfig));
     const dispatch = useDispatch();
+
     const handleQubitSymbolSelected = () => {
         onQubitSelected(id);
     }
 
     useEffect(() => {
-        console.log(`qubit ${id} rendered! at y = ${rowVerticalOffset + 20}`);
         dispatch(updateQubit(id, 'y', rowVerticalOffset + 20));
     }, [])
 
     return (<g className={styles.qubit} y={rowVerticalOffset}  >
-            <line x1={48} y1={rowVerticalOffset + 20} x2="100%"
+            <line x1={48} y1={rowVerticalOffset + 20} x2={48 * qubitCells.length}
                   y2={rowVerticalOffset + 20}/>
             {
                 qubitCells.map((cell, index) => {

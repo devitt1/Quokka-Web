@@ -15,7 +15,7 @@ import {
     UPDATE_DROPPED_GATE_EXTENSION_ACTION,
     UPDATE_GATE_INPUT_VALUE_ACTION,
     UPDATE_CIRCUIT_CONFIG_MODE_ACTION,
-    UPDATE_QUBIT_POSITION_ACTION,
+    UPDATE_QUBIT_ACTION,
     UPDATE_SELECTED_GATE_ID_ACTION,
     UPDATE_SELECTED_QUBIT_ACTION,
     UPDATE_SELECTED_STANDARD_GATE_ACTION
@@ -45,7 +45,7 @@ const initialCircuitConfigState = {
         qubits : [
             new Qubit(45),
             new Qubit(45),
-            // new Qubit(45)
+            new Qubit(45)
         ] as IQubit[]
     } as ICircuitState
 }
@@ -132,7 +132,7 @@ action: Payload) {
                 }
             }
 
-        case UPDATE_QUBIT_POSITION_ACTION:
+        case UPDATE_QUBIT_ACTION:
             return {
                 ...state,
                 circuitState:  {
@@ -155,6 +155,7 @@ action: Payload) {
                 ...state,
                 selectedQubitId: action.payload
             }
+
         case REMOVE_QUBIT_ACTION:
             return {
                 ...state,
@@ -216,6 +217,7 @@ action: Payload) {
                 ...state,
                 selectedGateId: action.payload.id
             }
+
         default:
             return state;
     }
@@ -226,6 +228,8 @@ export default circuitConfigReducer;
 
 export const updateQubitInArray = (array : IQubit[], action : Payload) => {
     return array.map((item, index) => {
+        console.log("item Id is: ", item.id);
+        console.log("qubitId is: ", action.payload.id)
         if (item.id !== action.payload.id) {
             return item;
         }
@@ -244,6 +248,8 @@ export const updateQubitInArray = (array : IQubit[], action : Payload) => {
 
 export const updateObjectInArray = (array : IGate[], action : Payload, innerProperty : string | null) => {
     return array.map((item, index) => {
+
+
         if (item.id !== action.payload.id) {
             return item;
         }

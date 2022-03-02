@@ -1,34 +1,38 @@
 import React, {createContext, Dispatch, SetStateAction, useState} from "react";
-
-interface ICompoundGateSelectionContext {
-
+interface ISelectionBoxContext {
 }
 
-type CompoundGateSelectionContextState = {
-    coordinate : {x: number, y: number},
-    dimension : {width : number, height : number}
+export type SelectionBoxState = {
+    mouseStartPosition : {x : number, y: number},
+    dimension: {width : number, height: number},
+    offset: {left: number, top : number},
+    isDrawing: boolean
 }
 
-type CompoundGateSelectionContextValue = {
-    selectionBox : CompoundGateSelectionContextState,
-    setSelectionBox : Dispatch<SetStateAction<CompoundGateSelectionContextState>>
-
+type SelectionBoxValue = {
+    selectionBox : SelectionBoxState,
+    setSelectionBox : Dispatch<SetStateAction<SelectionBoxState>>,
 }
 
-const defaultCompoundGateSelectionContextValue : CompoundGateSelectionContextValue = {
-    selectionBox : { coordinate: {x : 0, y: 0}, dimension : {width : 0, height: 0}},
-    setSelectionBox: (selectionBox: ICompoundGateSelectionContext) => {}
+const defaultSelectionBoxValue : SelectionBoxValue = {
+    selectionBox : {
+        mouseStartPosition: {x : 0, y: 0},
+        dimension : {width : 0, height: 0},
+        offset: {left: 0, top: 0},
+        isDrawing: false},
+    setSelectionBox: (selectionBox: ISelectionBoxContext) => {},
 }
-export const CompoundGateSelectionContext = createContext(defaultCompoundGateSelectionContextValue);
+
+export const CompoundGateSelectionContext = createContext(defaultSelectionBoxValue);
 
 interface CompoundGateSelectionContextProviderProps {
 
 }
 export const CompoundGateSelectionContextProvider: React.FC<CompoundGateSelectionContextProviderProps> = (props) =>{
     const {children} = props;
-    const [selectionBox, setSelectionBox] = useState(defaultCompoundGateSelectionContextValue.selectionBox);
+    const [selectionBox, setSelectionBox] = useState(defaultSelectionBoxValue.selectionBox);
 
-    const context = {selectionBox, setSelectionBox}
+    const context = {selectionBox, setSelectionBox};
     return (
         <CompoundGateSelectionContext.Provider value={context}>
             {children}

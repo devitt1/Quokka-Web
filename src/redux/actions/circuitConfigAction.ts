@@ -22,7 +22,7 @@ export const UPDATE_DRAGGING_GATE_POSITION = "UPDATE_DRAGGING_GATE_POSITION"
 export const ADD_QUBIT_ACTION = "ADD_QUBIT";
 export const REMOVE_QUBIT_ACTION = "REMOVE_QUBIT";
 export const UPDATE_SELECTED_QUBIT_ACTION = "UPDATE_SELECTED_QUBIT";
-export const UPDATE_QUBIT_POSITION_ACTION = "UPDATE_QUBIT_POSITION"
+export const UPDATE_QUBIT_ACTION = "UPDATE_QUBIT_POSITION"
 // DRAGGING GATE EXTENSION OPERATIONS
 export const UPDATE_DRAGGING_GATE_EXTENSION_ACTION= "UPDATE_DRAGGING_GATE_EXTENSION";
 export const UPDATE_DROPPED_GATE_EXTENSION_ACTION="UPDATE_DROPPED_GATE_EXTENSION";
@@ -139,7 +139,7 @@ export const updateSelectedQubit = (id : string) => async (dispatch : any) => {
 
 export const updateQubit = (id: string, property :string, value : any) => async (dispatch : any) => {
     try {
-        dispatch({type: UPDATE_QUBIT_POSITION_ACTION, payload: {id: id, property : property, value: value}});
+        dispatch({type: UPDATE_QUBIT_ACTION, payload: {id: id, property : property, value: value}});
     } catch (e) {
         console.log("Error: ", e);
         throw e;
@@ -204,3 +204,5 @@ export const updateSelectedGateId = (id : string) => async (dispatch: any) => {
         throw e;
     }
 }
+
+// export const addCompoundGate = (compoundGate : ICompoudGate)

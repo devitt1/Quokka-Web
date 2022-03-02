@@ -2,8 +2,8 @@ import React, {useCallback, useContext, useEffect, useRef, useState} from 'react
 import {CursorContext} from "../../../../../../Providers/CursorContextProvider";
 import styles from './QubitCell.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {addDroppedGate, updateDroppedGate} from "../../../../../../../redux/actions/circuitConfigAction";
-import {Gate, GateExtension} from "../../../../../../../common/classes";
+import {addDroppedGate, updateDroppedGate, updateQubit} from "../../../../../../../redux/actions/circuitConfigAction";
+import {Gate, GateExtension, Qubit} from "../../../../../../../common/classes";
 import {RootState} from "../../../../../../../redux/reducers/rootReducer";
 import {GateExtTypes, GateTypes} from "../../../../../../../common/types";
 import {DIMENSIONS} from "../../../../../../../common/constants";
@@ -49,10 +49,22 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             CGateDroppedFromMenu = true;
             rotAngle = 'pi/2';
         }
+
+        else if (selectedStandardGate === 'Measurement Gate') {
+            console.log('dropped gate at qubitId= ', props.qubitId);
+            var newQubit = new Qubit(props.colIndex);
+            newQubit.id = props.qubitId;
+            newQubit.y = props.cellYPos;
+            newQubit.size = props.colIndex;
+            dispatch(updateQubit(props.qubitId, 'qubitCells', newQubit.qubitCells));            newGateExtType = 'None';
+            CGateDroppedFromMenu = true;
+            rotAngle = 'null';
+        }
         else {
             newGateExtType = 'None';
             CGateDroppedFromMenu = true;
             rotAngle = null;
+
         }
 
         const newGateExt = new GateExtension(
@@ -64,7 +76,7 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
 
     }
     const removeAttachment = useCallback(() => {
-        setCursor(({attached}) => ({attached: false}));
+        setCursor((cursorContextStates) => ({attached: false}));
     },[])
 
     const handleMouseUp = () => {

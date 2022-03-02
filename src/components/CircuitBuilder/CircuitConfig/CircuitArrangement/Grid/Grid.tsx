@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import styles from './Grid.module.scss';
 import Qubit from "./Qubit/Qubit";
 import DraggingGate from "../../../Gate/DraggingGate/DraggingGate";
@@ -13,20 +13,11 @@ import {
     updateSelectedQubit
 } from "../../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../../common/constants";
-
-interface ISelectionBox {
-    mouseStartPosition : {x : number, y: number};
-    dimen: {width : number, height: number};
-    offset: {left: number, top : number};
-    isDrawing: boolean
-}
-
-const initialSelectionBox =  {
-    mouseStartPosition : {x: 0, y: 0},
-    dimen: {width : 0, height: 0},
-    offset: {left: 0, top : 0},
-    isDrawing: false
-}
+import {findFurthestTopLeftGateInArray, locateGatesInSelectionBox} from "../../../../../common/helpers";
+import {
+    CompoundGateSelectionContext,
+    SelectionBoxState
+} from "../../../../Providers/CompoundGateSelectionContextProvider";
 
 const getElOffset = (el: any) => {
     const rect = el.getBoundingClientRect();
@@ -36,13 +27,17 @@ const getElOffset = (el: any) => {
         top: rect.y
     };
 };
-
+const initialSelectionBox = {
+    mouseStartPosition: {x: 0, y: 0},
+    dimension: {width: 0, height: 0},
+    offset: {left: 0, top: 0},
+    isDrawing: false
+}
 
 const Grid : React.FC = () => {
-    const {circuitState, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
+    const {circuitState, circuitConfigMode, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     const gridRef : any = useRef(null);
-    const [selectionBox, setSelectionBox] = useState<ISelectionBox>(initialSelectionBox);
-    const {circuitConfigMode} = useSelector((state : RootState) => (state.circuitConfig));
+    const {selectionBox, setSelectionBox} = useContext(CompoundGateSelectionContext);
 
     const [gridPosition, setGridPosition] = useState({
         x : 0,
@@ -124,13 +119,16 @@ const Grid : React.FC = () => {
         console.log(`draw offset [left, top], [${offset.left}, ${offset.top}]`);
 
         const mouseStartPos = {x: event.clientX - offset.left, y: event.clientY - offset.top};
-        setSelectionBox({
+
+        setSelectionBox((selectionBoxState) => ({
             mouseStartPosition: {x: mouseStartPos.x, y: mouseStartPos.y},
-            dimen: {width: 0, height: 0},
+            dimension: {width: 0, height: 0},
             offset: offset,
             isDrawing: true
-        })
+        }));
     }
+
+
 
     const handleMouseMove = (event: any) => {
         if (!selectionBox.isDrawing) return;
@@ -152,7 +150,7 @@ const Grid : React.FC = () => {
             setSelectionBox(prev => ({...prev, mouseStartPosition: {x: currMousePos.x, y: currMousePos.y}}));
         }
 
-        setSelectionBox(prev => ({...prev, dimen: {width: newDimesion.width, height: newDimesion.height}}));
+        setSelectionBox(prev => ({...prev, dimension: {width: newDimesion.width, height: newDimesion.height}}));
     }
 
     const handleMouseUp = (event: any) => {
@@ -160,6 +158,8 @@ const Grid : React.FC = () => {
         console.log('mouse up in grid while drawing selection box');
         setSelectionBox(prev => ({...prev, isDrawing: false}));
         console.log('stopped drawing');
+
+
     }
 
     return (
@@ -172,7 +172,6 @@ const Grid : React.FC = () => {
             {/*{showGridPattern()}*/}
         {
             circuitState.qubits.map((qubit, index) => {
-
                 return <Qubit key={qubit.id} id={qubit.id}
                               rowVerticalOffset={DIMENSIONS.GRID.HEIGHT * index + DIMENSIONS.GRID.PADDING.TOP}
                               qubitCells={qubit.qubitCells}
@@ -194,7 +193,7 @@ const Grid : React.FC = () => {
         <rect className={styles.selectionBox}
               x={selectionBox.mouseStartPosition.x}
               y={selectionBox.mouseStartPosition.y}
-              width={selectionBox.dimen.width} height={selectionBox.dimen.height}/>
+              width={selectionBox.dimension.width} height={selectionBox.dimension.height}/>
 
     </svg>);
 }

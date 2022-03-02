@@ -1,7 +1,9 @@
 export type Payload = { type: string, payload: any};
-export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT'];
+export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT', 'Measurement Gate'];
+export const ALL_COMPOUND_GATES = ['Compound Gate 1'];
 export type StandardGateTypes = typeof ALL_STD_GATES;
-export type GateTypes = StandardGateTypes[number];
+export type CompoundGateTypes = typeof ALL_COMPOUND_GATES;
+export type GateTypes = StandardGateTypes[number] | CompoundGateTypes[number];
 export type GateExtTypes = 'CNOT_TARGET' | 'None';
 
 export type CircuitConfigMode =

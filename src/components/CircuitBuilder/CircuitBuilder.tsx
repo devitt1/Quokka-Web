@@ -21,8 +21,9 @@ const CircuitBuilder : React.FC = () => {
                         {
                             status ? <CircuitProcessingInfo/> : <Toolbar/>
                         }
-                    </CompoundGateSelectionContextProvider>
+
                     <CircuitConfig circuitBuilderStatus={status}/>
+                    </CompoundGateSelectionContextProvider>
                 </CursorContextProvider>
             </div>
        )
