@@ -1,10 +1,16 @@
 import {GateExtTypes, GateTypes, ModalState, ModalType} from "./types";
 
-export interface IBaseClass {
+export interface IBaseInterface {
     id: string;
 }
 
-export interface IGate extends IBaseClass{
+export interface IUser {
+    id: string;
+    email : string;
+}
+
+
+export interface IGate extends IBaseInterface{
     x : number,
     y : number,
     width : number,
@@ -13,7 +19,8 @@ export interface IGate extends IBaseClass{
     type: GateTypes,
     gateExtension : IGateExtension;
     droppedFromMenu : boolean;
-    rotAngle? : string | null,
+    rotAngle? : string | null;
+    name? : string
 
 }
 

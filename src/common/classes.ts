@@ -1,6 +1,6 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
 import {
-    IBaseClass,
+    IBaseInterface,
     IBuildOutput,
     ICoordinate,
     IDraggableGate,
@@ -23,7 +23,7 @@ export class DeviceConnection implements DeviceConnectionState {
     }
 }
 
-export class BaseClass implements IBaseClass {
+export class BaseClass implements IBaseInterface {
     id : string;
     constructor() {
         this.id = v4();
@@ -41,6 +41,7 @@ export class Gate extends BaseClass implements IGate {
     qubitIds : string[];
     gateExtension : IGateExtension;
     droppedFromMenu : boolean;
+    name? : string;
 
     constructor(
         x: number,
@@ -52,6 +53,7 @@ export class Gate extends BaseClass implements IGate {
         gateExtension : IGateExtension,
         droppedFromMenu : boolean,
         rotAngle? : string | null,
+        name? : string,
     ) {
         super();
         this.qubitIds = qubitIds;
@@ -63,6 +65,7 @@ export class Gate extends BaseClass implements IGate {
         this.rotAngle = rotAngle;
         this.gateExtension = gateExtension
         this.droppedFromMenu = droppedFromMenu;
+        this.name = name;
     }
 }
 
@@ -79,9 +82,10 @@ export class DraggableGate extends Gate implements IDraggableGate {
         type: GateTypes,
         gateExtension : IGateExtension,
         droppedFromMenu : boolean,
-        rotAngle? : string | null) {
+        rotAngle? : string | null,
+        name? : string) {
         super(x, y, width, height,qubitIds, type,
-            gateExtension, droppedFromMenu, rotAngle);
+            gateExtension, droppedFromMenu, rotAngle, name);
         this.dragStartPosition = dragStartPosition;
     }
 }
