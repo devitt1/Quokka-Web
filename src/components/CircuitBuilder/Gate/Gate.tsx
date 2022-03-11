@@ -4,6 +4,8 @@ import {GateTypes} from "../../../common/types";
 import {DIMENSIONS} from "../../../common/constants";
 import {CNOTGateSymbol, XGateSymbol, YGateSymbol, ZGateSymbol} from "./GateSymbols/GateSymbols";
 import GateInput from "./GateInput/GateInput";
+import AdaptiveTextBox from "../../AdaptiveTextbox/AdaptiveTextBox";
+import CompoundGate from "./GateDefinitions/CompoundGate/CompoundGate";
 
 interface GateProps {
     id: string;
@@ -15,10 +17,11 @@ interface GateProps {
     isAttachment : boolean;
     onMouseEnter? : any;
     rotAngle? : string | null;
+    name? : string;
 }
 
 const Gate : React.FC <GateProps> = (props) => {
-    const {id, x, y, width, height, type, rotAngle, isAttachment, onMouseEnter} = props;
+    const {id, x, y, width, height, type, rotAngle, isAttachment, onMouseEnter, name} = props;
 
 
     const renderGate = (x : number, y : number, width : number, height: number, gateType : GateTypes) => {
@@ -124,24 +127,14 @@ const Gate : React.FC <GateProps> = (props) => {
                     <path d="M20 24L32 13" stroke="white" stroke-width="2"/>
                     <defs>
                         <linearGradient id="paint0_linear_387_4990" x1="20" y1="0" x2="20" y2="40" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#1F2E4D"/>
-                            <stop offset="1" stop-color="#63718B"/>
+                            <stop stopColor="#1F2E4D"/>
+                            <stop offset="1" stopColor="#63718B"/>
                         </linearGradient>
                     </defs>
                 </g>
-            case 'Compound Gate 1':
+            case 'Compound Gate':
                 return <g transform={relativePosition}>
-                    <rect width={width} height={height} rx="4" fill="url(#paint0_linear_387_5131)"/>
-                    <defs>
-                        <linearGradient id="paint0_linear_387_5131" x1="20" y1="0" x2="20" y2="40" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#1F2E4D"/>
-                            <stop offset="1" stopColor="#63718B"/>
-                        </linearGradient>
-                        <linearGradient id="paint1_linear_387_5131" x1="20" y1="57" x2="20" y2="83" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#1F2E4D"/>
-                            <stop offset="1" stopColor="#63718B"/>
-                        </linearGradient>
-                    </defs>
+                    <CompoundGate width={width} height={height} name={name}/>
                 </g>
             default:
                 return 'None'

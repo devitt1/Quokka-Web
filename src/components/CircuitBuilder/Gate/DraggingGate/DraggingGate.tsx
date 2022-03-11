@@ -29,10 +29,6 @@ import {IDraggableGate} from "../../../../common/interfaces";
 interface DraggingGateProps {
     xOffset: number,
     yOffset: number;
-    x: number,
-    y: number,
-    width : number,
-    height : number,
 }
 
 /**
@@ -41,29 +37,29 @@ interface DraggingGateProps {
  * @constructor
  */
 const DraggingGate : React.FC<DraggingGateProps> = (children) => {
-    const {xOffset, yOffset, width, height} = children;
+    const {xOffset, yOffset} = children;
     const {draggingGate} = useSelector((state: RootState) => state.circuitConfig.circuitState);
-    const {selectedGateId} = useSelector((state: RootState) => state.circuitConfig);
-
+    const [isDragging, setIsDragging] = useState(false);
     const dispatch = useDispatch();
     const draggingGateRef : any = useRef(null);
 
     const handleDraggableMouseDown = (e : any) => {
         console.log(`Mouse down at dragging gate type ${draggingGate.type}`);
-        document.addEventListener('mousemove', handleDraggableMouseMove.current);
-
+        setIsDragging(true);
     }
 
-    const handleDraggableMouseMove = useRef((e : any) => {
-        const newX = e.clientX - xOffset - width/2;
-        const newY = e.clientY - yOffset - height/2;
+    const handleDraggableMouseMove = (e : any) => {
+        if (!isDragging) return;
+        console.log('mouuse move draggin gate', draggingGate);
+        const newX = e.clientX - xOffset - draggingGate.width/2;
+        const newY = e.clientY - yOffset - draggingGate.height/2;
 
         dispatch(updateDraggingGatePosition(newX, newY));
 
-    });
+    }
 
     const handleDraggableMouseUp = (event : any) => {
-        document.removeEventListener('mousemove', handleDraggableMouseMove.current);
+        setIsDragging(false);
 
         const draggingGateElem = draggingGateRef.current;
         const bBox = draggingGateElem.getBBox();
@@ -91,8 +87,10 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         }
         console.log('newYOffset', newYOffset);
 
-        const newGateExt = new GateExtClass(offset, draggingGate.gateExtension.qubitId, 'CNOT_TARGET');
-        const newDroppedGate = new GateClass(newX, newYOffset, width, height, draggingGate.qubitIds, draggingGate.type, newGateExt, draggingGate.droppedFromMenu,  draggingGate.rotAngle);
+        const newGateExt = new GateExtClass(offset, draggingGate.gateExtension.qubitId, draggingGate.gateExtension.type);
+        const newDroppedGate = new GateClass(newX, newYOffset, draggingGate.width,
+            draggingGate.height, draggingGate.qubitIds, draggingGate.type,
+            newGateExt, draggingGate.droppedFromMenu,  draggingGate.rotAngle, draggingGate.name);
         if (draggingGate.dragStartPosition.x === newX && draggingGate.dragStartPosition.y === newY && !draggingGate.droppedFromMenu) {
             console.log("Gate not moved.. so definitely user wanted to select it");
             dispatch(updateSelectedGateId(newDroppedGate.id));
@@ -111,8 +109,10 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         }
         console.log("Not dragging anywhere, add dropped gate at previous position");
 
-        const newGateExt = new GateExtClass(draggingGate.gateExtension.targetY, draggingGate.gateExtension.qubitId, 'CNOT_TARGET');
-        const newDroppedGate = new GateClass(draggingGate.x, draggingGate.y, width, height, draggingGate.qubitIds, draggingGate.type, newGateExt, draggingGate.droppedFromMenu, draggingGate.rotAngle);
+        const newGateExt = new GateExtClass(draggingGate.gateExtension.targetY, draggingGate.gateExtension.qubitId, draggingGate.gateExtension.type);
+        const newDroppedGate = new GateClass(draggingGate.x, draggingGate.y, draggingGate.width,
+            draggingGate.height, draggingGate.qubitIds,
+            draggingGate.type, newGateExt, draggingGate.droppedFromMenu, draggingGate.rotAngle, draggingGate.name);
         dispatch(removeDraggingGate());
         dispatch(addDroppedGate(newDroppedGate));
 
@@ -120,6 +120,7 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
     return <g ref={draggingGateRef} className={styles.draggingGate}
               onMouseDown={handleDraggableMouseDown}
+              onMouseMove={handleDraggableMouseMove}
               onMouseUp={handleDraggableMouseUp}
               onMouseLeave={handleDraggableMouseLeft}>
         {
@@ -131,8 +132,8 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
         <Gate
             id={draggingGate.id}
-            x={draggingGate.x} y={draggingGate.y} width={width} height={height} type={draggingGate.type}
-            isAttachment={false} rotAngle={draggingGate.rotAngle}/>
+            x={draggingGate.x} y={draggingGate.y} width={draggingGate.width} height={draggingGate.height} type={draggingGate.type}
+            isAttachment={false} rotAngle={draggingGate.rotAngle} name={draggingGate.name}/>
 
 
 
