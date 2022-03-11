@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './DropdownList.module.scss';
 import {DropdownTypes} from "../../../common/types";
+import DropdownItem from "./DropdownItem/DropdownItem";
 interface DropdownProps {
     list: string[];
     type?: DropdownTypes;
@@ -10,24 +11,27 @@ interface DropdownProps {
 const DropdownList : React.FC<DropdownProps> = (props) => {
     const {list, type, onDropdownItemClicked} = props;
     const dropdownListStyle = [styles.dropdownList];
-    if (type === 'accountMenuDropdown') {
+    if (type) {
         dropdownListStyle.push(styles[type]);
     }
-    const dropdownItemStyle = [styles.dropdownItem];
 
     return <div className={dropdownListStyle.join(' ')} >
         {
             list.map((dropdownItem, index) => {
-                const dropdownItemStyle = [styles.dropdownItem];
-                if (index === list.length-1) {
-                    dropdownItemStyle.push(styles['lastItem'])
-                }
-                return (<div key={index}
-                                 className={dropdownItemStyle.join(' ')} onClick={() => onDropdownItemClicked(dropdownItem)}>
-                        <p>{dropdownItem}</p>
-                    </div>)
+                return <DropdownItem key={index}
+                                     label={dropdownItem}
+                                     type={type}
+                                     onClick={() => onDropdownItemClicked(dropdownItem)}
+                                     isLastItem={index === list.length-1}>
+                </DropdownItem>
+
                 }
             )
+        }
+        {
+            type === 'compoundGateDropdown' ?
+                <DropdownItem label={'+ Create New'} onClick={() => onDropdownItemClicked('+ Create New')}/>
+                : null
         }
     </div>
 }
