@@ -5,6 +5,11 @@
   button {
     font-family: Lato, sans-serif;
 
+    &.loginBtn {
+      margin-top: 18px;
+      @include submit-button;
+    }
+
     &.standardBtn {
       cursor: pointer;
       align-self: center;
