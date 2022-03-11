@@ -18,7 +18,7 @@ import {
     UPDATE_QUBIT_ACTION,
     UPDATE_SELECTED_GATE_ID_ACTION,
     UPDATE_SELECTED_QUBIT_ACTION,
-    UPDATE_SELECTED_STANDARD_GATE_ACTION
+    UPDATE_SELECTED_STANDARD_GATE_ACTION, ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION
 
 } from "../actions/circuitConfigAction";
 import {ICircuitState, IDraggableGate, IGate, IQubit} from "../../common/interfaces";
@@ -29,7 +29,9 @@ export interface CircuitConfigState {
     circuitConfigMode : CircuitConfigMode;
     selectedQubitId : string;
     selectedGateId : string;
+    compoundGates : string[];
     status : boolean;
+    viewOnlyMode: boolean;
     circuitState : ICircuitState;
 }
 
@@ -38,7 +40,9 @@ const initialCircuitConfigState = {
     circuitConfigMode : 'NoSelectionMode' as CircuitConfigMode,
     selectedQubitId : "",
     selectedGateId: "",
+    compoundGates: [] as string[],
     status : false,
+    viewOnlyMode: false,
     circuitState : {
         droppedGates : [] as IGate[],
         draggingGate : {} as IDraggableGate,
@@ -77,7 +81,6 @@ action: Payload) {
 
         //Dropped Gates Store Operations
         case ADD_DROPPED_GATE_ACTION:
-            console.log("added dropped gate, ", action.payload)
             return {
                 ...state,
                 circuitState: {
@@ -119,6 +122,7 @@ action: Payload) {
                         rotAngle : state.circuitState.draggingGate.rotAngle,
                         gateExtension: state.circuitState.draggingGate.gateExtension,
                         droppedFromMenu : state.circuitState.draggingGate.droppedFromMenu,
+                        name: state.circuitState.draggingGate.name
                     }
                 }
             }
@@ -218,6 +222,12 @@ action: Payload) {
                 selectedGateId: action.payload.id
             }
 
+        case ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION:
+            return {
+                ...state,
+                compoundGates: [...state.compoundGates, action.payload.name]
+            }
+
         default:
             return state;
     }
@@ -228,8 +238,6 @@ export default circuitConfigReducer;
 
 export const updateQubitInArray = (array : IQubit[], action : Payload) => {
     return array.map((item, index) => {
-        console.log("item Id is: ", item.id);
-        console.log("qubitId is: ", action.payload.id)
         if (item.id !== action.payload.id) {
             return item;
         }

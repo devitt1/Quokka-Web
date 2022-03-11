@@ -33,6 +33,9 @@ export const UPDATE_CIRCUIT_RUNNING_STATUS_ACTION = "UPDATE_CIRCUIT_RUNNING_STAT
 // UPDATE GATE INPUT PARAMETER
 export const UPDATE_GATE_INPUT_VALUE_ACTION = "UPDATE_GATE_INPUT_VALUE_ACTION";
 
+// COMPOUND GATE DROPDOWN OPERATIONS
+export const ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION = "ADD_COMPOUND_GATE_DROPDOWN_ITEM"
+
 export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
     try {
@@ -66,7 +69,6 @@ export const updateCircuitConfigMode = (mode : CircuitConfigMode) => async (disp
 
 export const addDroppedGate = (gate : IGate) => async (dispatch : any) => {
     try {
-        console.log("Added gate", gate);
         dispatch({type: ADD_DROPPED_GATE_ACTION, payload: gate})
     }
     catch (e) {
@@ -205,4 +207,11 @@ export const updateSelectedGateId = (id : string) => async (dispatch: any) => {
     }
 }
 
-// export const addCompoundGate = (compoundGate : ICompoudGate)
+export const addCompoundGateDropdown = (name : string) => async (dispatch: any) => {
+    try {
+        dispatch({type: ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION, payload: {name: name}})
+    } catch (e) {
+        console.log("Error", e);
+        throw e;
+    }
+}

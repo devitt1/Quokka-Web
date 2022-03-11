@@ -14,7 +14,7 @@ type SelectionBoxValue = {
     setSelectionBox : Dispatch<SetStateAction<SelectionBoxState>>,
 }
 
-const defaultSelectionBoxValue : SelectionBoxValue = {
+export const defaultSelectionBoxValue : SelectionBoxValue = {
     selectionBox : {
         mouseStartPosition: {x : 0, y: 0},
         dimension : {width : 0, height: 0},
