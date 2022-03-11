@@ -5,6 +5,7 @@ import {ModalProps} from "./Modal";
 import {closeModal} from "../../../redux/actions/modalsAction";
 import {useDispatch} from "react-redux";
 import {updateDroppedGate} from "../../../redux/actions/circuitConfigAction";
+import {Button} from "../../Button/Button";
 
 const EditGateInputModal : React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
@@ -38,10 +39,11 @@ const EditGateInputModal : React.FC<ModalProps> = (props) => {
                     onKeyDown={handleKeyDown}
                     placeholder="Enter here"
                 />
+                <div className={styles.buttonGroup}>
+                    <Button types={["standardBtn"]} name="OK" onClick={async () => handleOkButtonClicked()}>
+                    </Button>
+                </div>
 
-                <button onClick={async () => handleOkButtonClicked()}>
-                    OK
-                </button>
             </div>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
