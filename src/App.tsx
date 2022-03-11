@@ -59,9 +59,7 @@ function App() {
                         }/>
                         <Route path={ROUTES.CIRCUIT_OUTPUT} element=
                             {
-                                <RequireAuth>
-                                    <CircuitOutput/>
-                                </RequireAuth>
+                            <CircuitOutput/>
                             }
                         />
                         <Route path={ROUTES.SAVED_FILES} element={
