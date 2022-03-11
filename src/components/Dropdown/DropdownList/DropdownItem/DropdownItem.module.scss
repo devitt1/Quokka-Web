@@ -1,0 +1,68 @@
+@import "../../../../common/global.scss";
+
+.dropdownItem {
+  z-index: 2;
+  display: flex;
+  width: 125px;
+  height: 31px;
+  text-align: start;
+  vertical-align: center;
+  align-items: center;
+  padding-left: 15px;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: #f0f3f7;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  &:hover {
+    background-color: #DEE2EA;
+  }
+  &.lastItem {
+    border-radius: 0 0 4px 4px;
+  }
+  p {
+    color: $black;
+  }
+
+  &.accountMenuDropdown {
+    z-index: 3;
+    display: flex;
+    width: calc(100% - 26px);
+    height: 31px;
+    align-self: center;
+    text-align: center;
+    vertical-align: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    background-color: #F8F9FB;
+    padding: 5px 13px;
+
+    &:hover {
+      background-color: #DEE2EA;
+    }
+
+  }
+
+  &.compoundGateDropdown {
+    .listItemRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      .editButton {
+        margin-left: 45px;
+      }
+      .removeButton {
+        margin-left: 5px;
+        margin-right: 10px;
+        display: inline-block;
+      }
+    }
+
+  }
+
+  &.standardGateDropdown {
+
+  }
+}
