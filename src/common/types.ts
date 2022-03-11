@@ -1,6 +1,13 @@
 export type Payload = { type: string, payload: any};
 export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT', 'Measurement Gate'];
-export const ALL_COMPOUND_GATES = ['Compound Gate 1'];
+
+
+
+
+
+
+
+export const ALL_COMPOUND_GATES = ['Compound Gate'];
 export type StandardGateTypes = typeof ALL_STD_GATES;
 export type CompoundGateTypes = typeof ALL_COMPOUND_GATES;
 export type GateTypes = StandardGateTypes[number] | CompoundGateTypes[number];
@@ -11,14 +18,14 @@ export type CircuitConfigMode =
     | 'GateSelectionMode'
     | 'CompoundGateCreationMode';
 
-
 export type ModalType =
     | 'LoginModal'
     | 'ConnectionModal'
     | 'RunCircuitModal'
     | 'EditGateInputModal'
     | 'ForgotPasswordModal'
-    | 'SaveCircuitModal';
+    | 'SaveCircuitModal'
+    | 'SaveCompoundGateModal';
 
 export type ModalState =
     |'StartConnection'
@@ -30,9 +37,11 @@ export type ModalState =
     | 'StartEnterInput'
     | 'EmailPasswordEntry'
     | 'EmailPasswordSent'
-    | 'SaveCircuitNameEntry';
+    | 'SaveCircuitNameEntry'
+    | 'SaveCompoundGateEntry';
 
 export type ButtonTypes =
+    | 'loginBtn'
     | 'standardBtn'
     | 'selectGateBtn'
     | 'circuitBtn'
@@ -48,3 +57,6 @@ export type ButtonTypes =
 export type DropdownTypes =
     | 'dropdownList'
     | 'accountMenuDropdown'
+    | 'standardGateDropdown'
+    | 'compoundGateDropdown'
+
