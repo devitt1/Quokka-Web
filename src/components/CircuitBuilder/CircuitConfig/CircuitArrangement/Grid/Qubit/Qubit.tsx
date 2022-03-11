@@ -40,13 +40,7 @@ const Qubit : React.FC<QubitProps> = (props) => {
                                       cellYPos={rowVerticalOffset} hasGate={false}/>
                 })
             }
-            {
-                (id === selectedQubitId) ?
-                    <rect className={styles.qubitSelectedBoundingBox} x={5} y={rowIndex * 64 + 21} width={34} height={34}/>
-                    :
-                    null
-            }
-            <QubitSymbol x={5} y={rowIndex * 64 + 21} onClick={handleQubitSymbolSelected} />
+            <QubitSymbol isSelected={id === selectedQubitId} x={5} y={rowIndex * 64 + 21} onClick={handleQubitSymbolSelected} />
 
 
         </g>

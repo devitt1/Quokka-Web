@@ -9,16 +9,31 @@
     stroke-linecap: square;
   }
 
-  .qubitSelectedBoundingBox {
-    stroke-width: 2;
-    z-index: 2;
-    stroke: #5C7DFF;
-    border-radius: 4px;
+  .qubitSelectionBox {
     fill: transparent;
-  }
-  .addQubitActionBtn {
-  }
+    &.selected {
+      filter: url(#selectedQubitShadow);
+    }
 
+    .selectionBox {
+      &:hover {
+        stroke-width: 2;
+        z-index: 2;
+        stroke: #5C7DFF;
+        border-radius: 4px;
+      }
+
+      &.selected {
+        filter: url(#selectedQubitShadow);
+        stroke-width: 2;
+        fill: url(#selected_qubit_background);
+        z-index: 2;
+        stroke: #5C7DFF;
+        border-radius: 4px;
+
+      }
+    }
+  }
 
 }
 
