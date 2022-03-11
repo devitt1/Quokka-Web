@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styles from './Modal.module.scss';
 import {ModalState} from "../../../common/types";
 import {ModalProps} from "./Modal";
@@ -11,6 +11,7 @@ import {BuildOutput} from "../../../common/classes";
 import {addBuildOutput} from "../../../redux/actions/circuitOutputsAction";
 import {IGate} from "../../../common/interfaces";
 import {Button} from "../../Button/Button";
+import Input from "../../Input/Input";
 
 const RunCircuitModal : React.FC<ModalProps> = (props) => {
     const [modalState, setModalState] = useState(props.state);
@@ -64,8 +65,9 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
                 return(<div className={styles.content}>
                     <h1>Run circuit</h1>
                     <p>Enter how many times you want to run this circuit:</p>
-                    <input
+                    <Input
                         type="text"
+                        styleTypes={["default"]}
                         onChange={handleInputChanged}
                         onKeyDown={handleKeyDown}
                         placeholder="Enter number"
