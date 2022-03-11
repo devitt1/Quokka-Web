@@ -25,16 +25,14 @@ interface DroppedGateProps {
     gateExtension : IGateExtension,
     droppedFromMenu: boolean,
     rotAngle? : string | null
+    name? : string
 }
 
 const DroppedGate : React.FC<DroppedGateProps> = (children) => {
-    const {x, y, id, width, height, qubitIds, type, rotAngle, gateExtension, droppedFromMenu} = children;
+    const {x, y, id, width, height, qubitIds, type, rotAngle, gateExtension, droppedFromMenu, name} = children;
     const [targetMove, setTargetMove] = useState(false);
-    const {selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     var droppedGateStyle = styles.droppedGate;
-    if (selectedGateId === id) {
-        droppedGateStyle = styles.droppedGate + " " + styles.selected;
-    }
+
     const dispatch = useDispatch();
 
 
@@ -61,7 +59,7 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
         const gateExtToUpdate = new GateExtClass(gateExtension.targetY,
             gateExtension.qubitId, gateExtension.type);
         const gateToUpdate = new DraggableGate(x, y,{x: x, y: y}, width, height, qubitIds, type,
-            gateExtToUpdate, droppedFromMenu, rotAngle);
+            gateExtToUpdate, droppedFromMenu, rotAngle, name);
         dispatch(removeDroppedGate(id));
         dispatch(updateDraggingGate(gateToUpdate));
     }
@@ -94,6 +92,7 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
             x={x} y={y} width={width} height={height}
             type={type as GateTypes} rotAngle={rotAngle}
             isAttachment={false}
+            name={name}
             onMouseEnter={handleMouseEnter}/>
 
     </g>)

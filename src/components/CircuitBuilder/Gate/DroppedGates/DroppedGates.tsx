@@ -21,7 +21,8 @@ const DroppedGates : React.FC<DroppedGatesProps> = () => {
                                     width={gate.width} height={gate.height}
                                     type={gate.type as GateTypes} gateExtension={gate.gateExtension}
                                     droppedFromMenu={gate.droppedFromMenu}
-                                    rotAngle={gate.rotAngle}/>
+                                    rotAngle={gate.rotAngle}
+                                    name={gate.name}/>
             })
         }
 
