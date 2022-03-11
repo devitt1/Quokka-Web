@@ -34,7 +34,12 @@ const initialSelectionBox = {
     isDrawing: false
 }
 
-const Grid : React.FC = () => {
+interface GridProps {
+    viewOnlyMode?: boolean;
+}
+
+const Grid : React.FC <GridProps> = (props) => {
+    const {viewOnlyMode} = props;
     const {circuitState, circuitConfigMode, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     const gridRef : any = useRef(null);
     const {selectionBox, setSelectionBox} = useContext(CompoundGateSelectionContext);
@@ -164,6 +169,7 @@ const Grid : React.FC = () => {
 
     return (
         <svg className={styles.grid} ref={gridRef}
+             // viewBox="00, -200, 1000, 1000"
              onMouseDown={handleMouseDown}
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
@@ -180,15 +186,22 @@ const Grid : React.FC = () => {
             })
 
         }
-        <AddQubitActionBtn x={DIMENSIONS.ADD_QUBIT_BTN.X_OFFSET}
-           y={circuitState.qubits.length * DIMENSIONS.GRID.HEIGHT
-           + DIMENSIONS.ADD_QUBIT_BTN.Y_OFFSET + DIMENSIONS.GRID.PADDING.TOP }
-           onClick={handleAddQubitActionBtnClicked}/>
+
+        {
+            viewOnlyMode
+            ? null :
+                <AddQubitActionBtn x={DIMENSIONS.ADD_QUBIT_BTN.X_OFFSET}
+                       y={circuitState.qubits.length * DIMENSIONS.GRID.HEIGHT
+                       + DIMENSIONS.ADD_QUBIT_BTN.Y_OFFSET + DIMENSIONS.GRID.PADDING.TOP }
+                       onClick={handleAddQubitActionBtnClicked}/>
+        }
+
+
         <DroppedGates/>
 
         <DraggingGate
             xOffset={gridPosition.x}
-            yOffset={gridPosition.y} x={0} y={0} width={40} height={38}/>
+            yOffset={gridPosition.y}/>
 
         <rect className={styles.selectionBox}
               x={selectionBox.mouseStartPosition.x}
