@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
-import { NavLink } from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import styles from './Header.module.scss';
 import logo from '../../assets/logo.svg'
 import { RootState } from '../../redux/reducers/rootReducer';
-
-import {useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import account_icon from '../../assets/account_icon.svg';
 import arrow_down_black from '../../assets/arrow_down_black.svg';
 import {ROUTES} from "../../common/constants";
-import {Button} from "../Button/Button";
 import DropdownButton from "../DropdownButton/DropdownButton";
 import {Dropdown} from "../Dropdown/Dropdown";
 import DropdownList from "../Dropdown/DropdownList/DropdownList";
-
+import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "../../redux/actions/authAction";
 const Header : React.VFC  = () => {
     const deviceConn = useSelector((state: RootState) => state.deviceConnection);
+    const {authenticated, user} = useSelector((state: RootState) => state.auth);
     const [accountMenuClicked, setAccountMenuClicked] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(true);
+    const dispatch = useDispatch();
+    const history = useNavigate();
     var connDotStyle = styles.connectionDot;
     var statusStyle = styles.status;
 
@@ -25,12 +25,20 @@ const Header : React.VFC  = () => {
         statusStyle = styles.statusInfo + ' ' + styles.connected;
     }
 
-    const handleAccountMenuClicked = () => {
+    const handleAccountMenuItemClicked = (dropdownItem : string) => {
+        console.log(dropdownItem);
+        switch (dropdownItem) {
+            case 'Logout' :
+                dispatch(updateUserAuthentication(false));
+                dispatch(updateCurrentlyAuthenticatedUser(null));
+                localStorage.clear();
+                history('login');
+                break;
+            default:
+                break;
+        }
         setAccountMenuClicked(!accountMenuClicked);
-    }
 
-    const handleAccountMenuItemClicked = () => {
-        setAccountMenuClicked(!accountMenuClicked);
     }
 
     const renderAccountMenuButton = () => {
@@ -39,9 +47,10 @@ const Header : React.VFC  = () => {
             <DropdownButton name={'Account'} buttonTypes={['accountMenuBtn']} leftImageSource={account_icon}
                             rightImageSource={arrow_down_black}>
                     <Dropdown type={'accountMenuDropdown'}>
-                        <div> Welcome <br/>email@address.com</div>
-                        <DropdownList type={'accountMenuDropdown'} list={['Saved Files', 'Connect to a \n Quokka device', 'Update password', 'Logout']}
-                                      onDropdownItemClicked={handleAccountMenuItemClicked}/>
+                        <div> Welcome <br/>{user?.email}</div>
+                        <DropdownList type={'accountMenuDropdown'}
+                                      list={['Saved Files', 'Connect to a \n Quokka device', 'Update password', 'Logout']}
+                                      onDropdownItemClicked={(dropdownItem : string) => handleAccountMenuItemClicked(dropdownItem)}/>
                     </Dropdown>
                 </DropdownButton>
             </div>
@@ -71,7 +80,7 @@ const Header : React.VFC  = () => {
 
 
                 {
-                    !loggedIn ?
+                    !authenticated ?
                         <div className={styles.loginNavLink}>
                             <img src={account_icon} />
                             <NavLink to="/login" className={(navData) => styles.loginLbl}>Login/Create Account</NavLink>
