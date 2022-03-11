@@ -11,19 +11,17 @@ import CursorContextProvider from '../Providers/CursorContextProvider';
 import CompoundGateSelectionContextProvider from "../Providers/CompoundGateSelectionContextProvider";
 
 const CircuitBuilder : React.FC = () => {
-    const {status} = useSelector((state : RootState) => (state.circuitConfig));
+    const {status, viewOnlyMode} = useSelector((state : RootState) => (state.circuitConfig));
 
     return (
             <div className={styles.circuitBuilder}>
                 <CursorContextProvider>
-                    <CompoundGateSelectionContextProvider>
                         <Cursor/>
                         {
                             status ? <CircuitProcessingInfo/> : <Toolbar/>
                         }
 
-                    <CircuitConfig circuitBuilderStatus={status}/>
-                    </CompoundGateSelectionContextProvider>
+                    <CircuitConfig circuitBuilderStatus={status} viewOnlyMode={viewOnlyMode}/>
                 </CursorContextProvider>
             </div>
        )

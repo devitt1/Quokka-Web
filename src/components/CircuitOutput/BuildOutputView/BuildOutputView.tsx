@@ -27,8 +27,7 @@ const BuildOutputView : React.FC<BuildOutputViewProps> = (props) => {
             </div>
         </div>
         <Accordion title={'View Circuit Arrangement'}>
-            {/*<p>This is circuit arrangement</p>*/}
-            <Grid/>
+            <Grid viewOnlyMode={true}/>
         </Accordion>
         <BuildOutputChart outputData={buildOutput.outputData}/>
     </div>

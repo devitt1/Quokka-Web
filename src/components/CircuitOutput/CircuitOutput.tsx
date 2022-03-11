@@ -4,7 +4,6 @@ import BuildOutput from "./BuildOutput/BuildOutput";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {IBuildOutput} from "../../common/interfaces";
-import BuildOutputChart from "./BuildOutputView/BuildOutputChart/BuildOutputChart";
 
 const CircuitOutput : React.FC = () => {
 
