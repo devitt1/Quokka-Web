@@ -1,0 +1,19 @@
+image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+
+variables:
+  REGION: ap-southeast-2
+
+before_script:
+  - yarn install
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - master
+  script:
+    - CI=false yarn build
+    - aws --region $REGION s3 cp --recursive ./build/ s3://theq-webapp
