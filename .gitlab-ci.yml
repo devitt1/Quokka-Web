@@ -1,4 +1,4 @@
-image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+image: python3.10-nodejs16-alpine
 
 cache:
   paths:
@@ -9,11 +9,7 @@ variables:
   REGION: ap-southeast-2
 
 before_script:
-  - sudo apt update
-  - sudo apt install yarn
-#  - npm install --global yarn
-#  - yarn --version
-#  - yarn install
+  - yarn
 
 stages:
   - deploy
