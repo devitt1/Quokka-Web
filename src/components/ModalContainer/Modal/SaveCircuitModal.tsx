@@ -3,11 +3,21 @@ import {ModalProps} from "./Modal";
 import styles from './Modal.module.scss';
 import {ModalState} from "../../../common/types";
 import {closeModal} from "../../../redux/actions/modalsAction";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Button} from "../../Button/Button";
+import Input from "../../Input/Input";
+import StackLayout from "../../StackLayout/StackLayout";
+import {useNavigate} from "react-router-dom";
+import {RootState} from "../../../redux/reducers/rootReducer";
+import {loadCircuitConfig, updateCircuitConfigTitle} from "../../../redux/actions/circuitConfigAction";
+import {ICircuitState} from "../../../common/interfaces";
+import APIClient from "../../../api/APIClient";
 
 const SaveCircuitModal : React.FC<ModalProps> = (props) => {
     const [modalState, setModalState] = useState(props.state);
+    const apiClient = new APIClient();
+    const {circuitConfigTitle, circuitState, compoundGates} = useSelector((state : RootState) => (state.circuitConfig));
+    const history = useNavigate();
     const dispatch = useDispatch();
 
 
@@ -18,14 +28,26 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
     }
 
     const handleInputChanged = (event : any) => {
-
+        dispatch(updateCircuitConfigTitle(event.target.value));
     }
 
     const handleSaveButtonClicked = async () => {
-
+        console.log("CircuitState: ", circuitState);
+        console.log("Compound Gates: ", compoundGates);
+        const response = await apiClient.circuitBuilderAPIService.saveCircuitConfigFile({
+            title: circuitConfigTitle,
+            compoundGates: compoundGates,
+            circuitState: circuitState,
+        })
+        setModalState('SaveCircuitSuccessfully');
     }
 
-    const handleBackButtonClicked = async () => {
+    const close = async () => {
+        dispatch(closeModal(props.id));
+    }
+
+    const handleGoToSaveFilesBtnClicked = async () => {
+        history('/account/savedFiles')
         dispatch(closeModal(props.id));
     }
 
@@ -34,16 +56,17 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
             case 'SaveCircuitNameEntry':
                 return(<div className={styles.content}>
                     <h3>Save File</h3>
-                    <input
+                    <Input
                         type="text"
+                        styleTypes={["default"]}
                         onChange={handleInputChanged}
                         onKeyDown={handleKeyDown}
-                        placeholder="Enter name"
+                        placeholder={circuitConfigTitle}
                     />
                     <div className={styles.buttonGroup}>
                         <Button name='Back'
                                 types={['standardBtn']}
-                                onClick={async () => handleBackButtonClicked()}>
+                                onClick={async () => close()}>
                         </Button>
                         <Button name='Save'
                                 types={['standardBtn']}
@@ -51,6 +74,26 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
                         </Button>
                     </div>
                 </div>)
+            case 'SaveCircuitSuccessfully':
+                return <div className={styles.content}>
+                    <h3>File Successfully Saved</h3>
+                    <p>Do you want to continue in the Circuit Builder or go to all
+                        Saved Files?</p>
+
+                    <StackLayout orientation='vertical'>
+                        <Button
+                            name="Go to saved files"
+                            types={['standardBtn', 'large']}
+                            onClick={async() => handleGoToSaveFilesBtnClicked()}>
+                        </Button>
+                        <Button
+                            name="Stay in Circuit Builder"
+                            types={['standardBtn', 'large']}
+                            onClick={async() => close()}>
+                        </Button>
+                    </StackLayout>
+
+                </div>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
         }

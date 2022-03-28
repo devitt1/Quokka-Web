@@ -4,10 +4,24 @@
   display: flex;
   flex-direction: column;
   margin-right: 38px;
-  height: calc(100% - 100px);
+  height: calc(100% - 150px);
   h2 {
     align-self: flex-start;
     margin-left: 35px;
+
+  }
+
+  img {
+    &.underlayImage {
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 50vh;
+      height: 60vh;
+      color: #0000000D;
+      z-index: 0;
+      opacity: 1;
+    }
 
   }
 
@@ -18,7 +32,11 @@
     p {
       &.warningMessage {
         color: red;
+        .underlined {
+          text-decoration: underline;
+        }
       }
+
     }
   }
 

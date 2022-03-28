@@ -9,6 +9,11 @@ export interface IUser {
     email : string;
 }
 
+export interface ICircuitConfigFile extends IBaseInterface{
+    title: string;
+    compoundGates : string[],
+    circuitState : ICircuitState | null
+}
 
 export interface IGate extends IBaseInterface{
     x : number,
@@ -74,8 +79,12 @@ export interface IModal {
 
 export interface IBuildOutput {
     id: string;
-    name: string;
-    outputData : number[][];
-    runDuration : number;
-    buildCircuitArrangement : string;
+    title: string;
+    buildCircuitState: ICircuitState;
+    buildOutputData : number[][];
+    buildDuration : number;
+    runIterationCount : number;
+    createdDate? : Date;
+    updatedDate? : Date;
+    measurement? : number;
 }

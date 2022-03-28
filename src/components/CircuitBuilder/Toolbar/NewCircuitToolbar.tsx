@@ -1,8 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import styles from './Toolbar.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/reducers/rootReducer";
-import {updateCircuitConfigMode, updateSelectedStandardGate} from "../../../redux/actions/circuitConfigAction";
+import {
+    updateCircuitConfigMode,
+    updateCircuitConfigTitle,
+    updateSelectedStandardGate
+} from "../../../redux/actions/circuitConfigAction";
 import {openModal} from "../../../redux/actions/modalsAction";
 import {Modal} from "../../../common/classes";
 import {ALL_STD_GATES} from "../../../common/types";
@@ -12,15 +16,19 @@ import {Dropdown} from "../../Dropdown/Dropdown";
 import DropdownList from "../../Dropdown/DropdownList/DropdownList";
 import {Button} from "../../Button/Button";
 import arrow_down_black from "../../../assets/arrow_down_black.svg";
+import {CursorContext} from "../../Providers/CursorContextProvider";
 
 const NewCircuitToolbar : React.FC = () => {
-    const {circuitConfigMode, selectedStandardGate, compoundGates} = useSelector((state: RootState) => state.circuitConfig);
+    const {circuitConfigTitle, circuitConfigMode, selectedStandardGate, compoundGates} = useSelector((state: RootState) => state.circuitConfig);
+
     const dispatch = useDispatch();
-    const [circuitTitle, setCircuitTitle] = useState('New Untitled Circuit');
     const [editCircuitDisabled, setEditCircuitDisabled] = useState(true);
-    const circuitTitleRef : any = useRef(null);
     const handleSelectBtnClicked = () => {
-        dispatch(updateCircuitConfigMode('GateSelectionMode'));
+        if (circuitConfigMode === 'GateSelectionMode') {
+            dispatch(updateCircuitConfigMode('NoSelectionMode'));
+        } else if (circuitConfigMode === 'NoSelectionMode') {
+            dispatch(updateCircuitConfigMode('GateSelectionMode'));
+        }
     }
 
     const handleRunCircuitBtnClicked = () =>  {
@@ -30,15 +38,13 @@ const NewCircuitToolbar : React.FC = () => {
     const handleDropdownItemClicked = (dropdownItem: string) => {
         if (dropdownItem === 'Save') {
             dispatch(openModal(new Modal('SaveCircuitModal', 'SaveCircuitNameEntry')));
+        } else if (dropdownItem === 'Load') {
+            dispatch(updateCircuitConfigMode('LoadFilesMode'));
         }
     }
 
-    useEffect(()=> {
-        console.log(compoundGates);
-    }, [compoundGates])
-
     const handleCircuitTitleInputChanged = (event : any) => {
-        setCircuitTitle(event.target.value);
+        dispatch((updateCircuitConfigTitle(event.target.value)));
     }
 
     const handleCircuitTitleClicked = (event : any) => {
@@ -63,7 +69,9 @@ const NewCircuitToolbar : React.FC = () => {
     }
 
 
-    return (<div className={styles.toolbar}>
+
+    return (<div className={styles.toolbar}
+    >
         <div className={styles.fileManager} >
             <h3>Q</h3>
             <DropdownButton name={''} buttonTypes={['imageBtn']} imageButtonDropdownSource={arrow_down}>
@@ -72,9 +80,8 @@ const NewCircuitToolbar : React.FC = () => {
                 </Dropdown>
             </DropdownButton>
             <input type="text"
-                   ref={circuitTitleRef}
                    style={editCircuitDisabled ? {cursor: "default"} : {cursor: 'text'}}
-                   value={circuitTitle}
+                   value={circuitConfigTitle}
                    readOnly={editCircuitDisabled}
                    className={styles.circuitEditableTitle}
                    onChange={handleCircuitTitleInputChanged}

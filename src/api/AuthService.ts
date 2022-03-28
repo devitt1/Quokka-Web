@@ -25,14 +25,6 @@ class AuthService {
         }
     }
 
-    public async getToken() {
-        try {
-            return localStorage.getItem('user')
-        } catch (error) {
-            console.log("Error: ", error);
-        }
-    }
-
     public async getMe() {
         try {
              return this.axios.post('users/me', {email: localStorage.getItem("userEmail")});

@@ -4,15 +4,16 @@ import {GateTypes} from "../../../../common/types";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import DroppedGate from "./DroppedGate/DroppedGate";
+import {IGate} from "../../../../common/interfaces";
 
 interface DroppedGatesProps {
-
+    droppedGates : IGate[]
+    viewOnly? : boolean;
 }
 
-const DroppedGates : React.FC<DroppedGatesProps> = () => {
+const DroppedGates : React.FC<DroppedGatesProps> = (props) => {
 
-    const {droppedGates} = useSelector((state : RootState) => (state.circuitConfig.circuitState));
-
+    const {droppedGates, viewOnly} = props;
 
     return (<g className={styles.droppedGates}>
         {
@@ -22,7 +23,8 @@ const DroppedGates : React.FC<DroppedGatesProps> = () => {
                                     type={gate.type as GateTypes} gateExtension={gate.gateExtension}
                                     droppedFromMenu={gate.droppedFromMenu}
                                     rotAngle={gate.rotAngle}
-                                    name={gate.name}/>
+                                    name={gate.name}
+                                    viewOnly={viewOnly}/>
             })
         }
 

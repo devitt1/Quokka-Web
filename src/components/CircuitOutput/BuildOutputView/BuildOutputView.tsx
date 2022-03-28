@@ -6,30 +6,34 @@ import Accordion from "../../Accordion/Accordion";
 import BuildOutputChart from "./BuildOutputChart/BuildOutputChart";
 import Grid from "../../CircuitBuilder/CircuitConfig/CircuitArrangement/Grid/Grid";
 import CircuitArrangement from "../../CircuitBuilder/CircuitConfig/CircuitArrangement/CircuitArrangement";
+import {formattedDate} from "../../../common/helpers";
 
 interface BuildOutputViewProps {
 }
-
-
 
 const BuildOutputView : React.FC<BuildOutputViewProps> = (props) => {
     const location = useLocation();
     const buildOutput = location.state as IBuildOutput;
 
+    useEffect(() => {
+
+    }, []);
+
+
     return <div className={styles.buildOutputView} >
         <div className={styles.outputHeader}>
-            <h2 className={styles.outputName}>{buildOutput.name}</h2>
+            <h2 className={styles.outputName}>{buildOutput.title}</h2>
             <div className={styles.metaDataAndDownload}>
-                <p>10/12/21</p>
+                <p>{formattedDate(buildOutput.createdDate)}</p>
                 <p className={styles.buildDuration} >
-                    <strong>Processing time:</strong>4:00</p>
+                    <strong>Processing time:</strong>{buildOutput.buildDuration/1000} seconds</p>
                 <button className={styles.downloadCSVButton}>Download CSV</button>
             </div>
         </div>
         <Accordion title={'View Circuit Arrangement'}>
-            <Grid viewOnlyMode={true}/>
+            <Grid viewOnly={true} circuitState={buildOutput.buildCircuitState}/>
         </Accordion>
-        <BuildOutputChart outputData={buildOutput.outputData}/>
+        <BuildOutputChart outputData={buildOutput.buildOutputData}/>
     </div>
 }
 

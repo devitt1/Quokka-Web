@@ -12,14 +12,31 @@ export const findQubitIndex = (id: string, qubits : IQubit[]) => {
     return index;
 }
 
+export const findQubitFromId = (id: string, qubits : IQubit[]) : IQubit | null => {
+    const qubit = qubits.find((qubit) => {
+        return qubit.id === id;
+    });
+    if (qubit) {
+        return qubit;
+    } else {
+        return null;
+    }
+}
+
 export const gateToQASM = (gate : IGate) => {
     var qasmGateScript : string;
     if (gate.type === 'CNOT') {
         qasmGateScript = `cx`;
     } else if (gate.rotAngle === null) {
         qasmGateScript = `${gate.type.toLowerCase()}`;
-    } else {
+    } else if (gate.rotAngle) {
         qasmGateScript = `${gate.type.toLowerCase()}(${gate.rotAngle})`;
+    } else if (gate.type === 'H') {
+        qasmGateScript = `${gate.type.toLowerCase()}`;
+    } else if (gate.type === 'Measurement Gate') {
+        qasmGateScript = `measure`;
+    } else {
+        qasmGateScript = `undefined`;
     }
     console.log("qasmGateScript=", qasmGateScript)
     return qasmGateScript;
@@ -97,4 +114,13 @@ export const getMaxGatesVertically = (gatesInSelection : IGate[], droppedGates :
         countArr.push(countGatesVertically(droppedGates, gate.x));
     })
     return Math.max(...countArr);
+}
+
+export const formattedDate = (date?: Date) => {
+    if (date) {
+        return date.toString().replaceAll('-', '/');
+    }
+    else {
+        return 'undefined'
+    }
 }

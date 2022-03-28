@@ -8,21 +8,24 @@ import {RootState} from "../../redux/reducers/rootReducer";
 import CircuitProcessingInfo from "./CircuitProcessingInfo/CircuitProcessingInfo";
 import Cursor from "../Cursor/Cursor";
 import CursorContextProvider from '../Providers/CursorContextProvider';
-import CompoundGateSelectionContextProvider from "../Providers/CompoundGateSelectionContextProvider";
+import SavedFiles from "../SavedFiles/SavedFiles";
 
 const CircuitBuilder : React.FC = () => {
-    const {status, viewOnlyMode} = useSelector((state : RootState) => (state.circuitConfig));
+    const {status, circuitConfigMode, viewOnly} = useSelector((state : RootState) => (state.circuitConfig));
 
     return (
             <div className={styles.circuitBuilder}>
-                <CursorContextProvider>
                         <Cursor/>
                         {
                             status ? <CircuitProcessingInfo/> : <Toolbar/>
                         }
+                    {
+                        circuitConfigMode === 'LoadFilesMode' ?
+                            <SavedFiles loadFilesView={true}/>
+                            :
+                            <CircuitConfig circuitBuilderStatus={status} viewOnly={viewOnly}/>
 
-                    <CircuitConfig circuitBuilderStatus={status} viewOnlyMode={viewOnlyMode}/>
-                </CursorContextProvider>
+                    }
             </div>
        )
 }

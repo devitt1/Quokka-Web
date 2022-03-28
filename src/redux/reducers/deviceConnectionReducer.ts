@@ -1,5 +1,9 @@
 import {Payload} from '../../common/types';
-import { INIT_DEVICE_CONN_STAT_ACTION, UPDATE_DEVICE_CONN_STAT_ACTION } from '../actions/deviceConnectionAction';
+import {
+    INIT_DEVICE_CONN_STAT_ACTION,
+    UPDATE_DEVICE_CONN_STAT_ACTION,
+    UPDATE_DEVICE_NAME_ACTION
+} from '../actions/deviceConnectionAction';
 
 export interface DeviceConnectionState {
     connected: boolean
@@ -20,6 +24,11 @@ function deviceConnectionReducer (
             return {
                 ...state,
                 initialDeviceConnectionState
+            }
+        case UPDATE_DEVICE_NAME_ACTION:
+            return {
+                ...state,
+                deviceName: action.payload.deviceName
             }
         case UPDATE_DEVICE_CONN_STAT_ACTION:
             return {

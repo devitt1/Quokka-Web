@@ -9,11 +9,12 @@ class APIClient {
     public readonly authService : AuthService;
     private readonly DEVELOPMENT_BASE_URL = "http://localhost:8080";
     private readonly QSIM_API_NGROK_URL = `https://${window.sessionStorage.getItem('deviceName')}.ngrok.io`;
-    // private readonly PRODUCTION_BASE_URL = "https://tphoportfolioapi.azurewebsites.net"
+    // private readonly PRODUCTION_BASE_URL = "http://ec2-13-236-136-43.ap-southeast-2.compute.amazonaws.com:8080"
     constructor() {
 
         // This instance is for interacting with the Q builder backend
         const circuitBuilderAPIAxiosInstance = axios.create({
+            // baseURL: this.PRODUCTION_BASE_URL,
             baseURL: this.DEVELOPMENT_BASE_URL,
         });
 
@@ -24,7 +25,6 @@ class APIClient {
 
         circuitBuilderAPIAxiosInstance.interceptors.request.use(async (config : AxiosRequestConfig) => {
             const accessToken : string | null = localStorage.getItem('access_token');
-            console.log(accessToken);
             if (config.headers && accessToken) {
                 config.headers['Authorization'] = `Bearer ${accessToken}`;
                 return config;

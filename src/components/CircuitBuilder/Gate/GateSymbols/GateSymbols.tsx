@@ -34,6 +34,12 @@ export const ZGateSymbol : React.FC = () => {
                     14.646 25.4895L22.018 15.1155H14.8455V13.32H24.9155V14.1465Z"/>
 }
 
+export const HGateSymbol : React.FC = () => {
+    return  <path className={styles.gateSymbols} d="M26.9485 13.32V27H24.7255V20.9105H17.857V27H15.6245V13.32H17.857V19.305H24.7255V13.32H26.9485Z"
+                  />
+
+}
+
 export const CNOTGateSymbol : React.FC = () => {
     return <path className={styles.gateSymbols}
         d="M24.1245 23.9505C24.2448 23.9505 24.3493

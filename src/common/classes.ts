@@ -1,7 +1,7 @@
 import { DeviceConnectionState } from "../redux/reducers/deviceConnectionReducer";
 import {
     IBaseInterface,
-    IBuildOutput,
+    IBuildOutput, ICircuitConfigFile, ICircuitState,
     ICoordinate,
     IDraggableGate,
     IGate,
@@ -30,6 +30,21 @@ export class BaseClass implements IBaseInterface {
     }
 }
 
+export class CircuitConfigFile extends BaseClass implements ICircuitConfigFile {
+    title: string;
+    compoundGates : string[];
+    circuitState : ICircuitState | null;
+    constructor(
+        name: string,
+        compoundGates: string[],
+        circuitState: ICircuitState | null
+    ) {
+        super();
+        this.title = name;
+        this.compoundGates = compoundGates;
+        this.circuitState = circuitState;
+    }
+}
 
 export class Gate extends BaseClass implements IGate {
     x: number;
@@ -155,18 +170,25 @@ export class Modal extends BaseClass implements IModal {
 }
 
 export class BuildOutput extends BaseClass implements IBuildOutput {
-    name: string;
-    outputData: number[][];
-    runDuration: number;
-    buildCircuitArrangement: string;
+    title: string;
+    buildCircuitState: ICircuitState;
+    buildOutputData: number[][];
+    buildDuration : number;
+    runIterationCount : number;
+    createdDate? : Date;
+    updatedDate? : Date;
+    measurement? : number;
 
-    constructor(name: string,
-                outputData: number[][], runDuration: number,
-                buildCircuitArrangement: string) {
+    constructor(title: string,
+                buildOutputData: number[][],
+                buildDuration: number,
+                buildCircuitState: ICircuitState,
+                runIterationCount : number) {
         super();
-        this.name = name;
-        this.outputData = outputData;
-        this.runDuration = runDuration;
-        this.buildCircuitArrangement = buildCircuitArrangement;
+        this.title = title;
+        this.buildCircuitState = buildCircuitState;
+        this.buildOutputData = buildOutputData;
+        this.buildDuration = buildDuration;
+        this.runIterationCount = runIterationCount;
     }
 }

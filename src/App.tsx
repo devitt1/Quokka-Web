@@ -14,17 +14,15 @@ import BuildOutputView from "./components/CircuitOutput/BuildOutputView/BuildOut
 import {ROUTES} from "./common/constants";
 import SavedFiles from "./components/SavedFiles/SavedFiles";
 import CompoundGateSelectionContextProvider from "./components/Providers/CompoundGateSelectionContextProvider";
-import RequireAuth from "./components/RequireAuth/RequireAuth";
 import APIClient from "./api/APIClient";
-import {IUser} from "./common/interfaces";
 import {useDispatch, useSelector} from "react-redux";
 import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "./redux/actions/authAction";
 import {RootState} from "./redux/reducers/rootReducer";
+import CursorContextProvider from "./components/Providers/CursorContextProvider";
 
 
 function App() {
     const apiClient = new APIClient();
-    const {authenticated} = useSelector((state: RootState) => (state.auth));
     const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
@@ -55,7 +53,9 @@ function App() {
                             <Setup/>
                         }/>
                         <Route path={ROUTES.CIRCUIT_BUILDER} element={
-                            <CircuitBuilder/>
+                            <CursorContextProvider>
+                                <CircuitBuilder/>
+                            </CursorContextProvider>
                         }/>
                         <Route path={ROUTES.CIRCUIT_OUTPUT} element=
                             {
@@ -78,8 +78,8 @@ function App() {
                             <PageNotFound/>
                         }/>
                     </Routes>
+                    <ModalContainer/>
                 </BrowserRouter>
-                <ModalContainer/>
             </CompoundGateSelectionContextProvider>
         <Footer/>
     </div>

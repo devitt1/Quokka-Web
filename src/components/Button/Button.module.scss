@@ -10,6 +10,15 @@
       @include submit-button;
     }
 
+    &.underlinedUppercaseBtn {
+      @include underlined-button;
+      text-transform: uppercase;
+      align-self: center;
+      text-align: center;
+      justify-content: center;
+      height: 100%;
+    }
+
     &.standardBtn {
       cursor: pointer;
       align-self: center;
@@ -28,6 +37,10 @@
 
       &:hover {
         background: linear-gradient(93.58deg, #000000 0%, #1E2023 0.01%, #021E56 100%);
+      }
+
+      &.large {
+        width: 213px;
       }
 
     }

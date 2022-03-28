@@ -13,3 +13,15 @@ export const updateDeviceConnectionStatus = (connection : DeviceConnectionState)
     }
 }
 
+export const  UPDATE_DEVICE_NAME_ACTION = "UPDATE_DEVICE_NAME";
+
+export const updateDeviceName = (deviceName : string) => async(dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_DEVICE_NAME_ACTION, payload: {deviceName: deviceName}});
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+

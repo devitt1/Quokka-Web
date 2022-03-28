@@ -1,5 +1,5 @@
 export type Payload = { type: string, payload: any};
-export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT', 'Measurement Gate'];
+export const ALL_STD_GATES = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'CNOT', 'H', 'Measurement Gate'];
 
 
 
@@ -16,7 +16,8 @@ export type GateExtTypes = 'CNOT_TARGET' | 'None';
 export type CircuitConfigMode =
     | 'NoSelectionMode'
     | 'GateSelectionMode'
-    | 'CompoundGateCreationMode';
+    | 'CompoundGateCreationMode'
+    | 'LoadFilesMode';
 
 export type ModalType =
     | 'LoginModal'
@@ -38,10 +39,12 @@ export type ModalState =
     | 'EmailPasswordEntry'
     | 'EmailPasswordSent'
     | 'SaveCircuitNameEntry'
+    | 'SaveCircuitSuccessfully'
     | 'SaveCompoundGateEntry';
 
 export type ButtonTypes =
     | 'loginBtn'
+    | 'underlinedUppercaseBtn'
     | 'standardBtn'
     | 'selectGateBtn'
     | 'circuitBtn'
@@ -52,6 +55,7 @@ export type ButtonTypes =
     | 'dropdownBtn'
     | 'dropdownBtnRoundedRightCorners'
     | 'imageBtn'
+    | 'large'
     | 'accountMenuBtn';
 
 export type DropdownTypes =

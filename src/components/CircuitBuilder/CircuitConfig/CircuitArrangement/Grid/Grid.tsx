@@ -1,6 +1,7 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import styles from './Grid.module.scss';
 import Qubit from "./Qubit/Qubit";
+import {Qubit as QubitClass} from "../../../../../common/classes"
 import DraggingGate from "../../../Gate/DraggingGate/DraggingGate";
 import DroppedGates from "../../../Gate/DroppedGates/DroppedGates";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,15 +10,21 @@ import AddQubitActionBtn from "./Qubit/AddQubitActionBtn";
 import {
     addQubit,
     removeDroppedGate,
-    removeQubit,
+    removeQubit, updateQubit,
     updateSelectedQubit
 } from "../../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../../common/constants";
-import {findFurthestTopLeftGateInArray, locateGatesInSelectionBox} from "../../../../../common/helpers";
+import {
+    findFurthestTopLeftGateInArray,
+    findQubitFromId,
+    findQubitIndex,
+    locateGatesInSelectionBox
+} from "../../../../../common/helpers";
 import {
     CompoundGateSelectionContext,
     SelectionBoxState
 } from "../../../../Providers/CompoundGateSelectionContextProvider";
+import {ICircuitState, IQubit} from "../../../../../common/interfaces";
 
 const getElOffset = (el: any) => {
     const rect = el.getBoundingClientRect();
@@ -35,12 +42,13 @@ const initialSelectionBox = {
 }
 
 interface GridProps {
-    viewOnlyMode?: boolean;
+    circuitState : ICircuitState;
+    viewOnly?: boolean;
 }
 
 const Grid : React.FC <GridProps> = (props) => {
-    const {viewOnlyMode} = props;
-    const {circuitState, circuitConfigMode, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
+    const {viewOnly, circuitState} = props;
+    const {circuitConfigMode, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     const gridRef : any = useRef(null);
     const {selectionBox, setSelectionBox} = useContext(CompoundGateSelectionContext);
 
@@ -55,6 +63,11 @@ const Grid : React.FC <GridProps> = (props) => {
     }
 
     const handleQubitSelected = (qubitId : string) => {
+        if (viewOnly) {
+            return;
+        }
+
+
         if (selectedQubitId === qubitId) {
             dispatch(updateSelectedQubit(""));
         } // unselect if already selected
@@ -85,7 +98,21 @@ const Grid : React.FC <GridProps> = (props) => {
         const handleGateDeleted = async (event : any) => {
             if (event.keyCode === 46) //DELETE KEY
             {
-                dispatch(removeDroppedGate(selectedGateId));
+                const gateToDelete = circuitState.droppedGates.find((gate) => (gate.id === selectedGateId));
+                if (gateToDelete) {
+                    console.log(gateToDelete);
+                    var newQubit = new QubitClass(48);
+                    var targetQubit : IQubit | null = findQubitFromId(gateToDelete.qubitIds[0], circuitState.qubits);
+                    if (targetQubit) {
+                        newQubit.id = targetQubit.id;
+                        newQubit.y =  targetQubit.y;
+                        newQubit.size = 48;
+                        dispatch(updateQubit(targetQubit.id, 'qubitCells', newQubit.qubitCells));
+                    }
+                    dispatch(removeDroppedGate(selectedGateId));
+                }
+
+
             }
         };
         window.addEventListener('keydown', handleGateDeleted);
@@ -188,7 +215,7 @@ const Grid : React.FC <GridProps> = (props) => {
         }
 
         {
-            viewOnlyMode
+            viewOnly
             ? null :
                 <AddQubitActionBtn x={DIMENSIONS.ADD_QUBIT_BTN.X_OFFSET}
                        y={circuitState.qubits.length * DIMENSIONS.GRID.HEIGHT
@@ -197,9 +224,12 @@ const Grid : React.FC <GridProps> = (props) => {
         }
 
 
-        <DroppedGates/>
+        <DroppedGates
+            droppedGates={circuitState.droppedGates}
+            viewOnly={viewOnly}/>
 
         <DraggingGate
+
             xOffset={gridPosition.x}
             yOffset={gridPosition.y}/>
 

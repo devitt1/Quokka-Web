@@ -2,6 +2,7 @@ import {IUser} from "../../common/interfaces";
 
 export const UPDATE_USER_AUTHENTICATION_ACTION = "UPDATE_USER_AUTHENTICATION";
 export const UPDATE_CURRENTLY_AUTHENTICATED_USER_ACTION = "UPDATE_CURRENTLY_AUTHENTICATED_USER";
+
 export const updateUserAuthentication = (authenticated : boolean) => async (dispatch : any) =>
 {
     try {

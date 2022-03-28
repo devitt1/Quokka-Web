@@ -6,7 +6,7 @@ import {GateTypes} from "../../../../../common/types";
 import {useDispatch, useSelector} from "react-redux";
 import {
     removeDroppedGate,
-    updateDraggingGate, updateDroppedGate,
+    updateDraggingGate, updateDroppedGate, updateSelectedGateId,
 } from "../../../../../redux/actions/circuitConfigAction";
 import {IGateExtension} from "../../../../../common/interfaces";
 import GateExtension from "../../../GateExtension/GateExtension";
@@ -24,15 +24,17 @@ interface DroppedGateProps {
     type : GateTypes,
     gateExtension : IGateExtension,
     droppedFromMenu: boolean,
-    rotAngle? : string | null
-    name? : string
+    rotAngle? : string | null;
+    name? : string;
+    viewOnly? : boolean;
 }
 
-const DroppedGate : React.FC<DroppedGateProps> = (children) => {
-    const {x, y, id, width, height, qubitIds, type, rotAngle, gateExtension, droppedFromMenu, name} = children;
+const DroppedGate : React.FC<DroppedGateProps> = (props) => {
+    const {x, y, id, width, height, qubitIds, type, rotAngle, gateExtension, droppedFromMenu, name, viewOnly} = props;
     const [targetMove, setTargetMove] = useState(false);
-    var droppedGateStyle = styles.droppedGate;
-
+    const {circuitConfigMode} = useSelector((state: RootState) => (state.circuitConfig));
+    var droppedGateStyle = [styles.droppedGate];
+    const [selected, setSelected] = useState(false);
     const dispatch = useDispatch();
 
 
@@ -48,6 +50,14 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
 
 
     const handleMouseEnter = (event : any) => {
+        if (circuitConfigMode === 'NoSelectionMode') {
+            return;
+        }
+
+        if (viewOnly) {
+            return;
+        }
+
         if (targetMove) {
             return;
         }
@@ -70,6 +80,21 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
         }
     }
 
+    const toggleGateSelection = () => {
+        if (viewOnly) return;
+        setSelected(!selected);
+    }
+
+    useEffect(() => {
+        if (circuitConfigMode === 'GateSelectionMode') return;
+        if (selected) {
+            dispatch(updateSelectedGateId(id));
+        } else {
+            dispatch(updateSelectedGateId(""));
+        }
+    }, [selected]);
+
+
     const handleTargetDragEnd = (newY : number) => {
         setTargetMove(false);
     }
@@ -78,7 +103,9 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
         dispatch(updateDroppedGate(id, 'droppedFromMenu', false));
     }
 
-    return (<g className={droppedGateStyle} onMouseLeave={handleDroppedGateMouseLeft}>
+    return (<g className={droppedGateStyle.join(' ')}
+               onClick={toggleGateSelection}
+               onMouseLeave={handleDroppedGateMouseLeft}>
         <GateExtension
             gateId={id}
             droppedFromMenu={droppedFromMenu}
@@ -93,6 +120,7 @@ const DroppedGate : React.FC<DroppedGateProps> = (children) => {
             type={type as GateTypes} rotAngle={rotAngle}
             isAttachment={false}
             name={name}
+            selected={selected}
             onMouseEnter={handleMouseEnter}/>
 
     </g>)

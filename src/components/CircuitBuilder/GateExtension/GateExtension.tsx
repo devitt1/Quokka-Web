@@ -1,10 +1,11 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import styles from './GateExtension.module.scss'
 import {DIMENSIONS} from "../../../common/constants";
 import {GateExtTypes} from "../../../common/types";
 import {useDispatch, useSelector} from "react-redux";
 import {updateDroppedGate, updateDroppedGateExtension} from "../../../redux/actions/circuitConfigAction";
 import {RootState} from "../../../redux/reducers/rootReducer";
+import {CursorContext} from "../../Providers/CursorContextProvider";
 
 interface GateExtensionProps {
     gateId : string;
@@ -18,10 +19,10 @@ interface GateExtensionProps {
 }
 
 export const GateExtension: React.FC<GateExtensionProps>= (props) => {
-
     const gateExtRef : any = useRef(null);
     const {gateX, gateY, targetY, onTargetMove, onTargetDragEnd, type, gateId, droppedFromMenu} = props;
     const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
+    const {cursor ,setCursor } = useContext(CursorContext);
     const relativePos = `translate(0,0)`
     const dispatch = useDispatch();
 
@@ -56,6 +57,7 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
         dispatch(updateDroppedGate(gateId, 'droppedFromMenu', false));
         onTargetMove(false);
         onTargetDragEnd(newY);
+        setCursor((cursorContextStates) => ({attached: true}));
     }
 
     const getQubitIdFromYCoordinate = (y : number) => {

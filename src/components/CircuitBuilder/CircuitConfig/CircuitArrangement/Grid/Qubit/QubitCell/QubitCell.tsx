@@ -27,7 +27,6 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
 
     const handleMouseDown = (event : any) => {
         if (!cursor.attached) {
-            // console.log("cursor not attached!");
             return;
         }
 
@@ -43,6 +42,8 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             newGateExtType = 'CNOT_TARGET';
             CGateDroppedFromMenu = true;
             rotAngle = null;
+
+            removeAttachment();
         }
         else if (selectedStandardGate.toString().includes('R')) {
             newGateExtType = 'None';
@@ -56,7 +57,8 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             newQubit.id = props.qubitId;
             newQubit.y = props.cellYPos;
             newQubit.size = props.colIndex;
-            dispatch(updateQubit(props.qubitId, 'qubitCells', newQubit.qubitCells));            newGateExtType = 'None';
+            dispatch(updateQubit(props.qubitId, 'qubitCells', newQubit.qubitCells));
+            newGateExtType = 'None';
             CGateDroppedFromMenu = true;
             rotAngle = 'null';
         }
@@ -64,7 +66,6 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             newGateExtType = 'None';
             CGateDroppedFromMenu = true;
             rotAngle = null;
-
         }
 
         const newGateExt = new GateExtension(
@@ -72,12 +73,11 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
         const gateToAdd = new Gate(props.cellXPos, props.cellYPos,
             40, 38, qubitIds, selectedStandardGate as GateTypes,  newGateExt, CGateDroppedFromMenu, rotAngle);
         dispatch(addDroppedGate(gateToAdd));
-        removeAttachment();
 
     }
     const removeAttachment = useCallback(() => {
-        setCursor((cursorContextStates) => ({attached: false}));
-    },[])
+            setCursor((cursorContextStates) => ({attached: false}));
+    },[]);
 
     const handleMouseUp = () => {
         if (cursor.attached) {

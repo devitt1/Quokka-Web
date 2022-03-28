@@ -1,5 +1,8 @@
-import {IDraggableGate, IGate, IGateExtension} from "../../common/interfaces";
+import {ICircuitState, IDraggableGate, IGate, IGateExtension} from "../../common/interfaces";
 import {CircuitConfigMode} from "../../common/types";
+
+// UPDATE CIRCUIT CONFIG TITLE
+export const UPDATE_CIRCUIT_CONFIG_TITLE_ACTION = "UPDATE_CIRCUIT_CONFIG_TITLE";
 
 // SELECTED GATE OPERATIONS
 export const INIT_SELECTED_STANDARD_GATE_ACTION = "INIT_SELECTED_STANDARD_GATE";
@@ -35,6 +38,8 @@ export const UPDATE_GATE_INPUT_VALUE_ACTION = "UPDATE_GATE_INPUT_VALUE_ACTION";
 
 // COMPOUND GATE DROPDOWN OPERATIONS
 export const ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION = "ADD_COMPOUND_GATE_DROPDOWN_ITEM"
+
+export const LOAD_CIRCUIT_CONFIG_ACTION = "LOAD_CIRCUIT_CONFIG";
 
 export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
@@ -215,3 +220,37 @@ export const addCompoundGateDropdown = (name : string) => async (dispatch: any) 
         throw e;
     }
 }
+
+export const updateCircuitConfigTitle = (title: string) => async (dispatch: any) => {
+    try {
+        dispatch({type: UPDATE_CIRCUIT_CONFIG_TITLE_ACTION, payload: {circuitConfigTitle: title}});
+    } catch (e) {
+        console.log("Error", e);
+        throw e;
+    }
+}
+
+export const loadCircuitConfig = (circuitConfigTitle: string, circuitState: ICircuitState | null, compoundGates : string[] | null) => async (dispatch: any) => {
+    try {
+        dispatch({type: LOAD_CIRCUIT_CONFIG_ACTION, payload: {
+            circuitConfigTitle: circuitConfigTitle,
+            circuitState: circuitState,
+            compoundGates : compoundGates
+        }});
+    } catch (e) {
+        console.log("Error", e);
+        throw e;
+    }
+}
+
+export const  UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME_ACTION = "UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME";
+
+export const updateCircuitEstimatedBuildTime = (estimatedBuildTime : number) => async(dispatch : any) => {
+    try {
+        dispatch({type: UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME_ACTION, payload: {estimatedBuildTime: estimatedBuildTime}});
+    } catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+

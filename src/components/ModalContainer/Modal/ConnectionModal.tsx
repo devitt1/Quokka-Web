@@ -1,20 +1,23 @@
 import React, {useState} from 'react';
 import styles from './Modal.module.scss';
 import {sleep} from "../../../common/helpers";
-import {updateDeviceConnectionStatus} from "../../../redux/actions/deviceConnectionAction";
+import {updateDeviceConnectionStatus, updateDeviceName} from "../../../redux/actions/deviceConnectionAction";
 import {DeviceConnection} from "../../../common/classes";
 import {closeModal} from "../../../redux/actions/modalsAction";
 import logo from "../../../assets/logo.svg";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import APIClient from "../../../api/APIClient";
 import {ModalState} from "../../../common/types";
 import {ModalProps} from "./Modal";
 import {Button} from "../../Button/Button";
+import Input from "../../Input/Input";
+import {RootState} from "../../../redux/reducers/rootReducer";
+import {Exception} from "sass";
 
 
 const ConnectionModal : React.FC<ModalProps>= (props) => {
-    const [deviceName, setDeviceName] = useState('theqbox01');
     const dispatch = useDispatch();
+    const {deviceName} = useSelector((state : RootState) => (state.deviceConnection));
     const [modalState, setModalState] = useState(props.state);
     const apiClient : APIClient = new APIClient();
 
@@ -26,17 +29,28 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
 
     const handleConnectBtnClicked = async () => {
         setModalState('Connecting');
-        await sleep(1500);
-        const connectionResponse = await apiClient.circuitBuilderAPIService.getDeviceConnectionStatus(deviceName);
-        dispatch(updateDeviceConnectionStatus(new DeviceConnection(connectionResponse.data, deviceName)));
-        window.sessionStorage.setItem('deviceName', deviceName);
-        setModalState('Connected');
-        await sleep(1000);
-        dispatch(closeModal(props.id));
+        try {
+            await sleep(1500);
+            const connectionResponse =
+                await apiClient.qsimAPIService.getDeviceConnectionStatus();
+
+        } catch (e : any) {
+            if (e.response.status === 404) {
+                dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
+                window.sessionStorage.setItem('deviceName', deviceName);
+                setModalState('Connected');
+                await sleep(1000);
+                dispatch(closeModal(props.id));
+            }
+            console.log('no connection response', e);
+        }
+
     }
 
     const handleInputChanged = (event : any) => {
-        setDeviceName(event.target.value);
+        dispatch(updateDeviceName(event.target.value));
+
+        window.sessionStorage.setItem('deviceName', event.target.value);
     }
 
     const renderState = (state : ModalState) => {
@@ -47,8 +61,9 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                     <p>Instructions about what the user should do or expect
                         when connecting to a Quokka device.</p>
                     <p>Connect a Quokka device to use the circuit builder.</p>
-                    <input
+                    <Input
                         type="text"
+                        styleTypes={['default']}
                         onChange={handleInputChanged}
                         onKeyDown={handleKeyDown}
                         placeholder="Device name"

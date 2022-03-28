@@ -18,31 +18,38 @@ import {
     UPDATE_QUBIT_ACTION,
     UPDATE_SELECTED_GATE_ID_ACTION,
     UPDATE_SELECTED_QUBIT_ACTION,
-    UPDATE_SELECTED_STANDARD_GATE_ACTION, ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION
+    UPDATE_SELECTED_STANDARD_GATE_ACTION,
+    ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION,
+    UPDATE_CIRCUIT_CONFIG_TITLE_ACTION,
+    LOAD_CIRCUIT_CONFIG_ACTION, UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME_ACTION
 
 } from "../actions/circuitConfigAction";
 import {ICircuitState, IDraggableGate, IGate, IQubit} from "../../common/interfaces";
 import {Gate, Qubit} from "../../common/classes";
 
 export interface CircuitConfigState {
+    circuitConfigTitle : string;
     selectedStandardGate: string;
     circuitConfigMode : CircuitConfigMode;
+    estimatedBuildTime : number;
     selectedQubitId : string;
     selectedGateId : string;
     compoundGates : string[];
     status : boolean;
-    viewOnlyMode: boolean;
+    viewOnly: boolean;
     circuitState : ICircuitState;
 }
 
 const initialCircuitConfigState = {
+    circuitConfigTitle : 'New Untitled Circuit',
     selectedStandardGate : 'Standard Gate',
     circuitConfigMode : 'NoSelectionMode' as CircuitConfigMode,
+    estimatedBuildTime : 0,
     selectedQubitId : "",
     selectedGateId: "",
     compoundGates: [] as string[],
     status : false,
-    viewOnlyMode: false,
+    viewOnly: false,
     circuitState : {
         droppedGates : [] as IGate[],
         draggingGate : {} as IDraggableGate,
@@ -227,7 +234,23 @@ action: Payload) {
                 ...state,
                 compoundGates: [...state.compoundGates, action.payload.name]
             }
-
+        case UPDATE_CIRCUIT_CONFIG_TITLE_ACTION:
+            return {
+                ...state,
+                circuitConfigTitle: action.payload.circuitConfigTitle
+            }
+        case LOAD_CIRCUIT_CONFIG_ACTION:
+            return {
+                ...state,
+                circuitConfigTitle: action.payload.circuitConfigTitle,
+                circuitState: action.payload.circuitState,
+                compoundGates: action.payload.compoundGates
+            }
+        case UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME_ACTION:
+            return {
+                ...state,
+                estimatedBuildTime: action.payload.estimatedBuildTime
+            }
         default:
             return state;
     }

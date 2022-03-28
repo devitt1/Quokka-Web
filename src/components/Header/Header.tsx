@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink, useNavigate} from 'react-router-dom';
 import styles from './Header.module.scss';
 import logo from '../../assets/logo.svg'
@@ -11,14 +11,41 @@ import DropdownButton from "../DropdownButton/DropdownButton";
 import {Dropdown} from "../Dropdown/Dropdown";
 import DropdownList from "../Dropdown/DropdownList/DropdownList";
 import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "../../redux/actions/authAction";
+import APIClient from "../../api/APIClient";
+import {updateDeviceConnectionStatus} from "../../redux/actions/deviceConnectionAction";
+import {DeviceConnection} from "../../common/classes";
+import {sleep} from "../../common/helpers";
+import {closeModal} from "../../redux/actions/modalsAction";
+
 const Header : React.VFC  = () => {
     const deviceConn = useSelector((state: RootState) => state.deviceConnection);
     const {authenticated, user} = useSelector((state: RootState) => state.auth);
     const [accountMenuClicked, setAccountMenuClicked] = useState(false);
     const dispatch = useDispatch();
     const history = useNavigate();
+    const apiClient = new APIClient();
     var connDotStyle = styles.connectionDot;
     var statusStyle = styles.status;
+
+
+    useEffect(() => {
+        (async () => {
+            const deviceName = window.sessionStorage.getItem('deviceName');
+            if (!deviceName) return;
+            try {
+
+                const connectionResponse =
+                    await apiClient.qsimAPIService.getDeviceConnectionStatus();
+            } catch (e : any) {
+                if (e.response.status === 404) {
+                    dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
+                    window.sessionStorage.setItem('deviceName', deviceName);
+                }
+                console.log('no connection response', e);
+            }
+
+        })();
+    }, []);
 
     if (deviceConn.connected){
         connDotStyle = styles.connectionDot + ' ' + styles.connected;
@@ -34,11 +61,13 @@ const Header : React.VFC  = () => {
                 localStorage.clear();
                 history('login');
                 break;
+            case 'Saved Files':
+                history('account/savedFiles')
+                break;
             default:
                 break;
         }
         setAccountMenuClicked(!accountMenuClicked);
-
     }
 
     const renderAccountMenuButton = () => {
@@ -77,8 +106,6 @@ const Header : React.VFC  = () => {
             </div>
 
             <div className={styles.accountMenu}>
-
-
                 {
                     !authenticated ?
                         <div className={styles.loginNavLink}>
@@ -90,16 +117,12 @@ const Header : React.VFC  = () => {
                     renderAccountMenuButton()
                 }
             </div>
-
-
             <div className={styles.navButtons}>
                 <NavLink to={ROUTES.ABOUT} className={(navData) => navData.isActive ? styles.selected : ""}>About</NavLink>
                 <NavLink to={ROUTES.SETUP} className={(navData) => navData.isActive ? styles.selected : ""}>Setup Quokka</NavLink>
                 <NavLink to={ROUTES.CIRCUIT_BUILDER} className={(navData) => navData.isActive ? styles.selected : ""}>Circuit Builder</NavLink>
                 <NavLink to={ROUTES.CIRCUIT_OUTPUT} className={(navData) => navData.isActive ? styles.selected : ""}>Circuit Output</NavLink>
             </div>
-
-
         </div>
     </div>)
 }

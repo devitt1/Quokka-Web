@@ -1,8 +1,8 @@
 .droppedGate {
-  cursor : move;
+  cursor : default;
 
   &.selected {
-    stroke-width: 4;
-    stroke: red;
+    stroke-width: 2;
+    stroke: #5C7DFF;
   }
 }

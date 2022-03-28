@@ -1,32 +1,18 @@
 import {Payload} from "../../common/types";
 import {IBuildOutput} from "../../common/interfaces";
 import {BuildOutput} from "../../common/classes";
-import {ADD_BUILD_OUTPUT_ACTION, INIT_CIRCUIT_OUTPUTS_ACTION} from "../actions/circuitOutputsAction";
+import {
+    ADD_BUILD_OUTPUT_ACTION, DELETE_CIRCUIT_BUILD_OUTPUT_ACTION,
+    FETCH_CIRCUIT_BUILD_OUTPUT_ACTION,
+    INIT_CIRCUIT_OUTPUTS_ACTION
+} from "../actions/circuitOutputsAction";
 
 export interface CircuitOutputsState {
     buildOutputs : IBuildOutput[]
 }
 
 const initialCircuitOutputsState = {
-    buildOutputs : [
-        new BuildOutput(
-            'First',
-            [[0,1], [0,1]],
-            5,
-            'buildArrangement#1'
-        ), new BuildOutput(
-            'Second',
-            [[0,1], [1,0]],
-            10,
-            'buildArrangement#2'
-        ),   new BuildOutput(
-            'Third',
-            [[0, 0], [0,0]],
-            15,
-            'buildArrangement#3'
-        )
-
-    ] as IBuildOutput[]
+    buildOutputs : [] as IBuildOutput[]
 }
 
 function circuitOutputsReducer (state = initialCircuitOutputsState, action: Payload) {
@@ -40,6 +26,16 @@ function circuitOutputsReducer (state = initialCircuitOutputsState, action: Payl
             return {
                 ...state,
                 buildOutputs: [...state.buildOutputs, action.payload]
+            }
+        case FETCH_CIRCUIT_BUILD_OUTPUT_ACTION:
+            return {
+                ...state,
+                buildOutputs: action.payload.buildOutputs
+            }
+        case DELETE_CIRCUIT_BUILD_OUTPUT_ACTION:
+            return {
+                ...state,
+                buildOutputs: state.buildOutputs.filter((buildOutput) => buildOutput.id !== action.payload.buildOutputId)
             }
         default:
             return state;

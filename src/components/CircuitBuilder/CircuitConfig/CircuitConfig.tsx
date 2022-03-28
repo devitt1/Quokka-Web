@@ -5,19 +5,19 @@ import ViewOptions from "./ViewOptions/ViewOptions";
 
 interface CircuitConfigProps {
     circuitBuilderStatus : boolean
-    viewOnlyMode : boolean
+    viewOnly : boolean
 }
 
 
 const CircuitConfig : React.FC <CircuitConfigProps> = (props) => {
-    const {circuitBuilderStatus, viewOnlyMode} = props;
+    const {circuitBuilderStatus, viewOnly} = props;
     var circuitConfigStyle = styles.circuitConfig;
     if (circuitBuilderStatus) {
         circuitConfigStyle = styles.circuitConfig + ' ' + styles.disabled;
     }
 
     return <div className={circuitConfigStyle}>
-        <CircuitArrangement viewOnlyMode={viewOnlyMode}/>
+        <CircuitArrangement viewOnly={viewOnly}/>
         <ViewOptions/>
     </div>
 }

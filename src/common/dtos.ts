@@ -9,6 +9,13 @@ export type LoginUserDto = {
     password: string
 }
 
+export type SaveCircuitConfigFileDto = {
+    title : string,
+    circuitState : object,
+    compoundGates : string[]
+}
+
+
 export type AuthenticatedUserDto = {
     email: string,
 }

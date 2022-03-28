@@ -9,23 +9,40 @@ class QsimAPIService {
         this.axios = axiosInstance;
     }
 
-    createQASMScript(qubits : IQubit[], droppedGates : IGate[]) {
+    public async getDeviceConnectionStatus() {
+        try {
+            return this.axios.get(``);
+        }
+        catch (e) {
+            console.log(e);
+            throw e;
+        }
+    }
 
+    createQASMScript(qubits : IQubit[], droppedGates : IGate[]) {
         let qasmGatesScript = "";
         droppedGates.forEach((droppedGate) => {
             qasmGatesScript += this.createQASMGateScript(qubits, droppedGate)
 
         });
-        return `OPENQASM 2.0;\nqreg q[${qubits.length}];\ncreg c[${qubits.length}];${qasmGatesScript}\nmeasure q -> c;`;
+        return `OPENQASM 2.0;\n`+
+        `qreg q[${qubits.length}];\n`+
+        `creg c[${qubits.length}];${qasmGatesScript}\n`;
     }
 
     createQASMGateScript = (qubits : IQubit[], gate : IGate) => {
         try {
             var qasmGateScript = "";
             if (gate.type === 'CNOT') {
-                qasmGateScript = `\ncx q[${this.findQubitIndex(gate.qubitIds[0], qubits)}], q[${this.findQubitIndex(gate.gateExtension.qubitId, qubits)}];`;
+                qasmGateScript = `\ncx q[${this.findQubitIndex(gate.gateExtension.qubitId, qubits)}],` +
+                `q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
+            } else if (gate.type === 'Measurement Gate') {
+                qasmGateScript = `\nmeasure q[${this.findQubitIndex(gate.qubitIds[0], qubits)}]`
+                + ` -> `
+                + `c[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
 
-            } else {
+            } else
+            {
                 qasmGateScript = `\n${gateToQASM(gate)} q[${this.findQubitIndex(gate.qubitIds[0], qubits)}];`;
             }
             console.log("qasmGateScript=", qasmGateScript)
