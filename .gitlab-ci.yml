@@ -1,4 +1,4 @@
-image: nikolaik/python3.10-nodejs16-alpine
+image: nikolaik/python-nodejs:python3.10-nodejs16-alpine
 
 cache:
   paths:
@@ -20,5 +20,6 @@ deploy:
     refs:
       - develop
   script:
+    - pip3 install awscli
     - CI=false yarn build
     - aws --region $REGION s3 cp --recursive ./build/ s3://theq-webapp
