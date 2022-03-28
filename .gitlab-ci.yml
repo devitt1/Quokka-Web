@@ -9,9 +9,7 @@ variables:
   REGION: ap-southeast-2
 
 before_script:
-  - npm install --global yarn
-  - yarn --version
-  - yarn install
+  - node --version
 
 stages:
   - deploy
