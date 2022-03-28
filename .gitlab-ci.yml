@@ -1,9 +1,16 @@
 image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
 
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+
 variables:
   REGION: ap-southeast-2
 
 before_script:
+  - npm install --global yarn
+  - yarn --version
   - yarn install
 
 stages:
