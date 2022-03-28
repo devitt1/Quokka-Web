@@ -13,7 +13,7 @@ deploy:
   stage: deploy
   only:
     refs:
-      - master
+      - develop
   script:
     - CI=false yarn build
     - aws --region $REGION s3 cp --recursive ./build/ s3://theq-webapp
