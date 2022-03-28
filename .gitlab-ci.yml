@@ -1,4 +1,4 @@
-image: python3.10-nodejs16-alpine
+image: nikolaik/python3.10-nodejs16-alpine
 
 cache:
   paths:
