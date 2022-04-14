@@ -6,6 +6,7 @@ import { RootState } from '../../redux/reducers/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import account_icon from '../../assets/account_icon.svg';
 import arrow_down_black from '../../assets/arrow_down_black.svg';
+import burger_menu from '../../assets/burger_menu.svg';
 import {ROUTES} from "../../common/constants";
 import DropdownButton from "../DropdownButton/DropdownButton";
 import {Dropdown} from "../Dropdown/Dropdown";
@@ -14,13 +15,13 @@ import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "../../
 import APIClient from "../../api/APIClient";
 import {updateDeviceConnectionStatus} from "../../redux/actions/deviceConnectionAction";
 import {DeviceConnection} from "../../common/classes";
-import {sleep} from "../../common/helpers";
-import {closeModal} from "../../redux/actions/modalsAction";
+import DropdownItem from "../Dropdown/DropdownList/DropdownItem/DropdownItem";
 
 const Header : React.VFC  = () => {
     const deviceConn = useSelector((state: RootState) => state.deviceConnection);
     const {authenticated, user} = useSelector((state: RootState) => state.auth);
     const [accountMenuClicked, setAccountMenuClicked] = useState(false);
+    const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
     const dispatch = useDispatch();
     const history = useNavigate();
     const apiClient = new APIClient();
@@ -64,6 +65,9 @@ const Header : React.VFC  = () => {
             case 'Saved Files':
                 history('account/savedFiles')
                 break;
+            case 'Connect to a Quokka device':
+                history('setup');
+                break;
             default:
                 break;
         }
@@ -78,7 +82,7 @@ const Header : React.VFC  = () => {
                     <Dropdown type={'accountMenuDropdown'}>
                         <div> Welcome <br/>{user?.email}</div>
                         <DropdownList type={'accountMenuDropdown'}
-                                      list={['Saved Files', 'Connect to a \n Quokka device', 'Update password', 'Logout']}
+                                      list={['Saved Files', 'Connect to a Quokka device', 'Update password', 'Logout']}
                                       onDropdownItemClicked={(dropdownItem : string) => handleAccountMenuItemClicked(dropdownItem)}/>
                     </Dropdown>
                 </DropdownButton>
@@ -86,44 +90,62 @@ const Header : React.VFC  = () => {
     }
 
     return (<div className={styles.header}>
-        <div className={styles.logo}>
-            <img alt="Quokka" src={logo}/>
-            <h1>Quokka</h1>
-        </div>
+        <div className={styles.horizontalContainer}>
+            <div className={styles.logo}>
+                <img alt="Quokka" src={logo}/>
+                <h1>Quokka</h1>
+            </div>
 
+            <div className={styles.menu}>
+                <div className={styles.status} >
+                    <p className={styles.statusLbl}>Quokka Status:</p>
+                    <div className={connDotStyle}/>
+                    <NavLink to="/setup" className={statusStyle}>
+                        {
+                            deviceConn.connected ?
+                                `Connected to ${deviceConn.deviceName}` :
+                                "Not connected"
+                        }
+                    </NavLink>
+                </div>
 
-        <div className={styles.menu}>
-            <div className={styles.status} >
-                <p className={styles.statusLbl}>Quokka Status:</p>
-                <div className={connDotStyle}/>
-                <NavLink to="/setup" className={statusStyle}>
+                <div className={styles.accountMenu}>
                     {
-                        deviceConn.connected ?
-                            `Connected to ${deviceConn.deviceName}` :
-                            "Not connected"
+                        !authenticated ?
+                            <div className={styles.loginNavLink}>
+                                <img src={account_icon} />
+                                <NavLink to="/login" className={(navData) => styles.loginLbl}>Login/Create Account</NavLink>
+
+                            </div>
+                            :
+                            renderAccountMenuButton()
                     }
-                </NavLink>
+                </div>
+                <div className={styles.navButtons}>
+                    <NavLink to={ROUTES.ABOUT} className={(navData) => navData.isActive ? styles.selected : ""}>About</NavLink>
+                    <NavLink to={ROUTES.SETUP} className={(navData) => navData.isActive ? styles.selected : ""}>Setup Quokka</NavLink>
+                    <NavLink to={ROUTES.CIRCUIT_BUILDER} className={(navData) => navData.isActive ? styles.selected : ""}>Circuit Builder</NavLink>
+                    <NavLink to={ROUTES.CIRCUIT_OUTPUT} className={(navData) => navData.isActive ? styles.selected : ""}>Circuit Output</NavLink>
+                </div>
             </div>
-
-            <div className={styles.accountMenu}>
-                {
-                    !authenticated ?
-                        <div className={styles.loginNavLink}>
-                            <img src={account_icon} />
-                            <NavLink to="/login" className={(navData) => styles.loginLbl}>Login/Create Account</NavLink>
-
-                        </div>
-                        :
-                    renderAccountMenuButton()
-                }
-            </div>
-            <div className={styles.navButtons}>
-                <NavLink to={ROUTES.ABOUT} className={(navData) => navData.isActive ? styles.selected : ""}>About</NavLink>
-                <NavLink to={ROUTES.SETUP} className={(navData) => navData.isActive ? styles.selected : ""}>Setup Quokka</NavLink>
-                <NavLink to={ROUTES.CIRCUIT_BUILDER} className={(navData) => navData.isActive ? styles.selected : ""}>Circuit Builder</NavLink>
-                <NavLink to={ROUTES.CIRCUIT_OUTPUT} className={(navData) => navData.isActive ? styles.selected : ""}>Circuit Output</NavLink>
+            <div className={styles.burgerMenu}
+                onClick={() => {setBurgerMenuOpen(!burgerMenuOpen)}}>
+                <img src={burger_menu} />
             </div>
         </div>
+
+        {
+            burgerMenuOpen ?
+                <div className={styles.burgerMenuDropdown}>
+                    <hr/>
+                    <DropdownItem label={'About'} onClick={() => {}} type='burgerMenuDropdown'>
+                        <NavLink to={ROUTES.ABOUT} className={(navData) => navData.isActive ? styles.selected : ""}>About</NavLink>
+                    </DropdownItem>
+                    <DropdownItem label={'Set up Quokka'} onClick={() => {}} type='burgerMenuDropdown'>
+                        <NavLink to={ROUTES.SETUP} className={(navData) => navData.isActive ? styles.selected : ""}>Setup Quokka</NavLink>
+                    </DropdownItem>
+                </div> : null
+        }
     </div>)
 }
 

@@ -9,7 +9,7 @@ interface DropdownItemProps {
 }
 
 const DropdownItem : React.FC<DropdownItemProps> = (props) => {
-   const {label, onClick, type, isLastItem} = props;
+   const {label, onClick, type, isLastItem, children} = props;
     var dropdownItemStyle = [styles.dropdownItem];
 
     if (type){
@@ -37,6 +37,8 @@ const DropdownItem : React.FC<DropdownItemProps> = (props) => {
                 <path d="M15 8.99994C15 5.2614 11.866 2.23071 8 2.23071C4.13401 2.23071 1 5.2614 1 8.99994" stroke="#222225"/>
                 <path d="M7.6958 7.76923L15.0001 1" stroke="#222225"/>
             </svg>
+        } else if (type === "burgerMenuDropdown") {
+            return <div className={styles.burgerMenuDropdownNavButton} >{children}</div>
         }
         return <p>{label}</p>;
     }

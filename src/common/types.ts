@@ -63,4 +63,6 @@ export type DropdownTypes =
     | 'accountMenuDropdown'
     | 'standardGateDropdown'
     | 'compoundGateDropdown'
+    | 'burgerMenuDropdown';
+
 

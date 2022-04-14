@@ -24,7 +24,6 @@ const DropdownList : React.FC<DropdownProps> = (props) => {
                                      onClick={() => onDropdownItemClicked(dropdownItem)}
                                      isLastItem={index === list.length-1}>
                 </DropdownItem>
-
                 }
             )
         }

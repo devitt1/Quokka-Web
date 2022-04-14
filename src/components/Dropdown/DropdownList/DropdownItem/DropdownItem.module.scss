@@ -65,4 +65,40 @@
   &.standardGateDropdown {
 
   }
+
+  &.burgerMenuDropdown {
+    @media screen and (min-width: $mobile-max-width) {
+      display: none;
+    }
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+
+    .burgerMenuDropdownNavButton {
+      @include text-nav-button;
+      grid-row: 2;
+      grid-column: 1 / span 2;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0 40px 0 0;
+      gap: 20px;
+      flex-grow: 0;
+      cursor: pointer;
+      max-width: 100%;
+
+      > a {
+        color: $gunpowder-gray;
+        text-decoration: none;
+
+        &.selected {
+          @include text-nav-button-bold;
+          color: $black;
+        }
+      }
+    }
+  }
+
+
 }

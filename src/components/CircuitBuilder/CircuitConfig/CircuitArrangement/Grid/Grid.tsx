@@ -199,9 +199,7 @@ const Grid : React.FC <GridProps> = (props) => {
              // viewBox="00, -200, 1000, 1000"
              onMouseDown={handleMouseDown}
              onMouseMove={handleMouseMove}
-             onMouseUp={handleMouseUp}
-
-        >
+             onMouseUp={handleMouseUp}>
             {/*{showGridPattern()}*/}
         {
             circuitState.qubits.map((qubit, index) => {
@@ -223,13 +221,11 @@ const Grid : React.FC <GridProps> = (props) => {
                        onClick={handleAddQubitActionBtnClicked}/>
         }
 
-
         <DroppedGates
             droppedGates={circuitState.droppedGates}
             viewOnly={viewOnly}/>
 
         <DraggingGate
-
             xOffset={gridPosition.x}
             yOffset={gridPosition.y}/>
 

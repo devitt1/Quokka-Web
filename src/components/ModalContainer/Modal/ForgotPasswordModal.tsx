@@ -5,6 +5,8 @@ import {useDispatch} from "react-redux";
 import {ModalState} from "../../../common/types";
 import {updateDroppedGate} from "../../../redux/actions/circuitConfigAction";
 import {closeModal} from "../../../redux/actions/modalsAction";
+import {Button} from "../../Button/Button";
+import StackLayout from "../../StackLayout/StackLayout";
 
 const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
@@ -47,10 +49,12 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
                         onKeyDown={handleKeyDown}
                         placeholder="Email Address"
                     />
+                    <StackLayout orientation='horizontal'>
+                        <Button types={['standardBtn']} name="Reset Password" onClick={async () => handleResetPasswordButtonClicked()}>
+                            RESET PASSWORD
+                        </Button>
+                    </StackLayout>
 
-                    <button onClick={async () => handleResetPasswordButtonClicked()}>
-                        RESET PASSWORD
-                    </button>
                 </div>
             case 'EmailPasswordSent':
                 return <div className={styles.content}>
@@ -63,10 +67,12 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
                         onKeyDown={handleKeyDown}
                         placeholder="Email Address"
                     />
+                    <StackLayout orientation={'horizontal'}>
+                        <Button types={['standardBtn']} name="OK" onClick={async () => handleOkButtonClicked()}>
+                            OK
+                        </Button>
+                    </StackLayout>
 
-                    <button onClick={async () => handleOkButtonClicked()}>
-                        OK
-                    </button>
                 </div>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;

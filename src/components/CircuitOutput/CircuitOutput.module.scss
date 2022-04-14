@@ -5,10 +5,14 @@
   flex-direction: column;
   margin-right: 38px;
   height: calc(100% - 150px);
+
+  @media screen and (max-width: $mobile-max-width) {
+    display: none;
+  }
+
   h2 {
     align-self: flex-start;
     margin-left: 35px;
-
   }
 
   img {

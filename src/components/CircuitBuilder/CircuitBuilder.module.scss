@@ -10,4 +10,8 @@
   background: white;
   grid-template-rows: min-content 1fr min-content;
   grid-template-columns: 1fr 99fr;
+
+  @media screen and (max-width: $mobile-max-width) {
+    display: none;
+  }
 }

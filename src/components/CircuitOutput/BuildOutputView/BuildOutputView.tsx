@@ -15,11 +15,6 @@ const BuildOutputView : React.FC<BuildOutputViewProps> = (props) => {
     const location = useLocation();
     const buildOutput = location.state as IBuildOutput;
 
-    useEffect(() => {
-
-    }, []);
-
-
     return <div className={styles.buildOutputView} >
         <div className={styles.outputHeader}>
             <h2 className={styles.outputName}>{buildOutput.title}</h2>

@@ -1,5 +1,4 @@
 import React from 'react';
-import CircuitArrangement from './CircuitConfig/CircuitArrangement/CircuitArrangement';
 import styles from './CircuitBuilder.module.scss';
 import Toolbar from './Toolbar/Toolbar';
 import CircuitConfig from "./CircuitConfig/CircuitConfig";
@@ -7,7 +6,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import CircuitProcessingInfo from "./CircuitProcessingInfo/CircuitProcessingInfo";
 import Cursor from "../Cursor/Cursor";
-import CursorContextProvider from '../Providers/CursorContextProvider';
 import SavedFiles from "../SavedFiles/SavedFiles";
 
 const CircuitBuilder : React.FC = () => {
