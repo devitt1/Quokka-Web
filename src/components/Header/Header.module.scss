@@ -7,6 +7,7 @@
 
   .horizontalContainer {
     height: 83px;
+    margin-left: 20px;
     justify-content: space-between;
     display: flex;
     width: calc(100% - 20px);
@@ -54,7 +55,6 @@
           &.statusLbl {
             @include text-menu-button-small-bold;
           }
-
         }
 
         > a {

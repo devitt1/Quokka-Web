@@ -46,7 +46,7 @@
     }
 
     &.dropdownBtn {
-      @include text-semibold-small;
+      @include text-normal-small;
       display: flex;
       position: relative;
       flex-direction: row;
@@ -86,13 +86,13 @@
     }
 
     &.selectGateBtn {
+      @include text-normal-small;
       line-height: 14.4px;
       padding: 0 12px 0 12px;
       border: none;
       cursor: pointer;
       background:  linear-gradient(180deg, #EEEEEE 0%, #FFFFFF 100%);
       color: $black;
-      font-style: normal;
       font-weight: 600;
       font-size: 12px;
       height: 37px;

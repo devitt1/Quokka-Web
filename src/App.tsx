@@ -20,6 +20,7 @@ import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "./redu
 import {RootState} from "./redux/reducers/rootReducer";
 import CursorContextProvider from "./components/Providers/CursorContextProvider";
 import DropdownList from "./components/Dropdown/DropdownList/DropdownList";
+import UpdatePassword from "./components/UpdatePassword/UpdatePassword";
 
 
 function App() {
@@ -69,6 +70,9 @@ function App() {
                         <Route path={ROUTES.LOGIN} element={
                             <LoginOrCreateAccount/>
                         } />
+                        <Route path={ROUTES.UPDATE_PASSWORD} element={
+                            <UpdatePassword/>
+                        }/>
                         <Route path={`${ROUTES.CIRCUIT_OUTPUT}${ROUTES.BUILD_OUTPUT}/:buildId`} element={
                             <BuildOutputView/>}
                         />

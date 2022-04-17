@@ -61,12 +61,6 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
                     <h3>Email Sent</h3>
                     <p>Check your inbox for the email to reset your password and <br/>
                         following the directions inside,.</p>
-                    <input
-                        type="text"
-                        onChange={handleEmailInputChanged}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Email Address"
-                    />
                     <StackLayout orientation={'horizontal'}>
                         <Button types={['standardBtn']} name="OK" onClick={async () => handleOkButtonClicked()}>
                             OK

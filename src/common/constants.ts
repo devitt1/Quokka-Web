@@ -46,7 +46,8 @@ export const ROUTES = {
 
     BUILD_OUTPUT: "/buildOutput",
     LOGIN: "/login",
-    PAGE_NOT_FOUND: "*"
+    PAGE_NOT_FOUND: "*",
+    UPDATE_PASSWORD: "/updatePassword"
 }
 
 
