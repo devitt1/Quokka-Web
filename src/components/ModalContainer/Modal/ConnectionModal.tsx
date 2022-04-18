@@ -77,19 +77,19 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                 </>)
             case 'Connecting':
                 return (
-                    <>
+                    <StackLayout orientation="vertical">
                         <h1>Connecting to Quokka device</h1>
                         <p>Please wait while we connect to {deviceName}</p>
                         <div className={`${styles.spinner} ${styles['black']} ${styles['sm']}`}>
                         </div>
-                    </>);
+                    </StackLayout>);
             case 'Connected':
-                return ( <>
+                return ( <StackLayout orientation="vertical">
                     <h1>Successfully Connected to a Quokka</h1>
                     <p>You are now connected to {deviceName}</p>
                     <img src={logo}>
                     </img>
-                </>);
+                </StackLayout>);
             default:
                 return <><h1>Error Opening Modal</h1></>;
         }

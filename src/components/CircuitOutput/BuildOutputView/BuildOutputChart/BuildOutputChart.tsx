@@ -1,24 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {PropsWithChildren, useEffect, useState} from 'react';
 import styles from './BuildOutputChart.module.scss';
-import {ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Cell, Label} from "recharts";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../redux/reducers/rootReducer";
+import {ResponsiveContainer, BarChart, XAxis, YAxis, Tooltip, Legend, Bar, Cell, Label} from "recharts";
+
 import _ from 'lodash';
-
-
-
-const mockedRawData : number[][] = [
-    [0, 1],
-    [0, 1],
-    [0, 0],
-    [0, 1],
-    [0, 1],
-    [0, 1],
-    [0, 1],
-    [0, 1],
-    [0, 1],
-    [0, 1],
-]
 
 /**
  * key: output data
@@ -48,26 +32,27 @@ const generateBinaryStates = (numQubits : number) => {
 }
 
 interface BuildOutputChartProps {
+    qubitsCount: number,
     outputData : number[][]
 }
 
-const BuildOutputChart : React.FC <BuildOutputChartProps> = (props) => {
-    const {circuitState} = useSelector((state : RootState) => (state.circuitConfig));
+const BuildOutputChart : React.FC <BuildOutputChartProps> = (props : PropsWithChildren<BuildOutputChartProps>) => {
     const [data, setData]= useState<IBinaryState[]>([]);
-    const {outputData} = props;
+    const {qubitsCount, outputData} = props;
 
     useEffect(() => {
         convertRawDataToBinaryStates(outputData);
     }, [])
 
-    const convertRawDataToBinaryStates = (mockedRawDataArray : number[][]) => {
-        const resultBinaryStates = generateBinaryStates(circuitState.qubits.length);
+    const convertRawDataToBinaryStates = (rawDataArray : number[][]) => {
+        const resultBinaryStates = generateBinaryStates(qubitsCount);
 
-        mockedRawDataArray.map((innerArrayItem, index) =>
+        rawDataArray.map((innerArrayItem, index) =>
         {
             const rawDataState = innerArrayItem.join('');
             resultBinaryStates?.forEach((resultState, resultStateIndex) => {
-                if (rawDataState === resultState.key) {
+                console.log("decimal value of", parseInt(resultState.key));
+                if (parseInt(rawDataState) === parseInt(resultState.key)) {
                     _.set(resultBinaryStates, resultStateIndex, {
                         key: resultState.key,
                         value : resultState.value + 1 || 1

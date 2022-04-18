@@ -54,16 +54,17 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
     const renderState = (state : ModalState) => {
         switch (state) {
             case 'SaveCircuitNameEntry':
-                return(<>
+                return(<StackLayout orientation="vertical">
                     <h3>Save File</h3>
                     <Input
                         type="text"
                         styleTypes={["default"]}
                         onChange={handleInputChanged}
                         onKeyDown={handleKeyDown}
-                        placeholder={circuitConfigTitle}
+                        placeholder='Enter circuit title'
+                        defaultValue={circuitConfigTitle}
                     />
-                    <div className={styles.buttonGroup}>
+                    <StackLayout orientation="horizontal">
                         <Button name='Back'
                                 types={['standardBtn']}
                                 onClick={async () => close()}>
@@ -72,8 +73,8 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
                                 types={['standardBtn']}
                                 onClick={async () => handleSaveButtonClicked()}>
                         </Button>
-                    </div>
-                </>)
+                    </StackLayout>
+                </StackLayout>)
             case 'SaveCircuitSuccessfully':
                 return <>
                     <h3>File Successfully Saved</h3>
