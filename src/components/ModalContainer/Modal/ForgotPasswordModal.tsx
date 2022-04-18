@@ -38,7 +38,7 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
     const renderState = (state: ModalState) => {
         switch (state) {
             case 'EmailPasswordEntry':
-                return <div className={styles.content}>
+                return <>
                     <h3>Forgot Password?</h3>
                     <p>Enter the email address linked to your account to reset <br/>
                         your password. You’ll recieve an email with instructions <br/> on
@@ -55,9 +55,9 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
                         </Button>
                     </StackLayout>
 
-                </div>
+                </>
             case 'EmailPasswordSent':
-                return <div className={styles.content}>
+                return <>
                     <h3>Email Sent</h3>
                     <p>Check your inbox for the email to reset your password and <br/>
                         following the directions inside,.</p>
@@ -67,7 +67,7 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
                         </Button>
                     </StackLayout>
 
-                </div>
+                </>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
 

@@ -62,7 +62,7 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
     const renderState = (state : ModalState) => {
         switch (state) {
             case 'StartRunCircuit':
-                return(<div className={styles.content}>
+                return(<>
                     <h1>Run circuit</h1>
                     <p>Enter how many times you want to run this circuit:</p>
                     <Input
@@ -79,7 +79,7 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
                         <Button name={'Run'} types={['standardBtn']}
                                 onClick={async () => handleRunBtnClicked()}/>
                     </div>
-                </div>)
+                </>)
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
         }

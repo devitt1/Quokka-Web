@@ -56,7 +56,7 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
     const renderState = (state : ModalState) => {
         switch (state) {
             case 'StartConnection':
-                return(<div className={styles.content}>
+                return(<>
                     <h1>Connect to a Quokka Device</h1>
                     <p>Instructions about what the user should do or expect
                         when connecting to a Quokka device.</p>
@@ -73,24 +73,24 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                                 types={['standardBtn']}
                         />
                     </div>
-                </div>)
+                </>)
             case 'Connecting':
                 return (
-                    <div className={styles.content}>
+                    <>
                         <h1>Connecting to Quokka device</h1>
                         <p>Please wait while we connect to {deviceName}</p>
                         <div className={`${styles.spinner} ${styles['black']} ${styles['sm']}`}>
                         </div>
-                    </div>);
+                    </>);
             case 'Connected':
-                return ( <div className={styles.content}>
+                return ( <>
                     <h1>Successfully Connected to a Quokka</h1>
                     <p>You are now connected to {deviceName}</p>
                     <img src={logo}>
                     </img>
-                </div>);
+                </>);
             default:
-                return <div><h1>Error Opening Modal</h1></div>;
+                return <><h1>Error Opening Modal</h1></>;
         }
     }
 

@@ -17,9 +17,18 @@ const UpdatePassword : React.FC = () => {
             {() => (
                 <Form label="update password" name="update">
                     <Form.FormLabel label="Update Password"/>
-                    <Form.FormInput label="Current Password" inputType="password"/>
-                    <Form.FormInput label="Create New Password" inputType="password"/>
-                    <Form.FormInput label="Confirm New Password" inputType="password"/>
+                    <Form.FormInput
+                        inputType="password"
+                        placeholder="Current Password"
+                    />
+                    <Form.FormInput
+                        inputType="password"
+                        placeholder="Create New Password"
+                    />
+                    <Form.FormInput
+                        inputType="password"
+                        placeholder="Confirm New Password"
+                    />
                     <Form.FormButton label="Update"/>
                 </Form>
             )}

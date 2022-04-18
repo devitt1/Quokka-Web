@@ -68,6 +68,9 @@ const Header : React.VFC  = () => {
             case 'Connect to a Quokka device':
                 history('setup');
                 break;
+            case 'Update password':
+                history('updatePassword');
+                break;
             default:
                 break;
         }

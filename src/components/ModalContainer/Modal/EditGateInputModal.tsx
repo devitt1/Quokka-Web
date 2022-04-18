@@ -31,7 +31,7 @@ const EditGateInputModal : React.FC<ModalProps> = (props) => {
     const renderState = (state: ModalState) => {
         switch (state) {
             case 'StartEnterInput':
-                return <div className={styles.content}>
+                return <>
                 <h1>{props.extras.gateType} Gate - Subroutine params</h1>
                 <input
                     type="text"
@@ -44,7 +44,7 @@ const EditGateInputModal : React.FC<ModalProps> = (props) => {
                     </Button>
                 </div>
 
-            </div>
+            </>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
 

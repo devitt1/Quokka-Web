@@ -1,12 +1,15 @@
 import React, {useRef } from 'react';
 import styles from './Modal.module.scss';
 import {ModalState, ModalType} from "../../../common/types";
+import close_modal_icon from '../../../assets/close_modal_icon.svg';
 import ConnectionModal from "./ConnectionModal";
 import RunCircuitModal from "./RunCircuitModal";
 import EditGateInputModal from "./EditGateInputModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import SaveCircuitModal from "./SaveCircuitModal";
 import SaveCompoundGateModal from "./SaveCompoundGateModal";
+import {closeModal} from "../../../redux/actions/modalsAction";
+import {useDispatch} from "react-redux";
 
 export interface ModalProps {
     id: string,
@@ -18,7 +21,7 @@ export interface ModalProps {
 
 export const Modal : React.FC<ModalProps> = (children) => {
     const {id, type, state, extras} = children;
-
+    const dispatch = useDispatch();
     const modalRef = useRef(null);
     const renderModal = (id : string, type : ModalType, state : ModalState) => {
         switch (type) {
@@ -44,8 +47,13 @@ export const Modal : React.FC<ModalProps> = (children) => {
     }
 
     return <div ref={modalRef} className={styles.modal}>
-        {
-            renderModal(id, type, state)
-        }
+        <div className={styles.content}>
+            <img className={styles.closeModalIcon} src={close_modal_icon}
+                 onClick={() => {dispatch(closeModal(id))}}
+                 alt='closeModalIcon'/>
+            {
+                renderModal(id, type, state)
+            }
+        </div>
     </div>
 }

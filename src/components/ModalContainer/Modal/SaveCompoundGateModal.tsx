@@ -84,7 +84,7 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
     const renderState = (state: ModalState) => {
         switch (state) {
             case 'SaveCompoundGateEntry':
-                return <div className={styles.content}>
+                return <>
                     <h1>Edit Compound Gate Name</h1>
                     <input
                         type="text"
@@ -103,7 +103,7 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
                                 onClick={async () => handleSaveButtonClicked()}>
                         </Button>
                     </div>
-                </div>
+                </>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
 

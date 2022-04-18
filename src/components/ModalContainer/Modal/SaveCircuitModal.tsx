@@ -54,7 +54,7 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
     const renderState = (state : ModalState) => {
         switch (state) {
             case 'SaveCircuitNameEntry':
-                return(<div className={styles.content}>
+                return(<>
                     <h3>Save File</h3>
                     <Input
                         type="text"
@@ -73,9 +73,9 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
                                 onClick={async () => handleSaveButtonClicked()}>
                         </Button>
                     </div>
-                </div>)
+                </>)
             case 'SaveCircuitSuccessfully':
-                return <div className={styles.content}>
+                return <>
                     <h3>File Successfully Saved</h3>
                     <p>Do you want to continue in the Circuit Builder or go to all
                         Saved Files?</p>
@@ -93,7 +93,7 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
                         </Button>
                     </StackLayout>
 
-                </div>
+                </>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
         }
