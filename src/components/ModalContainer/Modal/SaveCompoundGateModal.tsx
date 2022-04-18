@@ -24,6 +24,8 @@ import {
     defaultSelectionBoxValue
 } from "../../Providers/CompoundGateSelectionContextProvider";
 import {Gate, GateExtension} from "../../../common/classes";
+import StackLayout from "../../StackLayout/StackLayout";
+import Input from "../../Input/Input";
 
 const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
@@ -84,9 +86,10 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
     const renderState = (state: ModalState) => {
         switch (state) {
             case 'SaveCompoundGateEntry':
-                return <>
+                return <StackLayout orientation="vertical">
                     <h1>Edit Compound Gate Name</h1>
-                    <input
+                    <Input
+                        styleTypes={["default"]}
                         type="text"
                         onChange={handleInputChanged}
                         onKeyDown={handleKeyDown}
@@ -103,7 +106,7 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
                                 onClick={async () => handleSaveButtonClicked()}>
                         </Button>
                     </div>
-                </>
+                </StackLayout>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
 
