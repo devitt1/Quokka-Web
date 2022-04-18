@@ -6,6 +6,8 @@ import {closeModal} from "../../../redux/actions/modalsAction";
 import {useDispatch} from "react-redux";
 import {updateDroppedGate} from "../../../redux/actions/circuitConfigAction";
 import {Button} from "../../Button/Button";
+import StackLayout from "../../StackLayout/StackLayout";
+import Input from "../../Input/Input";
 
 const EditGateInputModal : React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
@@ -31,20 +33,20 @@ const EditGateInputModal : React.FC<ModalProps> = (props) => {
     const renderState = (state: ModalState) => {
         switch (state) {
             case 'StartEnterInput':
-                return <>
-                <h1>{props.extras.gateType} Gate - Subroutine params</h1>
-                <input
-                    type="text"
-                    onChange={handleInputChanged}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Enter here"
-                />
-                <div className={styles.buttonGroup}>
-                    <Button types={["standardBtn"]} name="OK" onClick={async () => handleOkButtonClicked()}>
-                    </Button>
-                </div>
-
-            </>
+                return <StackLayout orientation="vertical">
+                    <h1>{props.extras.gateType} Gate - Subroutine params</h1>
+                    <Input
+                        type="text"
+                        styleTypes={['default']}
+                        onChange={handleInputChanged}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Enter here"
+                    />
+                    <div className={styles.buttonGroup}>
+                        <Button types={["standardBtn"]} name="OK" onClick={async () => handleOkButtonClicked()}>
+                        </Button>
+                    </div>
+                </StackLayout>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
 
