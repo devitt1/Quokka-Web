@@ -1,19 +1,19 @@
 import React, {PropsWithChildren} from "react";
-import {useFormContext} from "../FormContext";
-
+import styles from './FormInput.module.scss';
 interface  FormInputProps {
     label : string;
+    inputType : string;
 }
 
 
 const FormInput : React.FC<FormInputProps> = (props : PropsWithChildren<FormInputProps>) =>
 {
-    const {label} = props;
+    const { inputType, label, children } = props;
 
     return (
-        <input
+        <input className={styles.formInput}
             defaultValue={label}
-            type="text"
+            type={inputType}
         />
     );
 }
