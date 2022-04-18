@@ -7,12 +7,13 @@ import {IBuildOutput} from "../../common/interfaces";
 import APIClient from "../../api/APIClient";
 import {fetchCircuitBuildOutputs} from "../../redux/actions/circuitOutputsAction";
 import underlay_quokka_icon from "../../assets/underlay_quokka_icon.svg";
-import _ from "lodash";
 import {updateCircuitConfigMode} from "../../redux/actions/circuitConfigAction";
 
 const CircuitOutput : React.FC = () => {
     const [fetching, setFetching] = useState(false);
     const apiClient = new APIClient();
+    const {authenticated, user} = useSelector((state: RootState) => state.auth);
+    const {buildOutputs} = useSelector((state : RootState) => (state.circuitOutputs))
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -26,14 +27,10 @@ const CircuitOutput : React.FC = () => {
         })();
     }, []);
 
-    const sorted = (buildOutputs : IBuildOutput[]) => {
-        return _.orderBy(buildOutputs, ['createdDate'], ['desc']);
-    }
-
     const renderBuildOutputs = () => {
         return (
             buildOutputs.length !== 0 ?
-                sorted(buildOutputs).map((buildOutput : IBuildOutput, index : number) => {
+                buildOutputs.map((buildOutput : IBuildOutput, index : number) => {
                     return <BuildOutput
                         key={buildOutput.id}
                         id={buildOutput.id}
@@ -48,25 +45,34 @@ const CircuitOutput : React.FC = () => {
                 :
                 <div className={styles.prompt}>
                     <p>Run a circuit in the Circuit Builder and visit this page again once complete to see the output.</p>
-                    <p className={styles.warningMessage}>
-                        Circuit output will only be accessible until cookies are cleared.
-                    <span className={styles.underlined}>
-                        Login or create an account to save circuit output.
-                    </span></p>
+
                 </div>
         )
     }
 
+    const renderContent = () => {
+        if (fetching) {
+            return 'Fetching data...';
+        } else {
+            return renderBuildOutputs();
+        }
+    }
 
-    const {buildOutputs} = useSelector((state : RootState) => (state.circuitOutputs))
+
+
     return (<div className={styles.circuitOutput}>
         <img className={styles.underlayImage} src={underlay_quokka_icon}/>
         <h2>Circuit Output</h2>
         {
-            fetching ? 'Fetching data...' : renderBuildOutputs()
+            authenticated ? renderContent() : <div className={styles.prompt}>
+                <p className={styles.warningMessage}>
+                    Circuit output will only be accessible until cookies are cleared.
+                    <span className={styles.underlined}>
+                            Login or create an account to save circuit output.
+                </span>
+                </p>
+            </div>
         }
-
-
     </div>)
 }
 

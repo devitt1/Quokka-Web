@@ -37,6 +37,7 @@
       &.warningMessage {
         color: red;
         .underlined {
+          margin-left: 5px;
           text-decoration: underline;
         }
       }

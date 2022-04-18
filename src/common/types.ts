@@ -26,7 +26,8 @@ export type ModalType =
     | 'EditGateInputModal'
     | 'ForgotPasswordModal'
     | 'SaveCircuitModal'
-    | 'SaveCompoundGateModal';
+    | 'SaveCompoundGateModal'
+    | 'WarningDeviceIncompatibleModal';
 
 export type ModalState =
     |'StartConnection'
@@ -40,7 +41,8 @@ export type ModalState =
     | 'EmailPasswordSent'
     | 'SaveCircuitNameEntry'
     | 'SaveCircuitSuccessfully'
-    | 'SaveCompoundGateEntry';
+    | 'SaveCompoundGateEntry'
+    | 'OkPrompt';
 
 export type ButtonTypes =
     | 'loginBtn'

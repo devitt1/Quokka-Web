@@ -6,7 +6,7 @@ export const CLOSE_MODAL_ACTION = "CLOSE_MODAL";
 
 export const openModal = (modal : Modal) => async (dispatch : any) => {
     try {
-        dispatch ({ type: OPEN_MODAL_ACTION, payload: modal});
+        dispatch ({ type: OPEN_MODAL_ACTION, payload: {modal: modal}});
     } catch (e) {
         console.log("Error: ", e);
         throw e;

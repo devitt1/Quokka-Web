@@ -156,6 +156,7 @@
 
     .burgerMenu {
       align-self: center;
+      margin-right: 15px;
       @media screen and (min-width: $mobile-max-width) {
         display: none;
       }

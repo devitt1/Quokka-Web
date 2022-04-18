@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './App.module.scss';
 import Header from './components/Header/Header';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -17,18 +17,29 @@ import CompoundGateSelectionContextProvider from "./components/Providers/Compoun
 import APIClient from "./api/APIClient";
 import {useDispatch, useSelector} from "react-redux";
 import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "./redux/actions/authAction";
-import {RootState} from "./redux/reducers/rootReducer";
 import CursorContextProvider from "./components/Providers/CursorContextProvider";
-import DropdownList from "./components/Dropdown/DropdownList/DropdownList";
 import UpdatePassword from "./components/UpdatePassword/UpdatePassword";
+import useWindowDimensions from "./components/hooks/useWindowDimension";
+import {openModal} from "./redux/actions/modalsAction";
+import {Modal} from "./common/classes";
+import {RootState} from "./redux/reducers/rootReducer";
 
 
 function App() {
     const apiClient = new APIClient();
     const dispatch = useDispatch();
+    const { height, width } = useWindowDimensions();
+    const { modals } = useSelector((state : RootState) => (state.modals));
+    useEffect(() => {
+        if (width < 770) {
+            if (!modals.find((modal) => (modal.type === "WarningDeviceIncompatibleModal"))) {
+                dispatch(openModal(new Modal('WarningDeviceIncompatibleModal', 'OkPrompt')));
+            }
+        }
+    }, [height, width]);
+
     useEffect(() => {
         (async () => {
-            console.log("app refreshed")
             try {
                 const response = await apiClient.authService.getMe();
                 if (response) {
@@ -39,7 +50,8 @@ function App() {
                 console.log(error);
             }
         })()
-    }, [])
+    }, []);
+
   return (
     <div className={styles.App}>
             <CompoundGateSelectionContextProvider>

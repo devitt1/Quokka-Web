@@ -8,11 +8,11 @@ import {IModal} from "../../common/interfaces";
 
 
 export interface ModalsState {
-    modals : IModal[]
+    modals : IModal[];
 }
 
 const initialModalState = {
-    modals : [] as IModal[]
+    modals : [] as IModal[],
 }
 
 function modalsReducer (
@@ -27,7 +27,7 @@ function modalsReducer (
         case OPEN_MODAL_ACTION:
             return {
                 ...state,
-                modals : state.modals.concat(action.payload)
+                modals : state.modals.concat(action.payload.modal)
             }
         case CLOSE_MODAL_ACTION:
             return {
