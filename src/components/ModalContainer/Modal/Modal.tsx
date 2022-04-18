@@ -44,21 +44,21 @@ export const Modal : React.FC<ModalProps> = (children) => {
             case "SaveCompoundGateModal":
                 return <SaveCompoundGateModal id={id} type={type} state={state}/>
             case "WarningDeviceIncompatibleModal":
-                return <>
+                return <StackLayout orientation="vertical">
                     <h2>Warning Device Incompatible!</h2>
                     <p> Quokka is designed exclusively for laptop or desktop use.
-                    We have detected that you are accessing on a device which
-                    is incompatible with the minimum screen requirements (13”)
-                    and where you will be unable to interact with the interface to it’s full potential.
-                    <br/>
-                    Please visit these pages on a desktop or laptop to continue.
+                        We have detected that you are accessing on a device which
+                        is incompatible with the minimum screen requirements (13”)
+                        and where you will be unable to interact with the interface to it’s full potential.
+                        <br/>
+                        Please visit these pages on a desktop or laptop to continue.
                     </p>
                     <StackLayout orientation='horizontal'>
                         <Button types={['standardBtn']} name="Ok" onClick={async () => dispatch(closeModal(id))}>
                             Ok
                         </Button>
                     </StackLayout>
-                </>
+                </StackLayout>;
             default:
                 return <div></div>
         }

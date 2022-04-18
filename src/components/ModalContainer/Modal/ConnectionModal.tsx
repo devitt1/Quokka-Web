@@ -13,6 +13,7 @@ import {Button} from "../../Button/Button";
 import Input from "../../Input/Input";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import {Exception} from "sass";
+import StackLayout from "../../StackLayout/StackLayout";
 
 
 const ConnectionModal : React.FC<ModalProps>= (props) => {
@@ -61,18 +62,18 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                     <p>Instructions about what the user should do or expect
                         when connecting to a Quokka device.</p>
                     <p>Connect a Quokka device to use the circuit builder.</p>
-                    <Input
-                        type="text"
-                        styleTypes={['default']}
-                        onChange={handleInputChanged}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Device name"
-                    />
-                    <div className={styles.buttonGroup}>
+                    <StackLayout orientation="vertical">
+                        <Input
+                            type="text"
+                            styleTypes={['default']}
+                            onChange={handleInputChanged}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Device name"
+                        />
                         <Button selected={false} name='Connect' onClick={async() => handleConnectBtnClicked()}
                                 types={['standardBtn']}
                         />
-                    </div>
+                    </StackLayout>
                 </>)
             case 'Connecting':
                 return (

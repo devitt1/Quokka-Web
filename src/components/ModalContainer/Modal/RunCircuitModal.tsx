@@ -12,6 +12,7 @@ import {addBuildOutput} from "../../../redux/actions/circuitOutputsAction";
 import {IBuildOutput, IGate} from "../../../common/interfaces";
 import {Button} from "../../Button/Button";
 import Input from "../../Input/Input";
+import StackLayout from "../../StackLayout/StackLayout";
 
 const RunCircuitModal : React.FC<ModalProps> = (props) => {
     const [modalState, setModalState] = useState(props.state);
@@ -63,22 +64,24 @@ const RunCircuitModal : React.FC<ModalProps> = (props) => {
         switch (state) {
             case 'StartRunCircuit':
                 return(<>
-                    <h1>Run circuit</h1>
-                    <p>Enter how many times you want to run this circuit:</p>
-                    <Input
-                        type="text"
-                        styleTypes={["default"]}
-                        onChange={handleInputChanged}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Enter number"
-                    />
-                    <p className={styles.italic}>Estimated processing time = {estimatedBuildTime}</p>
-                    <div className={styles.buttonGroup}>
-                        <Button name={'Cancel'} types={['standardBtn']}
-                        onClick={async () => handleCancelBtnClicked()}/>
-                        <Button name={'Run'} types={['standardBtn']}
-                                onClick={async () => handleRunBtnClicked()}/>
-                    </div>
+                    <StackLayout orientation="vertical">
+                        <h1>Run circuit</h1>
+                        <p>Enter how many times you want to run this circuit:</p>
+                        <Input
+                            type="text"
+                            styleTypes={["default"]}
+                            onChange={handleInputChanged}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Enter number"
+                        />
+                        <p className={styles.italic}>Estimated processing time = {estimatedBuildTime}</p>
+                        <StackLayout orientation="horizontal">
+                            <Button name={'Cancel'} types={['standardBtn']}
+                                    onClick={async () => handleCancelBtnClicked()}/>
+                            <Button name={'Run'} types={['standardBtn']}
+                                    onClick={async () => handleRunBtnClicked()}/>
+                        </StackLayout>
+                    </StackLayout>
                 </>)
             default:
                 return <div><h1>Error Opening Modal</h1></div>;
