@@ -209,7 +209,6 @@ const Grid : React.FC <GridProps> = (props) => {
                               onQubitSelected={handleQubitSelected}
                               rowIndex={index}/>
             })
-
         }
 
         {

@@ -129,7 +129,7 @@ const BuildOutputChart : React.FC <BuildOutputChartProps> = (props : PropsWithCh
     }
 
     return <div className={styles.buildOutputChart}>
-        <ResponsiveContainer width="95%" height="90%" aspect={2.8}>
+        <ResponsiveContainer width="95%" height="80%" aspect={3}>
             {
                 data.length !== 0 ? renderBarChart(data) :
                 <p>No data available</p>

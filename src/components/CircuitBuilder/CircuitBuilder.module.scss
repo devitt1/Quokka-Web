@@ -2,7 +2,6 @@
 
 .circuitBuilder {
   margin-top: 6px;
-  height: 80vh;
   width: 100%;
   margin-right: 20px;
   display: grid;
@@ -10,6 +9,7 @@
   background: white;
   grid-template-rows: min-content 1fr min-content;
   grid-template-columns: 1fr 99fr;
+  height: calc(100% - 150px);
 
   @media screen and (max-width: $mobile-max-width) {
     display: none;

@@ -13,8 +13,9 @@ import {closeModal} from "../../../redux/actions/modalsAction";
 import {ModalState} from "../../../common/types";
 import {Button} from "../../Button/Button";
 import {
+    countQubitSpan,
     findFurthestTopLeftGateInArray,
-    getMaxGatesHorizontally, getMaxGatesVertically,
+    getMaxGatesHorizontally,
     locateGatesInSelectionBox
 } from "../../../common/helpers";
 import {DIMENSIONS} from "../../../common/constants";
@@ -59,10 +60,9 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
         // console.log((`Max gates horizontally ${getMaxGatesHorizontally(gatesInSelection, droppedGates)}`));
         // console.log((`Max gates vertically ${getMaxGatesVertically(gatesInSelection, droppedGates)}`));
 
-        const maxGatesHorizontal = getMaxGatesHorizontally(gatesInSelection, droppedGates);
-        const maxGatesVertical = getMaxGatesVertically(gatesInSelection, droppedGates);
-        const compoundGateDimension = {width : maxGatesHorizontal * DIMENSIONS.STD_GATE.WIDTH,
-            height : maxGatesVertical * DIMENSIONS.STD_GATE.HEIGHT + DIMENSIONS.GRID.PADDING.TOP * (maxGatesVertical - 1)};
+        const qubitSpan = countQubitSpan(gatesInSelection);
+        const compoundGateDimension = {width: DIMENSIONS.STD_GATE.WIDTH,
+            height : qubitSpan * DIMENSIONS.STD_GATE.HEIGHT + DIMENSIONS.GRID.PADDING.TOP * (qubitSpan - 1) + DIMENSIONS.STD_GATE.HEIGHT/2};
 
         dispatch(addDroppedGate(new Gate(compoundGatePosition.x,
             compoundGatePosition.y, compoundGateDimension.width,
@@ -96,7 +96,7 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
                         placeholder="Name"
                     />
 
-                    <div className={styles.buttonGroup}>
+                    <StackLayout orientation="horizontal">
                         <Button name='Back'
                                 types={['standardBtn']}
                                 onClick={async () => handleBackButtonClicked()}>
@@ -105,7 +105,7 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
                                 types={['standardBtn']}
                                 onClick={async () => handleSaveButtonClicked()}>
                         </Button>
-                    </div>
+                    </StackLayout>
                 </StackLayout>
             default:
                 return <div><h1>Error Opening Modal</h1></div>;

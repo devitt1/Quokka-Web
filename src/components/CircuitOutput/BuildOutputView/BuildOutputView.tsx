@@ -5,7 +5,6 @@ import {IBuildOutput} from "../../../common/interfaces";
 import Accordion from "../../Accordion/Accordion";
 import BuildOutputChart from "./BuildOutputChart/BuildOutputChart";
 import Grid from "../../CircuitBuilder/CircuitConfig/CircuitArrangement/Grid/Grid";
-import CircuitArrangement from "../../CircuitBuilder/CircuitConfig/CircuitArrangement/CircuitArrangement";
 import {formattedDate} from "../../../common/helpers";
 
 interface BuildOutputViewProps {

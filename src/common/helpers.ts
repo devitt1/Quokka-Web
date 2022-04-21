@@ -1,5 +1,6 @@
 import {IGate, IQubit} from "./interfaces";
 import {SelectionBoxState} from "../components/Providers/CompoundGateSelectionContextProvider";
+import {DIMENSIONS} from "./constants";
 
 export const sleep = (ms : number) => {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -94,9 +95,40 @@ export const countGatesHorizontally = (droppedGates : IGate[], yPos : number) =>
     return  droppedGates.filter((gate) => gate.y === yPos).length;
 }
 
-export const countGatesVertically = (droppedGates : IGate[], xPos : number) => {
-    return  droppedGates.filter((gate) => gate.x === xPos).length;
+/**
+ * Get the number of qubits that the gates span across the circuit arrangement
+ * @param droppedGates
+ */
+export const countQubitSpan = (droppedGates : IGate[]) => {
+    const topMostGateYPos = getTopmostGateYPos(droppedGates);
+    const qubitSpan = Math.abs(getTopmostGateYPos(droppedGates) - getBottommostGateYPos(droppedGates)) / DIMENSIONS.STD_GATE.HEIGHT;
+    var result = 0;
+    if (topMostGateYPos === 21) {
+        result = Math.floor(qubitSpan) + 1;
+    } else {
+        result = Math.floor(qubitSpan);
+    }
+    return result;
 }
+
+
+/**
+ * Get the gate position at the top-most of the circuit arrangement
+ * @param droppedGates
+ */
+export const getBottommostGateYPos = (droppedGates : IGate[]) => {
+    return Math.max.apply(Math, droppedGates.map((gate) => { return gate.y; }))
+}
+
+/**
+ * Get the gate position at the bottom-most of the circuit arrangement
+ * @param droppedGates
+ */
+export const getTopmostGateYPos = (droppedGates : IGate[]) => {
+    return Math.min.apply(Math, droppedGates.map((gate) => { return gate.y; }))
+}
+
+
 
 export const getMaxGatesHorizontally = (gatesInSelection : IGate[], droppedGates : IGate[]) => {
     var countArr : number[] = [] as number[];
@@ -107,14 +139,6 @@ export const getMaxGatesHorizontally = (gatesInSelection : IGate[], droppedGates
     return Math.max(...countArr);
 }
 
-export const getMaxGatesVertically = (gatesInSelection : IGate[], droppedGates : IGate[]) => {
-    var countArr : number[] = [] as number[];
-    gatesInSelection.forEach((gate, index) => {
-        // console.log(`count horizontally: ${countGatesHorizontally(droppedGates, gate.y)}`)
-        countArr.push(countGatesVertically(droppedGates, gate.x));
-    })
-    return Math.max(...countArr);
-}
 
 export const formattedDate = (date?: Date) => {
     if (date) {
