@@ -2,10 +2,11 @@
 
 .footer {
   @include text-normal-small;
+  position: absolute;
   bottom: 0;
   width: 100%;
   text-align: center;
-  height: 100%;
+  height: 50px;
   align-self: end;
   color: $comet;
   p {

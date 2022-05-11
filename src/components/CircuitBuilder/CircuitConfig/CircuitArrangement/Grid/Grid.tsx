@@ -51,7 +51,6 @@ const Grid : React.FC <GridProps> = (props) => {
     const {circuitConfigMode, selectedQubitId, selectedGateId} = useSelector((state : RootState) => (state.circuitConfig));
     const gridRef : any = useRef(null);
     const {selectionBox, setSelectionBox} = useContext(CompoundGateSelectionContext);
-
     const [gridPosition, setGridPosition] = useState({
         x : 0,
         y : 168
@@ -75,6 +74,7 @@ const Grid : React.FC <GridProps> = (props) => {
             dispatch(updateSelectedQubit(qubitId));
         }
     }
+
 
     useEffect( () => {
         const handleQubitDeleted = async (event : any) => {
@@ -191,15 +191,19 @@ const Grid : React.FC <GridProps> = (props) => {
         setSelectionBox(prev => ({...prev, isDrawing: false}));
         console.log('stopped drawing');
 
-
     }
+
+    var height;
 
     return (
         <svg className={styles.grid} ref={gridRef}
              // viewBox="00, -200, 1000, 1000"
              onMouseDown={handleMouseDown}
              onMouseMove={handleMouseMove}
-             onMouseUp={handleMouseUp}>
+             onMouseUp={handleMouseUp}
+             style={{height: viewOnly ? `20%` : `100%`}}
+
+        >
             {/*{showGridPattern()}*/}
         {
             circuitState.qubits.map((qubit, index) => {
