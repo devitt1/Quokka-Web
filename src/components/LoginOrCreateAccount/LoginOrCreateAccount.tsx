@@ -9,6 +9,7 @@ import {updateCurrentlyAuthenticatedUser, updateUserAuthentication} from "../../
 import {useNavigate} from "react-router-dom";
 import APIClient from "../../api/APIClient";
 import Input from "../Input/Input";
+import jwt_decode from "jwt-decode";
 
 const LoginOrCreateAccount : React.FC = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const LoginOrCreateAccount : React.FC = () => {
         await handleLogin(loginEmail, loginPassword);
     }
 
-    const handleLogin = async (email : string, password : string) => {
+    const handleLogin = async (email : string, password : string, registration?: boolean) => {
         try {
             console.log("Log in");
             const response = await apiClient.authService.login({
@@ -37,13 +38,19 @@ const LoginOrCreateAccount : React.FC = () => {
                     localStorage.setItem("access_token", response.data.access_token);
                     localStorage.setItem("userEmail", email);
                 }
-                history('/circuitBuilder');
+                if (registration) {
+                    history('/notVerified')
+                }
+                else {
+                    history('/circuitBuilder');
+                }
+
+                const decodedToken: any = jwt_decode(response.data.access_token);
 
                 dispatch(updateUserAuthentication(true));
                 dispatch(updateCurrentlyAuthenticatedUser({
-                    id: "0",
+                    id: decodedToken.sub,
                     email: email
-
                 }))
             }
         } catch (error) {
@@ -59,7 +66,7 @@ const LoginOrCreateAccount : React.FC = () => {
         });
 
         console.log("register response", response);
-        await handleLogin(regEmail, regPassword);
+        await handleLogin(regEmail, regPassword, true);
     }
 
     const handleForgotButtonClicked = () => {

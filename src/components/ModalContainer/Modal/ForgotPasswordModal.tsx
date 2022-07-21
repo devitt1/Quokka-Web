@@ -7,8 +7,10 @@ import {updateDroppedGate} from "../../../redux/actions/circuitConfigAction";
 import {closeModal} from "../../../redux/actions/modalsAction";
 import {Button} from "../../Button/Button";
 import StackLayout from "../../StackLayout/StackLayout";
+import APIClient from '../../../api/APIClient';
 
 const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
+    const [apiClient] = useState(() => new APIClient());
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
     const [modalState, setModalState] = useState(props.state);
@@ -26,7 +28,13 @@ const ForgotPasswordModal : React.FC<ModalProps> = (props) => {
 
     const handleResetPasswordButtonClicked = async () => {
         console.log(`update input value as ${inputValue}`)
-        setModalState('EmailPasswordSent');
+        apiClient.authService.sendPasswordReset(inputValue)
+        .then(() => {
+            setModalState('EmailPasswordSent')
+        })
+        .catch(() => {
+            //handle error for sending password reset email
+        });
     }
 
     const handleOkButtonClicked = async () => {

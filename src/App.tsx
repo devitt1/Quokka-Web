@@ -23,6 +23,9 @@ import useWindowDimensions from "./components/hooks/useWindowDimension";
 import {openModal} from "./redux/actions/modalsAction";
 import {Modal} from "./common/classes";
 import {RootState} from "./redux/reducers/rootReducer";
+import NotVerified from './components/NotVerified/NotVerified';
+import VerifyUser from './components/NotVerified/VerifyUser';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 
 function App() {
@@ -91,6 +94,10 @@ function App() {
                         <Route path={``} element={
                             <About/>
                         }/>
+                        <Route path="/verify/:token" element={<VerifyUser />} />
+                        <Route path="/notVerified" element={<NotVerified />} />
+                        <Route path="/reset/:token" element={<ResetPassword />} />
+                        
                         <Route path="*" element={
                             <PageNotFound/>
                         }/>
