@@ -88,3 +88,8 @@ export interface IBuildOutput {
     updatedDate? : Date;
     measurement? : number;
 }
+
+export interface IConnectionResponse {
+    error: string;
+    statusCode: number;
+}

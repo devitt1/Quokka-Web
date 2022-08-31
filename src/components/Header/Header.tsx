@@ -34,9 +34,8 @@ const Header : React.VFC  = () => {
             const deviceName = window.sessionStorage.getItem('deviceName');
             if (!deviceName) return;
             try {
-
                 const connectionResponse =
-                    await apiClient.qsimAPIService.getDeviceConnectionStatus();
+                    await apiClient.qsimAPIService.getDeviceConnectionStatus(deviceName);
             } catch (e : any) {
                 if (e.response.status === 404) {
                     dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
@@ -79,7 +78,6 @@ const Header : React.VFC  = () => {
 
     const renderAccountMenuButton = () => {
         return <div className={styles.accountMenuDropdown}>
-
             <DropdownButton name={'Account'} buttonTypes={['accountMenuBtn']} leftImageSource={account_icon}
                             rightImageSource={arrow_down_black}>
                     <Dropdown type={'accountMenuDropdown'}>

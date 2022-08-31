@@ -190,11 +190,7 @@ const Grid : React.FC <GridProps> = (props) => {
         console.log('mouse up in grid while drawing selection box');
         setSelectionBox(prev => ({...prev, isDrawing: false}));
         console.log('stopped drawing');
-
     }
-
-    var height;
-
     return (
         <svg className={styles.grid} ref={gridRef}
              // viewBox="00, -200, 1000, 1000"

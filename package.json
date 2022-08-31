@@ -33,6 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "build:deploy:staging": "yarn build && yarn run deploy:staging",
     "deploy:staging": "aws --region 'ap-southeast-2' s3 cp --recursive ./build/ s3://theq-webapp.staging"
 
   },

@@ -33,7 +33,7 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
         try {
             await sleep(1500);
             const connectionResponse =
-                await apiClient.qsimAPIService.getDeviceConnectionStatus();
+                await apiClient.qsimAPIService.getDeviceConnectionStatus(deviceName);
 
         } catch (e : any) {
             if (e.response.status === 404) {

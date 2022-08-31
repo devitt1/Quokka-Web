@@ -91,8 +91,8 @@ const NewCircuitToolbar : React.FC = () => {
         </div>
 
         <div className={styles.gateDropdowns}>
-
-            <Button selected={circuitConfigMode === 'GateSelectionMode'} types={["selectGateBtn"]} name="Select"
+            <Button selected={circuitConfigMode === 'GateSelectionMode'}
+                    types={["selectGateBtn"]} name="Select"
                     onClick={handleSelectBtnClicked}/>
             <hr/>
             <DropdownButton buttonTypes={['dropdownBtn']} name={selectedStandardGate}
