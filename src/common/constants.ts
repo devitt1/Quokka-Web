@@ -24,7 +24,7 @@ export const DIMENSIONS = {
         WIDTH: 48,
         HEIGHT: 64,
         PADDING : {
-            TOP: 21,
+            TOP: 24,
         }
     },
     ADD_QUBIT_BTN : {

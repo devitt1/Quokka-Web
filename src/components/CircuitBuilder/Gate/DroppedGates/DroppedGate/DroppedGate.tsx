@@ -116,8 +116,12 @@ const DroppedGate : React.FC<DroppedGateProps> = (props) => {
             type={gateExtension.type}/>
         <Gate
             id={id}
-            x={x} y={y} width={width} height={height}
-            type={type as GateTypes} rotAngle={rotAngle}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+            type={type as GateTypes}
+            rotAngle={rotAngle}
             isAttachment={false}
             name={name}
             selected={selected}

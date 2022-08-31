@@ -28,47 +28,63 @@ import {Gate, GateExtension} from "../../../common/classes";
 import StackLayout from "../../StackLayout/StackLayout";
 import Input from "../../Input/Input";
 
-const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
+const SaveCompoundGateModal: React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
-    const {droppedGates} = useSelector((state : RootState) => (state.circuitConfig.circuitState));
+    const {droppedGates} = useSelector((state: RootState) => (state.circuitConfig.circuitState));
     const {selectionBox, setSelectionBox} = useContext(CompoundGateSelectionContext);
 
-    const handleKeyDown = async (event : any) => {
+    const handleKeyDown = async (event: any) => {
         if (event.key === 'Enter') {
             await handleSaveButtonClicked();
         }
     }
 
-    const handleInputChanged = (event : any) => {
+    const handleInputChanged = (event: any) => {
         console.log(`setting input value as ${event.target.value}`)
         setInputValue(event.target.value);
     }
 
     const handleSaveButtonClicked = async () => {
         console.log("save compound gate clicked!")
-        console.log("dropped gates currently: ", droppedGates )
+        console.log("dropped gates currently: ", droppedGates)
         const gatesInSelection = locateGatesInSelectionBox(selectionBox, droppedGates);
         console.log("gates for compound creation: ", gatesInSelection);
 
-        if (gatesInSelection.length === 0){
+        if (gatesInSelection.length === 0) {
             return;
         }
 
         const compoundGatePosition = findFurthestTopLeftGateInArray(gatesInSelection);
-        // console.log(`compoundGatePosition : {x = ${compoundGatePosition.x}, y = ${compoundGatePosition.y}}`);
-        // console.log((`Max gates horizontally ${getMaxGatesHorizontally(gatesInSelection, droppedGates)}`));
-        // console.log((`Max gates vertically ${getMaxGatesVertically(gatesInSelection, droppedGates)}`));
-
         const qubitSpan = countQubitSpan(gatesInSelection);
-        const compoundGateDimension = {width: DIMENSIONS.STD_GATE.WIDTH,
-            height : qubitSpan * DIMENSIONS.STD_GATE.HEIGHT + DIMENSIONS.GRID.PADDING.TOP * (qubitSpan - 1) + DIMENSIONS.STD_GATE.HEIGHT/2};
+        const qubitGap = DIMENSIONS.GRID.HEIGHT - DIMENSIONS.STD_GATE.HEIGHT;
+        let compoundGateDimension: { width: number, height: number };
+        // console.log(qubitSpan);
+        if (qubitSpan === 1) {
+            compoundGateDimension = {
+                width: DIMENSIONS.STD_GATE.WIDTH,
+                height: DIMENSIONS.STD_GATE.HEIGHT
+            };
+        } else {
+            compoundGateDimension = {
+                width: DIMENSIONS.STD_GATE.WIDTH,
+                height: qubitSpan * (DIMENSIONS.STD_GATE.HEIGHT + qubitGap) - qubitGap
+            };
+        }
 
-        dispatch(addDroppedGate(new Gate(compoundGatePosition.x,
-            compoundGatePosition.y, compoundGateDimension.width,
-            compoundGateDimension.height, [''], 'Compound Gate',
+        const compoundGate = new Gate(
+            compoundGatePosition.x,
+            compoundGatePosition.y,
+            compoundGateDimension.width,
+            compoundGateDimension.height,
+            [''],
+            'Compound Gate',
             new GateExtension(0, '', 'None'),
-            false, null, inputValue)));
+            false,
+            null,
+            inputValue);
+
+        dispatch(addDroppedGate(compoundGate));
         setSelectionBox((selectionBoxState) => (defaultSelectionBoxValue.selectionBox));
         gatesInSelection.forEach((gate, index) => {
             dispatch(removeDroppedGate(gate.id));
