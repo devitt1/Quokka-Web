@@ -19,6 +19,7 @@
     "axios": "^0.24.0",
     "formik": "^2.2.9",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
@@ -34,7 +35,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy:staging": "aws --region 'ap-southeast-2' s3 cp --recursive ./build/ s3://theq-webapp.staging"
-
   },
   "eslintConfig": {
     "extends": [

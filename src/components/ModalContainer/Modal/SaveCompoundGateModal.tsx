@@ -61,9 +61,17 @@ const SaveCompoundGateModal : React.FC<ModalProps> = (props) => {
         // console.log((`Max gates vertically ${getMaxGatesVertically(gatesInSelection, droppedGates)}`));
 
         const qubitSpan = countQubitSpan(gatesInSelection);
-        const compoundGateDimension = {width: DIMENSIONS.STD_GATE.WIDTH,
+        let compoundGateDimension: {width: number, height: number};
+        // console.log(qubitSpan);
+        if(qubitSpan === 1)
+        {
+         compoundGateDimension = {width: DIMENSIONS.STD_GATE.WIDTH,
+            height : DIMENSIONS.STD_GATE.HEIGHT};
+        }
+        else{
+             compoundGateDimension = {width: DIMENSIONS.STD_GATE.WIDTH,
             height : qubitSpan * DIMENSIONS.STD_GATE.HEIGHT + DIMENSIONS.GRID.PADDING.TOP * (qubitSpan - 1) + DIMENSIONS.STD_GATE.HEIGHT/2};
-
+        }
         dispatch(addDroppedGate(new Gate(compoundGatePosition.x,
             compoundGatePosition.y, compoundGateDimension.width,
             compoundGateDimension.height, [''], 'Compound Gate',
