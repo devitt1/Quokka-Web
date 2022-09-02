@@ -109,7 +109,8 @@ const DroppedGate : React.FC<DroppedGateProps> = (props) => {
         <GateExtension
             gateId={id}
             droppedFromMenu={droppedFromMenu}
-            gateX={x} gateY={y}
+            gateX={x}
+            gateY={y}
             targetY={gateExtension.targetY}
             onTargetMove={handleTargetMove}
             onTargetDragEnd={handleTargetDragEnd}

@@ -57,6 +57,8 @@ export class Gate extends BaseClass implements IGate {
     gateExtension : IGateExtension;
     droppedFromMenu : boolean;
     name? : string;
+    includedGates? : IGate[];
+
 
     constructor(
         x: number,
@@ -69,6 +71,7 @@ export class Gate extends BaseClass implements IGate {
         droppedFromMenu : boolean,
         rotAngle? : string | null,
         name? : string,
+        includedGates? : IGate[],
     ) {
         super();
         this.qubitIds = qubitIds;
@@ -81,6 +84,7 @@ export class Gate extends BaseClass implements IGate {
         this.gateExtension = gateExtension
         this.droppedFromMenu = droppedFromMenu;
         this.name = name;
+        this.includedGates = includedGates;
     }
 }
 

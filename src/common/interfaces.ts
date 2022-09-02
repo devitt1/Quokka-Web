@@ -26,6 +26,7 @@ export interface IGate extends IBaseInterface{
     droppedFromMenu : boolean;
     rotAngle? : string | null;
     name? : string
+    includedGates? : IGate[];
 
 }
 

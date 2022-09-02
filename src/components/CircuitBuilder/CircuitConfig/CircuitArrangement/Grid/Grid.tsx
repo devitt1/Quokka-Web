@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState} from 'react';
 import styles from './Grid.module.scss';
 import Qubit from "./Qubit/Qubit";
 import {Qubit as QubitClass} from "../../../../../common/classes"
@@ -15,10 +15,7 @@ import {
 } from "../../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../../common/constants";
 import {
-    findFurthestTopLeftGateInArray,
     findQubitFromId,
-    findQubitIndex,
-    locateGatesInSelectionBox
 } from "../../../../../common/helpers";
 import {
     CompoundGateSelectionContext,
@@ -187,20 +184,17 @@ const Grid : React.FC <GridProps> = (props) => {
 
     const handleMouseUp = (event: any) => {
         if (!selectionBox.isDrawing) return;
-        console.log('mouse up in grid while drawing selection box');
         setSelectionBox(prev => ({...prev, isDrawing: false}));
-        console.log('stopped drawing');
     }
     return (
         <svg className={styles.grid} ref={gridRef}
-             // viewBox="00, -200, 1000, 1000"
              onMouseDown={handleMouseDown}
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
              style={{height: viewOnly ? `20%` : `100%`}}
 
         >
-            {/*{showGridPattern()}*/}
+            {showGridPattern()}
         {
             circuitState.qubits.map((qubit, index) => {
                 return <Qubit key={qubit.id} id={qubit.id}

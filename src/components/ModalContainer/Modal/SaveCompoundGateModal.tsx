@@ -14,7 +14,6 @@ import {ModalState} from "../../../common/types";
 import {Button} from "../../Button/Button";
 import {
     countQubitSpan,
-    findFurthestTopLeftGateInArray,
     getMaxGatesHorizontally,
     locateGatesInSelectionBox
 } from "../../../common/helpers";
@@ -27,10 +26,11 @@ import {
 import {Gate, GateExtension} from "../../../common/classes";
 import StackLayout from "../../StackLayout/StackLayout";
 import Input from "../../Input/Input";
+import {renderCompoundGate} from "../../../utils/gate-renderer";
 
 const SaveCompoundGateModal: React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
-    const [inputValue, setInputValue] = useState("");
+    const [gateName, setGateName] = useState("");
     const {droppedGates} = useSelector((state: RootState) => (state.circuitConfig.circuitState));
     const {selectionBox, setSelectionBox} = useContext(CompoundGateSelectionContext);
 
@@ -41,56 +41,25 @@ const SaveCompoundGateModal: React.FC<ModalProps> = (props) => {
     }
 
     const handleInputChanged = (event: any) => {
-        console.log(`setting input value as ${event.target.value}`)
-        setInputValue(event.target.value);
+        setGateName(event.target.value);
     }
 
     const handleSaveButtonClicked = async () => {
-        console.log("save compound gate clicked!")
-        console.log("dropped gates currently: ", droppedGates)
         const gatesInSelection = locateGatesInSelectionBox(selectionBox, droppedGates);
-        console.log("gates for compound creation: ", gatesInSelection);
-
         if (gatesInSelection.length === 0) {
             return;
         }
 
-        const compoundGatePosition = findFurthestTopLeftGateInArray(gatesInSelection);
-        const qubitSpan = countQubitSpan(gatesInSelection);
-        const qubitGap = DIMENSIONS.GRID.HEIGHT - DIMENSIONS.STD_GATE.HEIGHT;
-        let compoundGateDimension: { width: number, height: number };
-        // console.log(qubitSpan);
-        if (qubitSpan === 1) {
-            compoundGateDimension = {
-                width: DIMENSIONS.STD_GATE.WIDTH,
-                height: DIMENSIONS.STD_GATE.HEIGHT
-            };
-        } else {
-            compoundGateDimension = {
-                width: DIMENSIONS.STD_GATE.WIDTH,
-                height: qubitSpan * (DIMENSIONS.STD_GATE.HEIGHT + qubitGap) - qubitGap
-            };
-        }
+        const newCompoundGate = renderCompoundGate(droppedGates, gateName);
+        dispatch(addDroppedGate(newCompoundGate));
 
-        const compoundGate = new Gate(
-            compoundGatePosition.x,
-            compoundGatePosition.y,
-            compoundGateDimension.width,
-            compoundGateDimension.height,
-            [''],
-            'Compound Gate',
-            new GateExtension(0, '', 'None'),
-            false,
-            null,
-            inputValue);
-
-        dispatch(addDroppedGate(compoundGate));
-        setSelectionBox((selectionBoxState) => (defaultSelectionBoxValue.selectionBox));
         gatesInSelection.forEach((gate, index) => {
             dispatch(removeDroppedGate(gate.id));
         })
 
-        dispatch(addCompoundGateDropdown(inputValue));
+        setSelectionBox((selectionBoxState) => (defaultSelectionBoxValue.selectionBox));
+
+        dispatch(addCompoundGateDropdown(gateName));
         dispatch(updateCircuitConfigMode('NoSelectionMode'));
         dispatch(closeModal(props.id));
     }

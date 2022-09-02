@@ -68,28 +68,6 @@ export const locateGatesInSelectionBox = (selectionBox : SelectionBoxState, drop
     return result;
 }
 
-/**
- * Find the furthest top left gate in an array of gates
- * Condition:
- * #1 priority: gate is furthest to the left
- * #2 priority: gate is furthest to the top
- * @param droppedGates
- */
-export const findFurthestTopLeftGateInArray = (droppedGates : IGate[]) : {x: number, y: number} => {
-    var furthestLeft = droppedGates[0].x;
-    var furthestTop = droppedGates[0].y;
-
-    droppedGates.forEach((gate, index) => {
-        if (gate.x < furthestLeft) {
-            furthestLeft = gate.x;
-        }
-        if (gate.y < furthestTop) {
-            furthestTop = gate.y;
-        }
-    });
-    console.log(`furthest left: ${furthestLeft}, furthest top: ${furthestTop}`);
-    return {x: furthestLeft, y: furthestTop};
-}
 
 export const countGatesHorizontally = (droppedGates : IGate[], yPos : number) => {
     return  droppedGates.filter((gate) => gate.y === yPos).length;
@@ -100,34 +78,9 @@ export const countGatesHorizontally = (droppedGates : IGate[], yPos : number) =>
  * @param droppedGates
  */
 export const countQubitSpan = (droppedGates : IGate[]) => {
-    const topMostGateYPos = getTopmostGateYPos(droppedGates);
-    const qubitSpan = Math.abs(getTopmostGateYPos(droppedGates) - getBottommostGateYPos(droppedGates)) / DIMENSIONS.STD_GATE.HEIGHT;
-    var result = 0;
-    if (topMostGateYPos === 21) {
-        result = Math.floor(qubitSpan) + 1;
-    } else {
-        result = Math.floor(qubitSpan);
-    }
-    return result;
+    const set = new Set(droppedGates.map(gate => gate.y));
+    return set.size;
 }
-
-
-/**
- * Get the gate position at the top-most of the circuit arrangement
- * @param droppedGates
- */
-export const getBottommostGateYPos = (droppedGates : IGate[]) => {
-    return Math.max.apply(Math, droppedGates.map((gate) => { return gate.y; }))
-}
-
-/**
- * Get the gate position at the bottom-most of the circuit arrangement
- * @param droppedGates
- */
-export const getTopmostGateYPos = (droppedGates : IGate[]) => {
-    return Math.min.apply(Math, droppedGates.map((gate) => { return gate.y; }))
-}
-
 
 
 export const getMaxGatesHorizontally = (gatesInSelection : IGate[], droppedGates : IGate[]) => {

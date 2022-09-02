@@ -31,9 +31,7 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
             document.addEventListener('mousemove', handleTargetMouseMove.current);
         }
         return () => {
-
         }
-
     }, [])
     const handleTargetMouseDown = () => {
         document.addEventListener('mousemove', handleTargetMouseMove.current);
