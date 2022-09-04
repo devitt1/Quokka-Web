@@ -24,7 +24,6 @@ const CompoundGateCreationToolbar : React.FC = () => {
     return <div className={styles.toolbar}>
         <div className={styles.fileManager} >
             <h3>Creating New Compound Gate</h3>
-
         </div>
 
         <div className={styles.gateDropdowns}>

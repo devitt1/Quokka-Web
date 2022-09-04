@@ -55,6 +55,5 @@ export const findFurthestTopLeftGateInArray = (droppedGates : IGate[]) : {x: num
             furthestTop = gate.y;
         }
     });
-    console.log(`furthest left: ${furthestLeft}, furthest top: ${furthestTop}`);
     return {x: furthestLeft, y: furthestTop};
 }

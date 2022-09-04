@@ -34,7 +34,7 @@ export interface CircuitConfigState {
     estimatedBuildTime : number;
     selectedQubitId : string;
     selectedGateId : string;
-    compoundGates : string[];
+    compoundGates : IGate[];
     status : boolean;
     viewOnly: boolean;
     circuitState : ICircuitState;
@@ -47,7 +47,7 @@ const initialCircuitConfigState = {
     estimatedBuildTime : 0,
     selectedQubitId : "",
     selectedGateId: "",
-    compoundGates: [] as string[],
+    compoundGates: [] as IGate[],
     status : false,
     viewOnly: false,
     circuitState : {
@@ -265,7 +265,7 @@ export const updateQubitInArray = (array : IQubit[], action : Payload) => {
             return item;
         }
 
-        var newQubit = item;
+        let newQubit = item;
 
         // @ts-ignore
         newQubit[action.payload.property] = action.payload.value;
@@ -285,9 +285,8 @@ export const updateObjectInArray = (array : IGate[], action : Payload, innerProp
             return item;
         }
 
-        var newGate = item;
+        let newGate = item;
 
-        console.log("innerProperty", innerProperty);
         if (innerProperty) {
             // @ts-ignore
             newGate[innerProperty][action.payload.property] = action.payload.value;

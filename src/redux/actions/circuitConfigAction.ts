@@ -41,7 +41,7 @@ export const ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION = "ADD_COMPOUND_GATE_DROPDOW
 
 export const LOAD_CIRCUIT_CONFIG_ACTION = "LOAD_CIRCUIT_CONFIG";
 
-export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
+export const updateSelectedStandardGate = (gate : string | IGate) => async (dispatch : any) =>
 {
     try {
         dispatch({ type: UPDATE_SELECTED_STANDARD_GATE_ACTION , payload: gate});
@@ -251,6 +251,15 @@ export const updateCircuitEstimatedBuildTime = (estimatedBuildTime : number) => 
     } catch (e) {
         console.log("Error: ", e);
         throw e;
+    }
+}
+
+export const saveCompoundGate = (compoundGate : IGate) => async (dispatch : any) => {
+    try {
+
+    } catch (e) {
+        console.log("Error: ", e);
+        throw new Error("Error saving compound gate, " + e);
     }
 }
 

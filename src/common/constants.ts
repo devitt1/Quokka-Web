@@ -1,3 +1,6 @@
+import {IGate} from "./interfaces";
+import {Gate, GateExtension} from "./classes";
+
 export const DIMENSIONS = {
     STD_GATE : {
         WIDTH : 40,
@@ -49,6 +52,3 @@ export const ROUTES = {
     PAGE_NOT_FOUND: "*",
     UPDATE_PASSWORD: "/updatePassword"
 }
-
-
-export {}

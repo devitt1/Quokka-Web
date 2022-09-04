@@ -23,7 +23,6 @@ import {
     CompoundGateSelectionContext,
     defaultSelectionBoxValue
 } from "../../Providers/CompoundGateSelectionContextProvider";
-import {Gate, GateExtension} from "../../../common/classes";
 import StackLayout from "../../StackLayout/StackLayout";
 import Input from "../../Input/Input";
 import {renderCompoundGate} from "../../../utils/gate-renderer";

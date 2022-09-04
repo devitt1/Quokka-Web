@@ -1,14 +1,6 @@
 .gateExtension {
-  &:hover {
-    stroke: #5C7DFF;
-    stroke-width: 4px;
-  }
   .innerStroke {
     cursor: pointer;
-  }
-  .outerStroke {
-    stroke: #5C7DFF;
-    stroke-width: 3px;
   }
   .target {
     cursor: none;

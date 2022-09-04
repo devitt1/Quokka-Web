@@ -21,10 +21,21 @@ interface GateProps {
 }
 
 const Gate : React.FC <GateProps> = (props) => {
-    const {id, x, y, width, height, type, rotAngle, isAttachment, onMouseEnter, name
-    , selected} = props;
+    const {
+        id,
+        x,
+        y,
+        width,
+        height,
+        type,
+        rotAngle,
+        isAttachment,
+        onMouseEnter,
+        name,
+        selected
+    } = props;
 
-    const gateBackground = () => {
+    const GateBackground = () : JSX.Element => {
         return  (
             <>
                 <rect
@@ -33,6 +44,7 @@ const Gate : React.FC <GateProps> = (props) => {
                     fill="url(#paint0_linear_349_5172)"
                     stroke="#5C7DFF"
                     strokeWidth={selected ? "4" : "0"}
+                    className={styles.gateBackground}
                 />
                 <defs>
                     <linearGradient id="paint0_linear_349_5172" x1={0} y1={0} x2={20} y2={40} gradientUnits="userSpaceOnUse">
@@ -45,53 +57,53 @@ const Gate : React.FC <GateProps> = (props) => {
     }
 
 
-    const renderGate = (x : number, y : number, width : number, height: number, gateType : GateTypes) => {
+    const Gate = (x : number, y : number, width : number, height: number, gateType : GateTypes) => {
         const relativePosition = isAttachment ? 'translate(0,0)' : `translate(${x},${y})`;
         switch (gateType) {
             case 'X':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
-                   <XGateSymbol/>
+                    <GateBackground/>
+                    <XGateSymbol/>
 
                 </g>
 
             case 'Y':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
+                    <GateBackground/>
                     <YGateSymbol/>
 
                 </g>
             case 'Z':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
+                    <GateBackground/>
                    <ZGateSymbol/>
                 </g>
             case 'RX':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
+                    <GateBackground/>
                     <XGateSymbol/>
                     <GateInput gateId={id} gateType={type} rotAngle={rotAngle}/>
                 </g>
             case 'RY':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
+                    <GateBackground/>
                     <YGateSymbol/>
                     <GateInput gateId={id} gateType={type} rotAngle={rotAngle}/>
                 </g>
             case 'RZ':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
+                    <GateBackground/>
                     <ZGateSymbol/>
                     <GateInput gateId={id} gateType={type} rotAngle={rotAngle}/>
                 </g>
             case 'H':
                 return <g transform={relativePosition}>
-                    {gateBackground()}
+                    <GateBackground/>
                     <HGateSymbol/>
                 </g>
             case 'CNOT':
                 return <g transform={relativePosition}>
-                        {gateBackground()}
+                        <GateBackground/>
                         <XGateSymbol/>
                         <defs>
                             <linearGradient id="paint0_linear_387_5131" x1="20" y1="0" x2="20" y2="40" gradientUnits="userSpaceOnUse">
@@ -106,9 +118,9 @@ const Gate : React.FC <GateProps> = (props) => {
                 </g>
             case 'Measurement Gate':
                 return <g transform={relativePosition} fill="none">
-                    {gateBackground()}
-                    <path d="M32 26C32 19.9249 26.8513 15 20.5 15C14.1487 15 9 19.9249 9 26" stroke="white" stroke-width="2"/>
-                    <path d="M20 24L32 13" stroke="white" stroke-width="2"/>
+                    <GateBackground/>
+                    <path d="M32 26C32 19.9249 26.8513 15 20.5 15C14.1487 15 9 19.9249 9 26" stroke="white" strokeWidth="2"/>
+                    <path d="M20 24L32 13" stroke="white" strokeWidth="2"/>
 
                 </g>
             case 'Compound Gate':
@@ -121,7 +133,7 @@ const Gate : React.FC <GateProps> = (props) => {
     }
 
     return <g className={styles.gate} onMouseEnter={onMouseEnter}>
-        {renderGate(x, y, width, height, type)}
+        {Gate(x, y, width, height, type)}
     </g>
 }
 

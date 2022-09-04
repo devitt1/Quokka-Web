@@ -2,8 +2,9 @@ import React from 'react';
 import styles from './DropdownList.module.scss';
 import {DropdownTypes} from "../../../common/types";
 import DropdownItem from "./DropdownItem/DropdownItem";
+import {IGate} from "../../../common/interfaces";
 interface DropdownProps {
-    list: string[];
+    list: string[] | IGate[];
     type?: DropdownTypes;
     onDropdownItemClicked : any;
 }
@@ -19,7 +20,7 @@ const DropdownList : React.FC<DropdownProps> = (props) => {
         {
             list.map((dropdownItem, index) => {
                 return <DropdownItem key={index}
-                                     label={dropdownItem}
+                                     label={dropdownItem.toString()}
                                      type={type}
                                      onClick={() => onDropdownItemClicked(dropdownItem)}
                                      isLastItem={index === list.length-1}>

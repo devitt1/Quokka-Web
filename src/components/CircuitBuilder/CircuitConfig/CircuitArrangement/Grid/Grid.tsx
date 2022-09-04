@@ -19,7 +19,6 @@ import {
 } from "../../../../../common/helpers";
 import {
     CompoundGateSelectionContext,
-    SelectionBoxState
 } from "../../../../Providers/CompoundGateSelectionContextProvider";
 import {ICircuitState, IQubit} from "../../../../../common/interfaces";
 
@@ -31,12 +30,6 @@ const getElOffset = (el: any) => {
         top: rect.y
     };
 };
-const initialSelectionBox = {
-    mouseStartPosition: {x: 0, y: 0},
-    dimension: {width: 0, height: 0},
-    offset: {left: 0, top: 0},
-    isDrawing: false
-}
 
 interface GridProps {
     circuitState : ICircuitState;
@@ -62,7 +55,6 @@ const Grid : React.FC <GridProps> = (props) => {
         if (viewOnly) {
             return;
         }
-
 
         if (selectedQubitId === qubitId) {
             dispatch(updateSelectedQubit(""));
@@ -98,8 +90,8 @@ const Grid : React.FC <GridProps> = (props) => {
                 const gateToDelete = circuitState.droppedGates.find((gate) => (gate.id === selectedGateId));
                 if (gateToDelete) {
                     console.log(gateToDelete);
-                    var newQubit = new QubitClass(48);
-                    var targetQubit : IQubit | null = findQubitFromId(gateToDelete.qubitIds[0], circuitState.qubits);
+                    let newQubit = new QubitClass(48);
+                    let targetQubit : IQubit | null = findQubitFromId(gateToDelete.qubitIds[0], circuitState.qubits);
                     if (targetQubit) {
                         newQubit.id = targetQubit.id;
                         newQubit.y =  targetQubit.y;
@@ -141,12 +133,7 @@ const Grid : React.FC <GridProps> = (props) => {
 
     const handleMouseDown = (event: any) => {
         if (circuitConfigMode !== 'CompoundGateCreationMode') return;
-
-        console.log('mouse down in grid');
-
-        var offset = getElOffset(gridRef.current);
-        console.log(`draw offset [left, top], [${offset.left}, ${offset.top}]`);
-
+        let offset = getElOffset(gridRef.current);
         const mouseStartPos = {x: event.clientX - offset.left, y: event.clientY - offset.top};
 
         setSelectionBox((selectionBoxState) => ({
@@ -161,25 +148,24 @@ const Grid : React.FC <GridProps> = (props) => {
 
     const handleMouseMove = (event: any) => {
         if (!selectionBox.isDrawing) return;
-        console.log('mouse move in grid while drawing selection box');
-        var currMousePos = {x: event.clientX - selectionBox.offset.left, y: event.clientY - selectionBox.offset.top};
-        var newDimesion = {width: currMousePos.x - selectionBox.mouseStartPosition.x, height: currMousePos.y - selectionBox.mouseStartPosition.y}
+        let currMousePos = {x: event.clientX - selectionBox.offset.left, y: event.clientY - selectionBox.offset.top};
+        let newDimension = {width: currMousePos.x - selectionBox.mouseStartPosition.x, height: currMousePos.y - selectionBox.mouseStartPosition.y}
 
-        if (newDimesion.width <= 0) {// drawing direction to the left
-            newDimesion.width = Math.abs(newDimesion.width)
+        if (newDimension.width <= 0) {// drawing direction to the left
+            newDimension.width = Math.abs(newDimension.width)
         } else {
             currMousePos.x = selectionBox.mouseStartPosition.x;
             setSelectionBox(prev => ({...prev, mouseStartPosition: {x: currMousePos.x, y: currMousePos.y}}));
         }
 
-        if (newDimesion.height <= 0) {// drawing direction to the left
-            newDimesion.height = Math.abs(newDimesion.height);
+        if (newDimension.height <= 0) {// drawing direction to the left
+            newDimension.height = Math.abs(newDimension.height);
         } else {
             currMousePos.y = selectionBox.mouseStartPosition.y;
             setSelectionBox(prev => ({...prev, mouseStartPosition: {x: currMousePos.x, y: currMousePos.y}}));
         }
 
-        setSelectionBox(prev => ({...prev, dimension: {width: newDimesion.width, height: newDimesion.height}}));
+        setSelectionBox(prev => ({...prev, dimension: {width: newDimension.width, height: newDimension.height}}));
     }
 
     const handleMouseUp = (event: any) => {
@@ -217,7 +203,6 @@ const Grid : React.FC <GridProps> = (props) => {
         <DroppedGates
             droppedGates={circuitState.droppedGates}
             viewOnly={viewOnly}/>
-
         <DraggingGate
             xOffset={gridPosition.x}
             yOffset={gridPosition.y}/>

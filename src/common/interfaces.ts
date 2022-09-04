@@ -16,7 +16,7 @@ export interface ICircuitConfigFile extends IBaseInterface{
 }
 
 export interface IGate extends IBaseInterface{
-    x : number,
+    x: number,
     y : number,
     width : number,
     height : number,

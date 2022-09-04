@@ -1,16 +1,14 @@
 import {IGate, IQubit} from "./interfaces";
 import {SelectionBoxState} from "../components/Providers/CompoundGateSelectionContextProvider";
-import {DIMENSIONS} from "./constants";
 
 export const sleep = (ms : number) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export const findQubitIndex = (id: string, qubits : IQubit[]) => {
-    const index = qubits.findIndex((qubit) => {
+    return qubits.findIndex((qubit) => {
         return qubit.id === id;
     });
-    return index;
 }
 
 export const findQubitFromId = (id: string, qubits : IQubit[]) : IQubit | null => {

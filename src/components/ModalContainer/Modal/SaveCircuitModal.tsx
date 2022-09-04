@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {ModalProps} from "./Modal";
-import styles from './Modal.module.scss';
 import {ModalState} from "../../../common/types";
 import {closeModal} from "../../../redux/actions/modalsAction";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,7 +9,6 @@ import StackLayout from "../../StackLayout/StackLayout";
 import {useNavigate} from "react-router-dom";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import {loadCircuitConfig, updateCircuitConfigTitle} from "../../../redux/actions/circuitConfigAction";
-import {ICircuitState} from "../../../common/interfaces";
 import APIClient from "../../../api/APIClient";
 
 const SaveCircuitModal : React.FC<ModalProps> = (props) => {

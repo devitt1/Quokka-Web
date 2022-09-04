@@ -1,3 +1,5 @@
+import {IGate} from "./interfaces";
+
 export type RegisterUserDto = {
     email: string,
     password: string,
@@ -12,7 +14,7 @@ export type LoginUserDto = {
 export type SaveCircuitConfigFileDto = {
     title : string,
     circuitState : object,
-    compoundGates : string[]
+    compoundGates : IGate[]
 }
 
 

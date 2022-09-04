@@ -8,7 +8,7 @@ import {
     updateSelectedStandardGate
 } from "../../../redux/actions/circuitConfigAction";
 import {openModal} from "../../../redux/actions/modalsAction";
-import {Modal} from "../../../common/classes";
+import {Gate, Modal} from "../../../common/classes";
 import {ALL_STD_GATES} from "../../../common/types";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import arrow_down from "../../../assets/arrow_down.svg";
@@ -17,6 +17,7 @@ import DropdownList from "../../Dropdown/DropdownList/DropdownList";
 import {Button} from "../../Button/Button";
 import arrow_down_black from "../../../assets/arrow_down_black.svg";
 import {CursorContext} from "../../Providers/CursorContextProvider";
+import {IGate} from "../../../common/interfaces";
 
 const NewCircuitToolbar : React.FC = () => {
     const {circuitConfigTitle, circuitConfigMode, selectedStandardGate, compoundGates} = useSelector((state: RootState) => state.circuitConfig);
@@ -61,10 +62,13 @@ const NewCircuitToolbar : React.FC = () => {
         dispatch(updateSelectedStandardGate(dropdownItem));
     }
 
-    const handleCompoundGateDropdownItemClicked = (dropdownItem : string) => {
+    const handleCompoundGateDropdownItemClicked = (dropdownItem : string | IGate) => {
         if (dropdownItem === '+ Create New') {
-            console.log('change to compound gate creation mode');
             dispatch(updateCircuitConfigMode('CompoundGateCreationMode'));
+        }
+        if (dropdownItem instanceof Gate)
+        {
+            dispatch(updateSelectedStandardGate('Compound Gate'));
         }
     }
 

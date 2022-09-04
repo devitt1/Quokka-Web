@@ -9,18 +9,17 @@
 import React, {useRef, useState} from 'react';
 import styles from './DraggingGate.module.scss';
 import Gate from "../Gate";
-import {Gate as GateClass} from "../../../../common/classes";
+import {Gate as GateClass, GateExtension as GateExtClass} from "../../../../common/classes";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/reducers/rootReducer";
 import {
-    addDroppedGate, removeDraggingGate, updateDraggingGateExtension,
-    updateDraggingGatePosition, updateSelectedGateId
+    addDroppedGate,
+    removeDraggingGate,
+    updateDraggingGatePosition,
+    updateSelectedGateId
 } from "../../../../redux/actions/circuitConfigAction";
 import {DIMENSIONS} from "../../../../common/constants";
-import GateExtension from "../../GateExtension/GateExtension";
-import {GateExtension as GateExtClass} from "../../../../common/classes";
 import DraggableGateExtension from "../../GateExtension/DraggableGateExtension/DraggableGateExtension";
-import {IDraggableGate} from "../../../../common/interfaces";
 
 /**
  * @param xOffset x position relative to cursor pointer x
@@ -44,57 +43,34 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
     const draggingGateRef : any = useRef(null);
 
     const handleDraggableMouseDown = (e : any) => {
-        console.log(`Mouse down at dragging gate type ${draggingGate.type}`);
         setIsDragging(true);
     }
 
     const handleDraggableMouseMove = (e : any) => {
         if (!isDragging) return;
-        console.log('mouuse move draggin gate', draggingGate);
         const newX = e.clientX - xOffset - draggingGate.width/2;
         const newY = e.clientY - yOffset - draggingGate.height/2;
-
         dispatch(updateDraggingGatePosition(newX, newY));
 
     }
 
-    const handleDraggableMouseUp = (event : any) => {
+    const handleDraggableMouseUp = (e : any) => {
         setIsDragging(false);
 
-        const draggingGateElem = draggingGateRef.current;
-        const bBox = draggingGateElem.getBBox();
 
-        var {newX, newY} = getSnapToGridPositionFloor(bBox.x, bBox.y);
+        let {newX, newY} = getSnapToGridPositionFloor(e.clientX - xOffset, e.clientY - yOffset -(draggingGate.height / 2));
+        console.log(`mouse X: ${e.clientX - xOffset}, mouse Y: ${e.clientY - yOffset - (draggingGate.height / 2)}`);
 
-        var dist = newY - draggingGate.dragStartPosition.y;
-        const diff = draggingGate.gateExtension.targetY + dist - newY;
-        var offset;
-        var newYOffset;
-        if (dist > 0) {
-            console.log(`moved down ${newY - draggingGate.dragStartPosition.y}` );
-        } else {
-            console.log(`moved up ${newY - draggingGate.dragStartPosition.y}` );
-        }
-
-        if (diff > 0) {
-            offset = draggingGate.gateExtension.targetY + dist;
-            console.log(`target below ${draggingGate.gateExtension.targetY + dist - newY}`);
-            newYOffset = newY;
-        } else {
-            newYOffset = getSnapToGridPositionCeiling(bBox.y);
-            offset = draggingGate.gateExtension.targetY + newYOffset - draggingGate.dragStartPosition.y;
-            console.log(`target above ${draggingGate.gateExtension.targetY + dist - newY}`);
-        }
-        console.log('newYOffset', newYOffset);
+        let dist = newY - draggingGate.dragStartPosition.y;
+        let offset;
+        offset = draggingGate.gateExtension.targetY + dist;
 
         const newGateExt = new GateExtClass(offset, draggingGate.gateExtension.qubitId, draggingGate.gateExtension.type);
-        const newDroppedGate = new GateClass(newX, newYOffset, draggingGate.width,
+        const newDroppedGate = new GateClass(newX, newY, draggingGate.width,
             draggingGate.height, draggingGate.qubitIds, draggingGate.type,
             newGateExt, draggingGate.droppedFromMenu,  draggingGate.rotAngle, draggingGate.name);
         if (draggingGate.dragStartPosition.x === newX && draggingGate.dragStartPosition.y === newY && !draggingGate.droppedFromMenu) {
-            console.log("Gate not moved.. so definitely user wanted to select it");
             dispatch(updateSelectedGateId(newDroppedGate.id));
-
         }
         dispatch(addDroppedGate(newDroppedGate));
         dispatch(removeDraggingGate());
@@ -107,18 +83,29 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
         if (draggingGate.dragStartPosition.x !== draggingGate.x && draggingGate.dragStartPosition.y !== draggingGate.y) {
             return;
         }
-        console.log("Not dragging anywhere, add dropped gate at previous position");
 
-        const newGateExt = new GateExtClass(draggingGate.gateExtension.targetY, draggingGate.gateExtension.qubitId, draggingGate.gateExtension.type);
-        const newDroppedGate = new GateClass(draggingGate.x, draggingGate.y, draggingGate.width,
-            draggingGate.height, draggingGate.qubitIds,
-            draggingGate.type, newGateExt, draggingGate.droppedFromMenu, draggingGate.rotAngle, draggingGate.name);
+        const newGateExt = new GateExtClass(
+            draggingGate.gateExtension.targetY,
+            draggingGate.gateExtension.qubitId,
+            draggingGate.gateExtension.type);
+        const newDroppedGate = new GateClass(
+            draggingGate.x,
+            draggingGate.y,
+            draggingGate.width,
+            draggingGate.height,
+            draggingGate.qubitIds,
+            draggingGate.type,
+            newGateExt,
+            draggingGate.droppedFromMenu,
+            draggingGate.rotAngle,
+            draggingGate.name);
         dispatch(removeDraggingGate());
         dispatch(addDroppedGate(newDroppedGate));
 
     }
 
-    return <g ref={draggingGateRef} className={styles.draggingGate}
+    return <g ref={draggingGateRef}
+              className={styles.draggingGate}
               onMouseDown={handleDraggableMouseDown}
               onMouseMove={handleDraggableMouseMove}
               onMouseUp={handleDraggableMouseUp}
@@ -132,13 +119,14 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
         <Gate
             id={draggingGate.id}
-            x={draggingGate.x} y={draggingGate.y} width={draggingGate.width} height={draggingGate.height} type={draggingGate.type}
-            isAttachment={false} rotAngle={draggingGate.rotAngle} name={draggingGate.name}/>
-
-
-
-
-
+            x={draggingGate.x}
+            y={draggingGate.y}
+            width={draggingGate.width}
+            height={draggingGate.height}
+            type={draggingGate.type}
+            isAttachment={false}
+            rotAngle={draggingGate.rotAngle}
+            name={draggingGate.name}/>
     </g>
 }
 
@@ -163,7 +151,6 @@ export const getSnapToGridPositionFloor = (x : number, y : number) => {
  * @param y
  */
 export const getSnapToGridPositionCeiling = (y : number) => {
-    const roundY = Math.ceil(y / DIMENSIONS.GRID.HEIGHT ) *
+    return Math.ceil(y / DIMENSIONS.GRID.HEIGHT) *
         DIMENSIONS.GRID.HEIGHT + DIMENSIONS.GRID.PADDING.TOP;
-    return roundY;
 }

@@ -21,7 +21,7 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
     const [hovered, setHovered] = useState(false);
     const {cursor ,setCursor } = useContext(CursorContext);
     const [hasGate, setHasGate] = useState(props.hasGate);
-    const cellRef : any = useRef(null);
+    const cellRef = useRef(null);
     const {selectedStandardGate} = useSelector((state : RootState) => (state.circuitConfig));
     const dispatch = useDispatch();
 

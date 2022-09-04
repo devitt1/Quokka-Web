@@ -1,5 +1,5 @@
 import {AxiosInstance} from "axios";
-import {ICircuitState, IGate, IQASMRequestBody, IQubit} from "../common/interfaces";
+import {IGate, IQASMRequestBody, IQubit} from "../common/interfaces";
 import {gateToQASM} from "../common/helpers";
 
 class QsimAPIService {
@@ -65,10 +65,9 @@ class QsimAPIService {
 
 
     findQubitIndex = (id: string, qubits : IQubit[]) => {
-        const index = qubits.findIndex((qubit) => {
+        return qubits.findIndex((qubit) => {
             return qubit.id === id;
         });
-        return index;
     }
 
     async runQASMScript(script : string, runCount : number, stateVector : boolean) {

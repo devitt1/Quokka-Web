@@ -47,8 +47,6 @@ const Cursor : React.FC = () => {
                     </CursorAttachment>
                     : null
             }
-            {/*<p>{clientX}</p>*/}
-            {/*<p>{clientY}</p>*/}
         </div>
     );
 };
