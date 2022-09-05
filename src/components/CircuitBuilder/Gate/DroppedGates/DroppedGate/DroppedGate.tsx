@@ -8,7 +8,7 @@ import {
     removeDroppedGate,
     updateDraggingGate, updateDroppedGate, updateSelectedGateId,
 } from "../../../../../redux/actions/circuitConfigAction";
-import {IGateExtension} from "../../../../../common/interfaces";
+import {IGate, IGateExtension} from "../../../../../common/interfaces";
 import GateExtension from "../../../GateExtension/GateExtension";
 import {GateExtension as GateExtClass} from "../../../../../common/classes";
 import {RootState} from "../../../../../redux/reducers/rootReducer";
@@ -27,10 +27,25 @@ interface DroppedGateProps {
     rotAngle?: string | null;
     name?: string;
     viewOnly?: boolean;
+    includedGates? : IGate[];
 }
 
 const DroppedGate: React.FC<DroppedGateProps> = (props) => {
-    const {x, y, id, width, height, qubitIds, type, rotAngle, gateExtension, droppedFromMenu, name, viewOnly} = props;
+    const {
+        x,
+        y,
+        id,
+        width,
+        height,
+        qubitIds,
+        type,
+        rotAngle,
+        gateExtension,
+        droppedFromMenu,
+        name,
+        viewOnly,
+        includedGates
+    } = props;
     const [targetMove, setTargetMove] = useState(false);
     const {circuitConfigMode} = useSelector((state: RootState) => (state.circuitConfig));
     var droppedGateStyle = [styles.droppedGate];
@@ -60,8 +75,19 @@ const DroppedGate: React.FC<DroppedGateProps> = (props) => {
 
         const gateExtToUpdate = new GateExtClass(gateExtension.targetY,
             gateExtension.qubitId, gateExtension.type);
-        const gateToUpdate = new DraggableGate(x, y, {x: x, y: y}, width, height, qubitIds, type,
-            gateExtToUpdate, droppedFromMenu, rotAngle, name);
+        const gateToUpdate = new DraggableGate(
+            x,
+            y,
+            {x: x, y: y},
+            width,
+            height,
+            qubitIds,
+            type,
+            gateExtToUpdate,
+            droppedFromMenu,
+            rotAngle,
+            name,
+            includedGates);
         dispatch(removeDroppedGate(id));
         dispatch(updateDraggingGate(gateToUpdate));
     }

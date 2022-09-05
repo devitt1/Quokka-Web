@@ -21,7 +21,7 @@ import {
     UPDATE_SELECTED_STANDARD_GATE_ACTION,
     ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION,
     UPDATE_CIRCUIT_CONFIG_TITLE_ACTION,
-    LOAD_CIRCUIT_CONFIG_ACTION, UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME_ACTION
+    LOAD_CIRCUIT_CONFIG_ACTION, UPDATE_CIRCUIT_ESTIMATED_BUILD_TIME_ACTION, UPDATE_SELECTED_COMPOUND_GATE_ACTION
 
 } from "../actions/circuitConfigAction";
 import {ICircuitState, IDraggableGate, IGate, IQubit} from "../../common/interfaces";
@@ -35,6 +35,7 @@ export interface CircuitConfigState {
     selectedQubitId : string;
     selectedGateId : string;
     compoundGates : IGate[];
+    selectedCompoundGate : IGate;
     status : boolean;
     viewOnly: boolean;
     circuitState : ICircuitState;
@@ -48,6 +49,7 @@ const initialCircuitConfigState = {
     selectedQubitId : "",
     selectedGateId: "",
     compoundGates: [] as IGate[],
+    selectedCompoundGate: {} as IGate,
     status : false,
     viewOnly: false,
     circuitState : {
@@ -74,6 +76,11 @@ action: Payload) {
             return {
                 ...state,
                 selectedStandardGate: action.payload,
+            }
+        case UPDATE_SELECTED_COMPOUND_GATE_ACTION:
+            return {
+                ...state,
+                selectedCompoundGate: action.payload.gate
             }
         case UPDATE_DEFAULT_STANDARD_GATE_ACTION:
             return {
@@ -129,7 +136,8 @@ action: Payload) {
                         rotAngle : state.circuitState.draggingGate.rotAngle,
                         gateExtension: state.circuitState.draggingGate.gateExtension,
                         droppedFromMenu : state.circuitState.draggingGate.droppedFromMenu,
-                        name: state.circuitState.draggingGate.name
+                        name: state.circuitState.draggingGate.name,
+                        includedGates: state.circuitState.draggingGate.includedGates,
                     }
                 }
             }
@@ -201,7 +209,6 @@ action: Payload) {
                 }
             }
         case UPDATE_DROPPED_GATE_ACTION:
-
             return {
                 ...state,
                 circuitState: {
@@ -232,7 +239,7 @@ action: Payload) {
         case ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION:
             return {
                 ...state,
-                compoundGates: [...state.compoundGates, action.payload.name]
+                compoundGates: [...state.compoundGates, action.payload.compoundGate]
             }
         case UPDATE_CIRCUIT_CONFIG_TITLE_ACTION:
             return {

@@ -3,7 +3,7 @@ import styles from './SavedCircuitConfig.module.scss';
 import trash_bin from "../../../assets/trash_bin.svg";
 import {Link, useNavigate} from "react-router-dom";
 import {ROUTES} from "../../../common/constants";
-import {ICircuitState} from "../../../common/interfaces";
+import {ICircuitState, IGate} from "../../../common/interfaces";
 import {Button} from "../../Button/Button";
 import {useDispatch} from "react-redux";
 import {loadCircuitConfig, updateCircuitConfigMode} from "../../../redux/actions/circuitConfigAction";
@@ -14,7 +14,7 @@ interface SavedCircuitProps {
     loadFilesView? : boolean;
     id : string;
     title : string;
-    compoundGates : string[] | null
+    compoundGates : IGate[]
     circuitState : ICircuitState | null
 }
 

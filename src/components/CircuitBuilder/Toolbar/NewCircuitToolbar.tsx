@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import {
     updateCircuitConfigMode,
-    updateCircuitConfigTitle,
+    updateCircuitConfigTitle, updateSelectedCompoundGate,
     updateSelectedStandardGate
 } from "../../../redux/actions/circuitConfigAction";
 import {openModal} from "../../../redux/actions/modalsAction";
@@ -16,14 +16,25 @@ import {Dropdown} from "../../Dropdown/Dropdown";
 import DropdownList from "../../Dropdown/DropdownList/DropdownList";
 import {Button} from "../../Button/Button";
 import arrow_down_black from "../../../assets/arrow_down_black.svg";
-import {CursorContext} from "../../Providers/CursorContextProvider";
 import {IGate} from "../../../common/interfaces";
+import APIClient from "../../../api/APIClient";
 
 const NewCircuitToolbar : React.FC = () => {
     const {circuitConfigTitle, circuitConfigMode, selectedStandardGate, compoundGates} = useSelector((state: RootState) => state.circuitConfig);
-
+    const apiClient = new APIClient();
     const dispatch = useDispatch();
     const [editCircuitDisabled, setEditCircuitDisabled] = useState(true);
+
+    useEffect(() => {
+        (async () =>  {
+            const response = await apiClient.circuitBuilderAPIService.getSavedCircuitConfigFiles();
+
+            // const response = apiClient.circuitBuilderAPIService.
+        })();
+    }, [])
+
+
+
     const handleSelectBtnClicked = () => {
         if (circuitConfigMode === 'GateSelectionMode') {
             dispatch(updateCircuitConfigMode('NoSelectionMode'));
@@ -66,9 +77,10 @@ const NewCircuitToolbar : React.FC = () => {
         if (dropdownItem === '+ Create New') {
             dispatch(updateCircuitConfigMode('CompoundGateCreationMode'));
         }
-        if (dropdownItem instanceof Gate)
+        if (typeof dropdownItem === 'object')
         {
             dispatch(updateSelectedStandardGate('Compound Gate'));
+            dispatch(updateSelectedCompoundGate(dropdownItem));
         }
     }
 

@@ -7,15 +7,15 @@ class APIClient {
     public readonly circuitBuilderAPIService : CircuitBuilderAPIService;
     public readonly qsimAPIService : QsimAPIService;
     public readonly authService : AuthService;
-    // private readonly DEVELOPMENT_BASE_URL = "http://localhost:8080";
+    private readonly DEVELOPMENT_BASE_URL = "http://localhost:8080";
     private readonly PRODUCTION_BASE_URL = "https://theq-circuitbuilder-api.fordevpurposeonly.com/";
     private readonly QSIM_API_NGROK_URL = `https://${window.sessionStorage.getItem('deviceName')}.au.ngrok.io`;
     constructor() {
 
         // This instance is for interacting with the Q builder backend
         const circuitBuilderAPIAxiosInstance = axios.create({
-            baseURL: this.PRODUCTION_BASE_URL,
-            // baseURL: this.DEVELOPMENT_BASE_URL,
+            // baseURL: this.PRODUCTION_BASE_URL,
+            baseURL: this.DEVELOPMENT_BASE_URL,
         });
 
         // This instance is for interacting directly with the Q simulator device

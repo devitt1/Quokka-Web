@@ -58,7 +58,7 @@ const SaveCompoundGateModal: React.FC<ModalProps> = (props) => {
 
         setSelectionBox((selectionBoxState) => (defaultSelectionBoxValue.selectionBox));
 
-        dispatch(addCompoundGateDropdown(gateName));
+        dispatch(addCompoundGateDropdown(newCompoundGate));
         dispatch(updateCircuitConfigMode('NoSelectionMode'));
         dispatch(closeModal(props.id));
     }

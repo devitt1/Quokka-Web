@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Gate.module.scss';
 import {GateTypes} from "../../../common/types";
 import {DIMENSIONS} from "../../../common/constants";
-import {CNOTGateSymbol, HGateSymbol, XGateSymbol, YGateSymbol, ZGateSymbol} from "./GateSymbols/GateSymbols";
+import {HGateSymbol, XGateSymbol, YGateSymbol, ZGateSymbol} from "./GateSymbols/GateSymbols";
 import GateInput from "./GateInput/GateInput";
 import CompoundGate from "./GateDefinitions/CompoundGate/CompoundGate";
 
@@ -125,7 +125,10 @@ const Gate : React.FC <GateProps> = (props) => {
                 </g>
             case 'Compound Gate':
                 return <g transform={relativePosition}>
-                    <CompoundGate width={width} height={height} name={name}/>
+                    <CompoundGate
+                        width={width}
+                        height={height}
+                        name={name}/>
                 </g>
             default:
                 return 'None'

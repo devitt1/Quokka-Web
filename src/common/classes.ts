@@ -32,11 +32,11 @@ export class BaseClass implements IBaseInterface {
 
 export class CircuitConfigFile extends BaseClass implements ICircuitConfigFile {
     title: string;
-    compoundGates : string[];
+    compoundGates : IGate[];
     circuitState : ICircuitState | null;
     constructor(
         name: string,
-        compoundGates: string[],
+        compoundGates: IGate[],
         circuitState: ICircuitState | null
     ) {
         super();
@@ -102,9 +102,20 @@ export class DraggableGate extends Gate implements IDraggableGate {
         gateExtension : IGateExtension,
         droppedFromMenu : boolean,
         rotAngle? : string | null,
-        name? : string) {
-        super(x, y, width, height,qubitIds, type,
-            gateExtension, droppedFromMenu, rotAngle, name);
+        name? : string,
+        includedGates? : IGate[]) {
+        super(
+            x,
+            y,
+            width,
+            height,
+            qubitIds,
+            type,
+            gateExtension,
+            droppedFromMenu,
+            rotAngle,
+            name,
+            includedGates);
         this.dragStartPosition = dragStartPosition;
     }
 }

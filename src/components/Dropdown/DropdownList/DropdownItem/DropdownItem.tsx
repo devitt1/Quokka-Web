@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './DropdownItem.module.scss';
 
 interface DropdownItemProps {
-    label: string;
     onClick : any;
+    label?: string;
     type?: string;
     isLastItem? : boolean;
 }
@@ -19,7 +19,7 @@ const DropdownItem : React.FC<DropdownItemProps> = (props) => {
         dropdownItemStyle.push(styles['lastItem']);
     }
 
-    const renderDropdownContent = (label : string) => {
+    const renderDropdownContent = (label? : string) => {
         if (type === 'compoundGateDropdown' && label !== '+ Create New') {
             return <div className={styles.listItemRow}>
                 {label}

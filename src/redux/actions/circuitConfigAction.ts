@@ -7,6 +7,7 @@ export const UPDATE_CIRCUIT_CONFIG_TITLE_ACTION = "UPDATE_CIRCUIT_CONFIG_TITLE";
 // SELECTED GATE OPERATIONS
 export const INIT_SELECTED_STANDARD_GATE_ACTION = "INIT_SELECTED_STANDARD_GATE";
 export const UPDATE_SELECTED_STANDARD_GATE_ACTION = "UPDATE_SELECTED_STANDARD_GATE";
+export const UPDATE_SELECTED_COMPOUND_GATE_ACTION = "UPDATE_SELECTED_COMPOUND_GATE";
 export const UPDATE_DEFAULT_STANDARD_GATE_ACTION = "UPDATE_DEFAULT_STANDARD_GATE";
 export const UPDATE_CIRCUIT_CONFIG_MODE_ACTION = "UPDATE_CIRCUIT_CONFIG_MODE";
 export const UPDATE_SELECTED_GATE_ID_ACTION = "UPDATE_SELECTED_GATE_ID";
@@ -41,10 +42,21 @@ export const ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION = "ADD_COMPOUND_GATE_DROPDOW
 
 export const LOAD_CIRCUIT_CONFIG_ACTION = "LOAD_CIRCUIT_CONFIG";
 
-export const updateSelectedStandardGate = (gate : string | IGate) => async (dispatch : any) =>
+export const updateSelectedStandardGate = (gate : string) => async (dispatch : any) =>
 {
     try {
         dispatch({ type: UPDATE_SELECTED_STANDARD_GATE_ACTION , payload: gate});
+    }
+    catch (e) {
+        console.log("Error: ", e);
+        throw e;
+    }
+}
+
+export const updateSelectedCompoundGate = (gate : IGate) => async (dispatch : any) =>
+{
+    try {
+        dispatch({ type: UPDATE_SELECTED_COMPOUND_GATE_ACTION , payload: {gate : gate}});
     }
     catch (e) {
         console.log("Error: ", e);
@@ -212,9 +224,9 @@ export const updateSelectedGateId = (id : string) => async (dispatch: any) => {
     }
 }
 
-export const addCompoundGateDropdown = (name : string) => async (dispatch: any) => {
+export const addCompoundGateDropdown = (compoundGate : IGate) => async (dispatch: any) => {
     try {
-        dispatch({type: ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION, payload: {name: name}})
+        dispatch({type: ADD_COMPOUND_GATE_DROPDOWN_ITEM_ACTION, payload: {compoundGate: compoundGate}})
     } catch (e) {
         console.log("Error", e);
         throw e;
@@ -230,7 +242,7 @@ export const updateCircuitConfigTitle = (title: string) => async (dispatch: any)
     }
 }
 
-export const loadCircuitConfig = (circuitConfigTitle: string, circuitState: ICircuitState | null, compoundGates : string[] | null) => async (dispatch: any) => {
+export const loadCircuitConfig = (circuitConfigTitle: string, circuitState: ICircuitState | null, compoundGates : IGate[]) => async (dispatch: any) => {
     try {
         dispatch({type: LOAD_CIRCUIT_CONFIG_ACTION, payload: {
             circuitConfigTitle: circuitConfigTitle,
@@ -253,13 +265,3 @@ export const updateCircuitEstimatedBuildTime = (estimatedBuildTime : number) => 
         throw e;
     }
 }
-
-export const saveCompoundGate = (compoundGate : IGate) => async (dispatch : any) => {
-    try {
-
-    } catch (e) {
-        console.log("Error: ", e);
-        throw new Error("Error saving compound gate, " + e);
-    }
-}
-

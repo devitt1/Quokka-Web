@@ -59,16 +59,23 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
 
 
         let {newX, newY} = getSnapToGridPositionFloor(e.clientX - xOffset, e.clientY - yOffset -(draggingGate.height / 2));
-        console.log(`mouse X: ${e.clientX - xOffset}, mouse Y: ${e.clientY - yOffset - (draggingGate.height / 2)}`);
 
         let dist = newY - draggingGate.dragStartPosition.y;
         let offset;
         offset = draggingGate.gateExtension.targetY + dist;
 
         const newGateExt = new GateExtClass(offset, draggingGate.gateExtension.qubitId, draggingGate.gateExtension.type);
-        const newDroppedGate = new GateClass(newX, newY, draggingGate.width,
-            draggingGate.height, draggingGate.qubitIds, draggingGate.type,
-            newGateExt, draggingGate.droppedFromMenu,  draggingGate.rotAngle, draggingGate.name);
+        const newDroppedGate = new GateClass(
+            newX, newY, draggingGate.width,
+            draggingGate.height,
+            draggingGate.qubitIds,
+            draggingGate.type,
+            newGateExt,
+            draggingGate.droppedFromMenu,
+            draggingGate.rotAngle,
+            draggingGate.name,
+            draggingGate.includedGates
+        );
         if (draggingGate.dragStartPosition.x === newX && draggingGate.dragStartPosition.y === newY && !draggingGate.droppedFromMenu) {
             dispatch(updateSelectedGateId(newDroppedGate.id));
         }
@@ -98,7 +105,9 @@ const DraggingGate : React.FC<DraggingGateProps> = (children) => {
             newGateExt,
             draggingGate.droppedFromMenu,
             draggingGate.rotAngle,
-            draggingGate.name);
+            draggingGate.name,
+            draggingGate.includedGates
+            );
         dispatch(removeDraggingGate());
         dispatch(addDroppedGate(newDroppedGate));
 

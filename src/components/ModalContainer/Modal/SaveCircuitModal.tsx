@@ -30,8 +30,6 @@ const SaveCircuitModal : React.FC<ModalProps> = (props) => {
     }
 
     const handleSaveButtonClicked = async () => {
-        console.log("CircuitState: ", circuitState);
-        console.log("Compound Gates: ", compoundGates);
         const response = await apiClient.circuitBuilderAPIService.saveCircuitConfigFile({
             title: circuitConfigTitle,
             compoundGates: compoundGates,

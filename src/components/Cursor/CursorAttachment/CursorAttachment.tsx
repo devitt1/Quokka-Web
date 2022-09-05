@@ -4,15 +4,20 @@ import {CursorContext} from "../../Providers/CursorContextProvider";
 import useMousePosition from "../../hooks/useMousePosition";
 
 interface CursorAttachmentProps {
+    height: number,
+    width: number
 }
 
 const CursorAttachment : React.FC<CursorAttachmentProps> = (props) => {
-    const {children} = props;
+    const {
+        width,
+        height
+    } = props;
     const {clientX, clientY } = useMousePosition();
 
     return <svg
-        width={50}
-        height={64}
+        width={width}
+        height={height}
         className={styles.cursorAttachment}
         style={{
             left: clientX,
@@ -21,7 +26,7 @@ const CursorAttachment : React.FC<CursorAttachmentProps> = (props) => {
         }}
     >
         {
-            children
+            props.children
         }
     </svg>
 }

@@ -61,8 +61,6 @@ export const locateGatesInSelectionBox = (selectionBox : SelectionBoxState, drop
         }
     });
 
-
-    console.log("box: ", box);
     return result;
 }
 

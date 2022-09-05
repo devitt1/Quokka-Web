@@ -17,13 +17,21 @@ import {DIMENSIONS} from "../common/constants";
  */
 export const calculateCompoundGateHeight =  (
     qubitSpan: number,
-    gateHeight: number,
+    standardGateHeight: number,
     qubitGap: number,
 ) : number => {
     return qubitSpan === 1 ?
-        gateHeight
+        standardGateHeight
         :
-        (qubitSpan * (gateHeight + qubitGap) - qubitGap)
+        (qubitSpan * (standardGateHeight + qubitGap) - qubitGap)
+}
+
+export const calculateQubitSpan = (
+    gateHeight : number,
+    qubitGap : number,
+    standardGateHeight : number
+) : number => {
+    return (gateHeight + qubitGap) / (standardGateHeight + qubitGap);
 }
 
 

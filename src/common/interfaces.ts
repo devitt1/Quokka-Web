@@ -11,7 +11,7 @@ export interface IUser {
 
 export interface ICircuitConfigFile extends IBaseInterface{
     title: string;
-    compoundGates : string[],
+    compoundGates : IGate[],
     circuitState : ICircuitState | null
 }
 

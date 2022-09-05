@@ -7,6 +7,7 @@ import {Gate, GateExtension, Qubit} from "../../../../../../../common/classes";
 import {RootState} from "../../../../../../../redux/reducers/rootReducer";
 import {GateExtTypes, GateTypes} from "../../../../../../../common/types";
 import {DIMENSIONS} from "../../../../../../../common/constants";
+import {calculateQubitGap, calculateQubitSpan} from "../../../../../../../utils/formula";
 
 interface QubitCellProps {
     qubitId : string;
@@ -22,7 +23,11 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
     const {cursor ,setCursor } = useContext(CursorContext);
     const [hasGate, setHasGate] = useState(props.hasGate);
     const cellRef = useRef(null);
-    const {selectedStandardGate} = useSelector((state : RootState) => (state.circuitConfig));
+    const {
+        selectedStandardGate,
+        selectedCompoundGate
+
+    } = useSelector((state : RootState) => (state.circuitConfig));
     const dispatch = useDispatch();
 
     const handleMouseDown = (event : any) => {
@@ -34,9 +39,13 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
         const qubitIds = [];
         qubitIds.push(props.qubitId);
 
-        var newGateExtType : GateExtTypes;
-        var CGateDroppedFromMenu : boolean;
-        var rotAngle : string | null;
+        let renderHeight = DIMENSIONS.STD_GATE.HEIGHT;
+        let renderWidth = DIMENSIONS.STD_GATE.WIDTH;
+        let renderX = props.cellXPos;
+        let renderY = props.cellYPos;
+        let newGateExtType : GateExtTypes;
+        let CGateDroppedFromMenu : boolean;
+        let rotAngle : string | null;
 
         if (selectedStandardGate === 'CNOT') {
             newGateExtType = 'CNOT_TARGET';
@@ -52,8 +61,7 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
         }
 
         else if (selectedStandardGate === 'Measurement Gate') {
-            console.log('dropped gate at qubitId= ', props.qubitId);
-            var newQubit = new Qubit(props.colIndex);
+            let newQubit = new Qubit(props.colIndex);
             newQubit.id = props.qubitId;
             newQubit.y = props.cellYPos;
             newQubit.size = props.colIndex;
@@ -61,6 +69,17 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             newGateExtType = 'None';
             CGateDroppedFromMenu = true;
             rotAngle = 'null';
+        }
+        else if (selectedStandardGate === 'Compound Gate') {
+            renderWidth = selectedCompoundGate.width;
+            const qubitGap = calculateQubitGap(DIMENSIONS.GRID.HEIGHT, DIMENSIONS.STD_GATE.HEIGHT);
+            const qubitSpan = calculateQubitSpan(selectedCompoundGate.height, qubitGap, DIMENSIONS.STD_GATE.HEIGHT);
+            renderHeight = selectedCompoundGate.height;
+            renderY = props.cellYPos - Math.floor(qubitSpan / 2) * DIMENSIONS.GRID.HEIGHT;
+            console.log(`Cell Y POS : ${props.cellYPos}`)
+            newGateExtType = 'None';
+            CGateDroppedFromMenu = true;
+            rotAngle = null;
         }
         else {
             newGateExtType = 'None';
@@ -70,8 +89,18 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
 
         const newGateExt = new GateExtension(
             props.cellYPos + DIMENSIONS.STD_GATE.HEIGHT/2 ,"", newGateExtType);
-        const gateToAdd = new Gate(props.cellXPos, props.cellYPos,
-            40, 38, qubitIds, selectedStandardGate as GateTypes,  newGateExt, CGateDroppedFromMenu, rotAngle);
+        const gateToAdd = new Gate(
+            renderX,
+            renderY,
+            renderWidth,
+            renderHeight,
+            qubitIds,
+            selectedStandardGate as GateTypes,
+            newGateExt,
+            CGateDroppedFromMenu,
+            rotAngle,
+            selectedCompoundGate.name,
+            selectedCompoundGate.includedGates);
         dispatch(addDroppedGate(gateToAdd));
 
     }
