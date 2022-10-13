@@ -29,7 +29,7 @@ import {Gate, Qubit} from "../../common/classes";
 
 export interface CircuitConfigState {
     circuitConfigTitle : string;
-    selectedStandardGate: string;
+    selectedGate: string;
     circuitConfigMode : CircuitConfigMode;
     estimatedBuildTime : number;
     selectedQubitId : string;
@@ -43,7 +43,7 @@ export interface CircuitConfigState {
 
 const initialCircuitConfigState = {
     circuitConfigTitle : 'New Untitled Circuit',
-    selectedStandardGate : 'Standard Gate',
+    selectedGate : 'Standard Gate',
     circuitConfigMode : 'NoSelectionMode' as CircuitConfigMode,
     estimatedBuildTime : 0,
     selectedQubitId : "",
@@ -75,7 +75,7 @@ action: Payload) {
         case UPDATE_SELECTED_STANDARD_GATE_ACTION:
             return {
                 ...state,
-                selectedStandardGate: action.payload,
+                selectedGate: action.payload,
             }
         case UPDATE_SELECTED_COMPOUND_GATE_ACTION:
             return {
@@ -85,7 +85,7 @@ action: Payload) {
         case UPDATE_DEFAULT_STANDARD_GATE_ACTION:
             return {
                 ...state,
-                selectedStandardGate: 'Standard Gate',
+                selectedGate: 'Standard Gate',
             }
         case UPDATE_CIRCUIT_CONFIG_MODE_ACTION:
             return {
@@ -200,7 +200,6 @@ action: Payload) {
                 }
             }
         case UPDATE_DROPPED_GATE_EXTENSION_ACTION:
-            console.log('update dorpped gate ext', action.payload);
             return {
                 ...state,
                 circuitState: {

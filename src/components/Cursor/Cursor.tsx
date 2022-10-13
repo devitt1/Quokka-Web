@@ -14,7 +14,7 @@ const Cursor : React.FC = () => {
     const {clientX, clientY } = useMousePosition();
     const {cursor, setCursor} = useContext(CursorContext);
     const {
-        selectedStandardGate,
+        selectedGate,
         circuitConfigMode,
         selectedCompoundGate,
     } = useSelector((state: RootState) => state.circuitConfig);
@@ -29,10 +29,10 @@ const Cursor : React.FC = () => {
                 dispatch(updateDefaultStandardGate());
             }
         },
-        [selectedCompoundGate, selectedStandardGate, circuitConfigMode])
+        [selectedCompoundGate, selectedGate, circuitConfigMode])
 
-    const attachmentWidth = selectedStandardGate === "Compound Gate" ? selectedCompoundGate.width : DIMENSIONS.STD_GATE.WIDTH;
-    const attachmentHeight = selectedStandardGate === "Compound Gate" ? selectedCompoundGate.height : DIMENSIONS.STD_GATE.HEIGHT;
+    const attachmentWidth = selectedGate === "Compound Gate" ? selectedCompoundGate.width : DIMENSIONS.STD_GATE.WIDTH;
+    const attachmentHeight = selectedGate === "Compound Gate" ? selectedCompoundGate.height : DIMENSIONS.STD_GATE.HEIGHT;
 
 
 
@@ -53,10 +53,10 @@ const Cursor : React.FC = () => {
                               y={clientY}
                               width={attachmentWidth}
                               height={attachmentHeight}
-                              type={selectedStandardGate === "Compound Gate" ? selectedCompoundGate.type : selectedStandardGate}
+                              type={selectedGate === "Compound Gate" ? selectedCompoundGate.type : selectedGate}
                               rotAngle='pi/2'
                               isAttachment={true}
-                              name={selectedStandardGate === "Compound Gate" ? selectedCompoundGate.name : selectedStandardGate}
+                              name={selectedGate === "Compound Gate" ? selectedCompoundGate.name : selectedGate}
                         />
                     </CursorAttachment>
                     : null

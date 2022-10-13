@@ -1,5 +1,4 @@
 import React, {useContext, useState} from 'react';
-import styles from './Modal.module.scss';
 import {ModalProps} from "./Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -7,17 +6,13 @@ import {
     addDroppedGate,
     removeDroppedGate,
     updateCircuitConfigMode,
-    updateDroppedGate
 } from "../../../redux/actions/circuitConfigAction";
 import {closeModal} from "../../../redux/actions/modalsAction";
 import {ModalState} from "../../../common/types";
 import {Button} from "../../Button/Button";
 import {
-    countQubitSpan,
-    getMaxGatesHorizontally,
     locateGatesInSelectionBox
 } from "../../../common/helpers";
-import {DIMENSIONS} from "../../../common/constants";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import {
     CompoundGateSelectionContext,
@@ -61,6 +56,8 @@ const SaveCompoundGateModal: React.FC<ModalProps> = (props) => {
         dispatch(addCompoundGateDropdown(newCompoundGate));
         dispatch(updateCircuitConfigMode('NoSelectionMode'));
         dispatch(closeModal(props.id));
+
+
     }
 
     const handleBackButtonClicked = async () => {

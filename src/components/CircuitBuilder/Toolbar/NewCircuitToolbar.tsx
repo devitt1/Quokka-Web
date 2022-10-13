@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Toolbar.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/reducers/rootReducer";
@@ -8,7 +8,7 @@ import {
     updateSelectedStandardGate
 } from "../../../redux/actions/circuitConfigAction";
 import {openModal} from "../../../redux/actions/modalsAction";
-import {Gate, Modal} from "../../../common/classes";
+import {Modal} from "../../../common/classes";
 import {ALL_STD_GATES} from "../../../common/types";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import arrow_down from "../../../assets/arrow_down.svg";
@@ -20,7 +20,7 @@ import {IGate} from "../../../common/interfaces";
 import APIClient from "../../../api/APIClient";
 
 const NewCircuitToolbar : React.FC = () => {
-    const {circuitConfigTitle, circuitConfigMode, selectedStandardGate, compoundGates} = useSelector((state: RootState) => state.circuitConfig);
+    const {circuitConfigTitle, circuitConfigMode, selectedGate, compoundGates} = useSelector((state: RootState) => state.circuitConfig);
     const apiClient = new APIClient();
     const dispatch = useDispatch();
     const [editCircuitDisabled, setEditCircuitDisabled] = useState(true);
@@ -28,12 +28,9 @@ const NewCircuitToolbar : React.FC = () => {
     useEffect(() => {
         (async () =>  {
             const response = await apiClient.circuitBuilderAPIService.getSavedCircuitConfigFiles();
-
-            // const response = apiClient.circuitBuilderAPIService.
+            console.log(response);
         })();
-    }, [])
-
-
+    }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSelectBtnClicked = () => {
         if (circuitConfigMode === 'GateSelectionMode') {
@@ -111,7 +108,7 @@ const NewCircuitToolbar : React.FC = () => {
                     types={["selectGateBtn"]} name="Select"
                     onClick={handleSelectBtnClicked}/>
             <hr/>
-            <DropdownButton buttonTypes={['dropdownBtn']} name={selectedStandardGate}
+            <DropdownButton buttonTypes={['dropdownBtn']} name={selectedGate}
                             rightImageSource={arrow_down_black}>
                 <Dropdown>
                     <DropdownList list={ALL_STD_GATES}

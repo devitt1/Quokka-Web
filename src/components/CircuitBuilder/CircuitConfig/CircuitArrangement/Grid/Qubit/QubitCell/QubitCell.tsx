@@ -24,7 +24,7 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
     const [hasGate, setHasGate] = useState(props.hasGate);
     const cellRef = useRef(null);
     const {
-        selectedStandardGate,
+        selectedGate,
         selectedCompoundGate
 
     } = useSelector((state : RootState) => (state.circuitConfig));
@@ -47,20 +47,20 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
         let CGateDroppedFromMenu : boolean;
         let rotAngle : string | null;
 
-        if (selectedStandardGate === 'CNOT') {
+        if (selectedGate === 'CNOT') {
             newGateExtType = 'CNOT_TARGET';
             CGateDroppedFromMenu = true;
             rotAngle = null;
 
             removeAttachment();
         }
-        else if (selectedStandardGate.toString().includes('R')) {
+        else if (selectedGate.toString().includes('R')) {
             newGateExtType = 'None';
             CGateDroppedFromMenu = true;
             rotAngle = 'pi/2';
         }
 
-        else if (selectedStandardGate === 'Measurement Gate') {
+        else if (selectedGate === 'Measurement Gate') {
             let newQubit = new Qubit(props.colIndex);
             newQubit.id = props.qubitId;
             newQubit.y = props.cellYPos;
@@ -70,7 +70,7 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             CGateDroppedFromMenu = true;
             rotAngle = 'null';
         }
-        else if (selectedStandardGate === 'Compound Gate') {
+        else if (selectedGate === 'Compound Gate') {
             renderWidth = selectedCompoundGate.width;
             const qubitGap = calculateQubitGap(DIMENSIONS.GRID.HEIGHT, DIMENSIONS.STD_GATE.HEIGHT);
             const qubitSpan = calculateQubitSpan(selectedCompoundGate.height, qubitGap, DIMENSIONS.STD_GATE.HEIGHT);
@@ -95,7 +95,7 @@ const QubitCell : React.FC <QubitCellProps> = (props) => {
             renderWidth,
             renderHeight,
             qubitIds,
-            selectedStandardGate as GateTypes,
+            selectedGate as GateTypes,
             newGateExt,
             CGateDroppedFromMenu,
             rotAngle,

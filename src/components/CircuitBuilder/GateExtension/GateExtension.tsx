@@ -40,7 +40,6 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
     const handleTargetMouseMove = useRef((e : any) => {
         const newY = e.clientY - 168;
         onTargetMove(true, newY);
-        console.log('update gate ', gateId)
         dispatch(updateDroppedGateExtension(gateId, 'targetY', newY))
 
     });
@@ -49,8 +48,6 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
         document.removeEventListener('mousemove', handleTargetMouseMove.current);
         const newY = Math.floor(e.clientY / DIMENSIONS.GRID.HEIGHT) * DIMENSIONS.GRID.HEIGHT - 170 + DIMENSIONS.STD_GATE.HEIGHT/2;
         dispatch(updateDroppedGateExtension(gateId, 'targetY', newY));
-        console.log(circuitState);
-        console.log(getQubitIdFromYCoordinate(newY)?.id);
         dispatch(updateDroppedGateExtension(gateId, 'qubitId', getQubitIdFromYCoordinate(newY)?.id))
         dispatch(updateDroppedGate(gateId, 'droppedFromMenu', false));
         onTargetMove(false);
@@ -60,7 +57,6 @@ export const GateExtension: React.FC<GateExtensionProps>= (props) => {
 
     const getQubitIdFromYCoordinate = (y : number) => {
         return circuitState.qubits.find((item) => {
-            console.log(`item y ${item.y}, y ${y}`);
             return item.y === y;
         });
     }

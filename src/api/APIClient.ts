@@ -14,8 +14,8 @@ class APIClient {
 
         // This instance is for interacting with the Q builder backend
         const circuitBuilderAPIAxiosInstance = axios.create({
-            // baseURL: this.PRODUCTION_BASE_URL,
-            baseURL: this.DEVELOPMENT_BASE_URL,
+            baseURL: this.PRODUCTION_BASE_URL,
+            // baseURL: this.DEVELOPMENT_BASE_URL,
         });
 
         // This instance is for interacting directly with the Q simulator device
