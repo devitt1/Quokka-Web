@@ -9,9 +9,9 @@ class QsimAPIService {
         this.axios = axiosInstance;
     }
 
-    public async getDeviceConnectionStatus(deviceName: string) {
+    public async getDeviceConnectionStatus() {
         try {
-            return this.axios.get<boolean>(`/devices/connection/${deviceName}`);
+            return this.axios.get<boolean>(`/qsim/ping`);
         }
         catch (e) {
             console.log(e);

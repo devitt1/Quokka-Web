@@ -16,6 +16,8 @@ import APIClient from "../../api/APIClient";
 import {updateDeviceConnectionStatus} from "../../redux/actions/deviceConnectionAction";
 import {DeviceConnection} from "../../common/classes";
 import DropdownItem from "../Dropdown/DropdownList/DropdownItem/DropdownItem";
+import {sleep} from "../../common/helpers";
+import {closeModal} from "../../redux/actions/modalsAction";
 
 const Header : React.VFC  = () => {
     const deviceConn = useSelector((state: RootState) => state.deviceConnection);
@@ -28,6 +30,11 @@ const Header : React.VFC  = () => {
     var connDotStyle = styles.connectionDot;
     var statusStyle = styles.status;
 
+    const handleConnectionSuccess = async (deviceName: string) => {
+        dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
+        window.sessionStorage.setItem('deviceName', deviceName);
+    }
+
 
     useEffect(() => {
         (async () => {
@@ -35,11 +42,13 @@ const Header : React.VFC  = () => {
             if (!deviceName) return;
             try {
                 const connectionResponse =
-                    await apiClient.qsimAPIService.getDeviceConnectionStatus(deviceName);
+                    await apiClient.qsimAPIService.getDeviceConnectionStatus();
+                if (connectionResponse.status === 200) {
+                    await handleConnectionSuccess(deviceName);
+                }
             } catch (e : any) {
                 if (e.response.status === 404) {
-                    dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
-                    window.sessionStorage.setItem('deviceName', deviceName);
+                   await handleConnectionSuccess(deviceName);
                 }
                 console.log('no connection response', e);
             }

@@ -12,20 +12,27 @@ import {ModalProps} from "./Modal";
 import {Button} from "../../Button/Button";
 import Input from "../../Input/Input";
 import {RootState} from "../../../redux/reducers/rootReducer";
-import {Exception} from "sass";
 import StackLayout from "../../StackLayout/StackLayout";
 
 
-const ConnectionModal : React.FC<ModalProps>= (props) => {
+const ConnectionModal: React.FC<ModalProps> = (props) => {
     const dispatch = useDispatch();
-    const {deviceName} = useSelector((state : RootState) => (state.deviceConnection));
+    const {deviceName} = useSelector((state: RootState) => (state.deviceConnection));
     const [modalState, setModalState] = useState(props.state);
-    const apiClient : APIClient = new APIClient();
+    const apiClient: APIClient = new APIClient();
 
-    const handleKeyDown = async (event : any) => {
+    const handleKeyDown = async (event: any) => {
         if (event.key === 'Enter') {
             await handleConnectBtnClicked();
         }
+    }
+
+    const handleConnectionSuccess = async () => {
+        dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
+        window.sessionStorage.setItem('deviceName', deviceName);
+        setModalState('Connected');
+        await sleep(1000);
+        dispatch(closeModal(props.id));
     }
 
     const handleConnectBtnClicked = async () => {
@@ -33,31 +40,31 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
         try {
             await sleep(1500);
             const connectionResponse =
-                await apiClient.qsimAPIService.getDeviceConnectionStatus(deviceName);
+                await apiClient.qsimAPIService.getDeviceConnectionStatus();
+            console.log(connectionResponse);
+            if (connectionResponse.status === 200) {
+                await handleConnectionSuccess();
+            }
 
-        } catch (e : any) {
+        } catch (e: any) {
             if (e.response.status === 404) {
-                dispatch(updateDeviceConnectionStatus(new DeviceConnection(true, deviceName)));
-                window.sessionStorage.setItem('deviceName', deviceName);
-                setModalState('Connected');
-                await sleep(1000);
-                dispatch(closeModal(props.id));
+                await handleConnectionSuccess();
             }
             console.log('no connection response', e);
         }
 
     }
 
-    const handleInputChanged = (event : any) => {
+    const handleInputChanged = (event: any) => {
         dispatch(updateDeviceName(event.target.value));
 
         window.sessionStorage.setItem('deviceName', event.target.value);
     }
 
-    const renderState = (state : ModalState) => {
+    const renderState = (state: ModalState) => {
         switch (state) {
             case 'StartConnection':
-                return(<>
+                return (<>
                     <h1>Connect to a Quokka Device</h1>
                     <p>Instructions about what the user should do or expect
                         when connecting to a Quokka device.</p>
@@ -70,7 +77,7 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                             onKeyDown={handleKeyDown}
                             placeholder="Device name"
                         />
-                        <Button selected={false} name='Connect' onClick={async() => handleConnectBtnClicked()}
+                        <Button selected={false} name='Connect' onClick={async () => handleConnectBtnClicked()}
                                 types={['standardBtn']}
                         />
                     </StackLayout>
@@ -84,7 +91,7 @@ const ConnectionModal : React.FC<ModalProps>= (props) => {
                         </div>
                     </StackLayout>);
             case 'Connected':
-                return ( <StackLayout orientation="vertical">
+                return (<StackLayout orientation="vertical">
                     <h1>Successfully Connected to a Quokka</h1>
                     <p>You are now connected to {deviceName}</p>
                     <img src={logo}>
