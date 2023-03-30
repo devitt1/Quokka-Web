@@ -43,6 +43,9 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Deploy 
 
+### Pre-requisite
+1. Install AWS CLI
+
 ### Process
 
 1.configure AWS CLI with credentials secrets (contact Maintainer for secrets in <>)
