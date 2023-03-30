@@ -50,7 +50,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 1.configure AWS CLI with credentials secrets (contact Maintainer for secrets in <>)
 ```shell
-aws_region        = "ap-southeast-2"
+aws_region        = ap-southeast-2
 aws_access_key    = <aws_access_key>
 aws_secret_key    = <aws_secret_key>
 ```
